@@ -10,4 +10,4 @@ Applied basic movement system.
 2. Add random heat generator
 3. Add heat, UI and collision effects to villains
 4. Add movement scripts to villains
-5. BUG: Double Jump Detection
+5. BUG: Double Jump Need a Buffer to Control
