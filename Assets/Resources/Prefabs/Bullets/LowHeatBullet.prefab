@@ -12,6 +12,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2649558762618848561, guid: 66b2e3442d5214bf4b762033d2d2e866, type: 3}
+      propertyPath: damage
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2649558762618848561, guid: 66b2e3442d5214bf4b762033d2d2e866, type: 3}
       propertyPath: curHeat
       value: 1
       objectReference: {fileID: 0}

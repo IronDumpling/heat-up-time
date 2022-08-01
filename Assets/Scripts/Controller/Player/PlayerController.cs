@@ -45,14 +45,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) // TODO: Need a jump buffer
             && notJumped)
         {
             pressJump = true;
         }
 
         // Decrease Health by Falling
-        if (transform.position.y < lowerBound)
+        if (transform.position.y < lowerBound) 
         {
             GetComponent<PlayerHealth>().Damage(fallingDamage);
 

@@ -13,7 +13,7 @@ public class ShootBullets : MonoBehaviour
     // Speed
     public float bulletVelocity;
     // Bounds
-    private float boundHeat;
+    public float boundHeat;
     public float lowMidBound;
     public float midHighBound;
 

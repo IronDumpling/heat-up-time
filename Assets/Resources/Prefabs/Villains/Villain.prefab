@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4431335337287122782}
   - component: {fileID: 4431335337287122780}
   - component: {fileID: 6097861852926807845}
-  - component: {fileID: 2586795220115123797}
   - component: {fileID: -4652936234882593152}
   - component: {fileID: -3062009395863537287}
+  - component: {fileID: -6227224162175746050}
   m_Layer: 7
   m_Name: Villain
   m_TagString: Untagged
@@ -136,23 +136,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &2586795220115123797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4431335337287122778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c461f57412ab64262950f77758d73cb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  curHealth: 0
-  maxHealth: 0
-  bulletLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!114 &-4652936234882593152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,3 +174,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6123fad9aae84307a960b52dd49dc1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+--- !u!114 &-6227224162175746050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4431335337287122778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6879dfaf1b4d447a986934327b071b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer: {fileID: 0}
+  curHeat: 0
+  boundHeat: 0

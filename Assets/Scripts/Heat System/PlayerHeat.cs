@@ -9,10 +9,6 @@ public class PlayerHeat : MonoBehaviour
     public float curHeat;
     public float boundHeat;
     public Slider heatBar;
-    // Component pointers
-    //private Collider2D coll;
-    //private GameObject collideObj;
-    private GameObject bulletType;
     // Layers
     public LayerMask villainLayer;
     public LayerMask planeLayer;
@@ -21,12 +17,9 @@ public class PlayerHeat : MonoBehaviour
     public Image fill;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         SetBoundHeat(100);
-       
-        // Object Pointers
-        bulletType = GetComponent<ShootBullets>().bulletType;
     }
 
     // Method 0. Set Bound Heat

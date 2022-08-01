@@ -26,7 +26,7 @@ public class PlayerHealth : MonoBehaviour
     private void Awake()
     {
         // Health Bar
-        SetMaxHealth(10);
+        SetMaxHealth(20);
 
         // Falling
         fallingDamage = maxHealth / 5;

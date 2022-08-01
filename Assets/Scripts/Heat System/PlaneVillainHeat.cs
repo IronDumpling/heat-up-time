@@ -20,6 +20,8 @@ public class PlaneVillainHeat : MonoBehaviour
     void Start()
     {
         coll = GetComponent<Collider2D>();
+
+        curHeat = Random.Range(0f, 100f);
     }
 
     // Method 1. Get colliding object
@@ -53,6 +55,9 @@ public class PlaneVillainHeat : MonoBehaviour
                 HeatTransfer(otherHeat);
             }
         }
+
+        // Change color of planes and villains
+        GetComponent<ColorController>().colorLerp();
     }
 
     // Method 2. Heat Transfer
