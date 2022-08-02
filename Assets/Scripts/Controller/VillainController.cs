@@ -19,13 +19,35 @@ public class VillainController : MonoBehaviour
     private float heatingDamage;
     public float damageBound;
 
+    // Falling
+    private int lowerBound;
+
     // Start is called before the first frame update
     void Start()
     {
+        // Health 
         curHealth = maxHealth;
+        // Pointer
         coll = GetComponent<Collider2D>();
+        // Heat
         heatingDamage = maxHealth / 20;
         damageBound = 0.9f;
+        // Falling
+        lowerBound = -20;
+    }
+
+    private void Update()
+    {
+        // Heat Health Damage
+        if (GetComponent<PlaneVillainHeat>().curHeat >= GetComponent<PlaneVillainHeat>().boundHeat * damageBound)
+        {
+            ContinousDamage(heatingDamage);
+        }
+
+        if (transform.position.y < lowerBound)
+        {
+            Die();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -41,12 +63,6 @@ public class VillainController : MonoBehaviour
             {
                 Die();
             }
-        }
-
-        // Heat Health Damage
-        if (GetComponent<PlaneVillainHeat>().curHeat >= GetComponent<PlaneVillainHeat>().boundHeat * damageBound)
-        {
-            ContinousDamage(heatingDamage);
         }
     }
 

@@ -4,40 +4,26 @@ using UnityEngine;
 
 public class ColorController : MonoBehaviour
 {
-    //[SerializeField] private Component[] rendererList;
-    [SerializeField] private SpriteRenderer renderer;
-    //[SerializeField] [Range(0f, 1f)] float lerpTime;
+    [SerializeField] private SpriteRenderer render;
     public float curHeat;
     public float boundHeat;
-    private Color heatFloor;
-    private Color heatCeiling;
-
+    public Gradient gradient;
 
     // Start is called before the first frame update
     void Start()
     {
         // Get Color Pointer
-        //myRenderer = GetComponents(typeof(SpriteRenderer));
-        renderer = GetComponent<SpriteRenderer>();
-
-        // Color Bound
-        heatFloor = new Color(0, 93, 255, 255);
-        heatCeiling = new Color(255, 0, 0, 255);
+        render = GetComponent<SpriteRenderer>();
 
         // First Lurp
-        colorLerp();
-    }
-
-    // Method 1. On Collision
-
-    // Method 2. Color Change
-    public void colorLerp()
-    {
-        // Get Heat
         curHeat = GetComponent<PlaneVillainHeat>().curHeat;
         boundHeat = GetComponent<PlaneVillainHeat>().boundHeat;
+        ColorLerp(curHeat, boundHeat);
+    }
 
-        //renderer.color = Color.Lerp(heatFloor, heatCeiling, curHeat/boundHeat);
-        //renderer.color = Color.Lerp(heatFloor, heatCeiling, lerpTime);
+    // Method 1. Color Change
+    public void ColorLerp(float curHeat, float boundHeat)
+    {
+        render.color = gradient.Evaluate(curHeat/boundHeat);
     }
 }

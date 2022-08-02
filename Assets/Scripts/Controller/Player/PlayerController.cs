@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
         // Falling Variables
         lowerBound = -20;
-        fallingDamage = GetComponent<PlayerHealth>().fallingDamage;
+        fallingDamage = GetComponent<PlayerHealth>().maxHealth;
         lastPlanePosition = new Vector3(0, -2.5f, 0);
 
         // Movement Variables
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     // FixedUpdate for physics events 
     void FixedUpdate()
     {
-        onPlaneCheck();
+        OnPlaneCheck();
         HorizontalMove();
         Jump();
     }
@@ -79,14 +79,10 @@ public class PlayerController : MonoBehaviour
     }
 
     // Method 2. Plane collision check
-    void onPlaneCheck()
+    void OnPlaneCheck()
     {
-        if (coll.IsTouchingLayers(planeLayer) ||
-            coll.IsTouchingLayers(villainLayer))
-        {
-            isOnPlane = true;
-        }
-        else
+        if (!coll.IsTouchingLayers(planeLayer) &&
+            !coll.IsTouchingLayers(villainLayer))
         {
             isOnPlane = false;
         }
@@ -100,8 +96,7 @@ public class PlayerController : MonoBehaviour
         {
             notJumped = true;
         }
-        // Case 2. Jump on the Plane
-        // Case 3. Jump in the air
+        // Case 2. Jump on the Plane or in the Air
         if (pressJump)
         {
             rigBody.velocity = new Vector2(rigBody.velocity.x, jumpForce);
@@ -115,30 +110,33 @@ public class PlayerController : MonoBehaviour
     {
         collideObj = collision.gameObject;
 
+        // Heat Change if collide platforms or villains
         if (coll.IsTouchingLayers(planeLayer) ||
             coll.IsTouchingLayers(villainLayer))
-        {
-            // Heat Change 
+        { 
             float otherHeat = collideObj.GetComponent<PlaneVillainHeat>().curHeat;
             if (otherHeat != GetComponent<PlayerHeat>().curHeat)
             {
                 GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
             }
 
-            // Health Change
-            if (collideObj && coll.IsTouchingLayers(villainLayer))
-            {
-                float damage = collideObj.GetComponent<VillainController>().damage;
-                GetComponent<PlayerHealth>().Damage(damage);
-            }
-
-            // Record the last landing plane
-            if (collideObj && coll.IsTouchingLayers(planeLayer))
-            {
-                lastPlanePosition = collideObj.transform.position;
-                lastPlanePosition.y += 0.5f;
-            }
+            isOnPlane = true;
         }
+
+        // Health Change if collide villains
+        if (coll.IsTouchingLayers(villainLayer) && collideObj)
+        {
+            float damage = collideObj.GetComponent<VillainController>().damage; // TODO
+            GetComponent<PlayerHealth>().Damage(damage);
+        }
+
+        // Record the last landing place if collide platform
+        if (coll.IsTouchingLayers(planeLayer) && collideObj)
+        {
+            lastPlanePosition = collideObj.transform.position;
+            lastPlanePosition.y += 0.5f;
+        }
+        
     }
 
     // Method 5. Back to the last collision plane

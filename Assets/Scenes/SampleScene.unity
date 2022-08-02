@@ -2153,7 +2153,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2091132555}
-  - component: {fileID: 2091132556}
   m_Layer: 9
   m_Name: Platforms
   m_TagString: Untagged
@@ -2199,18 +2198,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2091132556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2091132554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 451a3913e514c46e4b40ba5c1d7f2991, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2092717253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2455,9 +2442,17 @@ PrefabInstance:
       propertyPath: maxHealth
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: -3062009395863537287, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
+      propertyPath: bulletLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 4431335337287122778, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
       propertyPath: m_Name
       value: Villain-1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4431335337287122780, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
+      propertyPath: m_Mass
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4431335337287122781, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
       propertyPath: m_RootOrder

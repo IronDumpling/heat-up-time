@@ -10,8 +10,6 @@ public class PlayerHealth : MonoBehaviour
     public float curHealth;
     public float maxHealth;
     public Slider healthBar;
-    // Falling
-    public float fallingDamage;
     // Villain Damage
     public GameObject villain;
     // Heating
@@ -27,9 +25,6 @@ public class PlayerHealth : MonoBehaviour
     {
         // Health Bar
         SetMaxHealth(20);
-
-        // Falling
-        fallingDamage = maxHealth / 5;
 
         // Heating
         heatingDamage = maxHealth / 20;
