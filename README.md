@@ -8,7 +8,7 @@ Applied basic movement system.
 
 
 # v0.1.3
-Appled color lerp system to platforms， villains and player
+Appled color lerp system to platforms, villains and player
 
 Applied random heat generator 
 
