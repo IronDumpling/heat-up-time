@@ -20,6 +20,14 @@ public class CameraController : MonoBehaviour
     {
         if (player != null)
         {
+            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+            {
+                offset = new Vector3(0, -2, -1);
+            }
+            if (Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.S))
+            {
+                offset = new Vector3(0, 1.5f, -1);
+            }
             if (transform.position != player.transform.position)
             {
                 Vector3 targetPos = player.transform.position + offset;
@@ -27,12 +35,6 @@ public class CameraController : MonoBehaviour
             }
         }
 
-
-    }
-
-
-    void Update()
-    {
 
     }
 }

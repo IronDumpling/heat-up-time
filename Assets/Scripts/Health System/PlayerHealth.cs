@@ -10,8 +10,6 @@ public class PlayerHealth : MonoBehaviour
     public float curHealth;
     public float maxHealth;
     public Slider healthBar;
-    // Falling
-    public float fallingDamage;
     // Villain Damage
     public GameObject villain;
     // Heating
@@ -26,10 +24,7 @@ public class PlayerHealth : MonoBehaviour
     private void Awake()
     {
         // Health Bar
-        SetMaxHealth(10);
-
-        // Falling
-        fallingDamage = maxHealth / 5;
+        SetMaxHealth(20);
 
         // Heating
         heatingDamage = maxHealth / 20;
@@ -83,8 +78,6 @@ public class PlayerHealth : MonoBehaviour
     // Method 2. Damage Health Continously
     void ContinousDamage(float decreaseValue)
     {
-        Debug.Log("In continuous decrease");
-
         curHealth -= decreaseValue * Time.deltaTime;
         SetCurHealth(curHealth);
     }

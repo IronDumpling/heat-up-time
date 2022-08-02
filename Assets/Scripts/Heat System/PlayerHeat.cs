@@ -5,28 +5,30 @@ using UnityEngine.UI;
 
 public class PlayerHeat : MonoBehaviour
 {
-    // Health Bar
+    // Heat Bar
     public float curHeat;
     public float boundHeat;
     public Slider heatBar;
-    // Component pointers
-    //private Collider2D coll;
-    //private GameObject collideObj;
-    private GameObject bulletType;
     // Layers
     public LayerMask villainLayer;
     public LayerMask planeLayer;
-    // Change Color
+    // Heat Bar Color Change
     public Gradient gradient;
     public Image fill;
+    // Player Color Change
+    [SerializeField] private SpriteRenderer render;
+    public Gradient renderGradient;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         SetBoundHeat(100);
-       
-        // Object Pointers
-        bulletType = GetComponent<ShootBullets>().bulletType;
+    }
+
+    private void Start()
+    {
+        render = GetComponent<SpriteRenderer>();
+        ColorLerp(curHeat, boundHeat);
     }
 
     // Method 0. Set Bound Heat
@@ -47,6 +49,7 @@ public class PlayerHeat : MonoBehaviour
     {
         heatBar.value = heat;
         fill.color = gradient.Evaluate(heatBar.normalizedValue);
+        ColorLerp(heat, boundHeat);
     }
 
     // Method 2. Heat Change
@@ -61,5 +64,11 @@ public class PlayerHeat : MonoBehaviour
     {
         curHeat -= bulletHeat;
         SetCurHeat(curHeat);
+    }
+
+    // Method 4. Color Change
+    public void ColorLerp(float curHeat, float boundHeat)
+    {
+        render.color = renderGradient.Evaluate(curHeat / boundHeat);
     }
 }

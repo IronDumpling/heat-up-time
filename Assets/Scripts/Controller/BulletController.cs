@@ -8,6 +8,7 @@ public class BulletController : MonoBehaviour
     public LayerMask planeLayer;
     public LayerMask villainLayer;
     public int curHeat;
+    public float damage;
 
     // Start is called before the first frame update
     void Start()

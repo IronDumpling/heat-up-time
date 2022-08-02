@@ -15,11 +15,23 @@ public class PlaneVillainHeat : MonoBehaviour
     public LayerMask planeLayer;
     public LayerMask villainLayer;
     public LayerMask playerLayer;
+    // Color Change
+    [SerializeField] private SpriteRenderer render;
+    public Gradient gradient;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Pointers
         coll = GetComponent<Collider2D>();
+        render = GetComponent<SpriteRenderer>();
+
+        // Heat Initialise
+        boundHeat = 100f;
+        curHeat = Random.Range(0f, 100f);
+
+        // First Lurp
+        ColorLerp(curHeat, boundHeat);
     }
 
     // Method 1. Get colliding object
@@ -29,7 +41,7 @@ public class PlaneVillainHeat : MonoBehaviour
 
         if (coll.IsTouchingLayers(playerLayer))
         {
-            float otherHeat = collideObj.GetComponent<PlayerHeat>().curHeat;
+            float otherHeat = collideObj.GetComponent<PlayerHeat>().curHeat; // TODO
             if (otherHeat != curHeat)
             {
                 HeatTransfer(otherHeat);
@@ -53,6 +65,9 @@ public class PlaneVillainHeat : MonoBehaviour
                 HeatTransfer(otherHeat);
             }
         }
+
+        // Change color of planes and villains
+        ColorLerp(curHeat, boundHeat);
     }
 
     // Method 2. Heat Transfer
@@ -61,9 +76,15 @@ public class PlaneVillainHeat : MonoBehaviour
         curHeat = (curHeat + otherHeat) / 2;
     }
 
-    // Method 2. Heat Gain
+    // Method 3. Heat Gain
     void HeatGain(float otherHeat)
     {
         curHeat += otherHeat;
+    }
+
+    // Method 4. Color Change
+    public void ColorLerp(float curHeat, float boundHeat)
+    {
+        render.color = gradient.Evaluate(curHeat / boundHeat);
     }
 }

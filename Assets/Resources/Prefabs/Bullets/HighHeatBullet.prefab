@@ -9,11 +9,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4689212072275267032, guid: 66b2e3442d5214bf4b762033d2d2e866, type: 3}
       propertyPath: m_Mass
-      value: 1.5
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1365324477101561342, guid: 66b2e3442d5214bf4b762033d2d2e866, type: 3}
       propertyPath: m_Material
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2649558762618848561, guid: 66b2e3442d5214bf4b762033d2d2e866, type: 3}
+      propertyPath: damage
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2649558762618848561, guid: 66b2e3442d5214bf4b762033d2d2e866, type: 3}
       propertyPath: curHeat
