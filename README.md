@@ -8,17 +8,31 @@ Applied basic movement system.
 
 
 # v0.1.3
-Appled color lerp system to platforms, villains and player
+Applied color lerp system to platforms, villains and player.
 
-Applied random heat generator 
+Applied random heat generator to cold and hot platforms seperatly.
 
-Applied heat and health relating to villains
+Applied heat and health relating to villains.
 
-Chueyue Todo:
-1. Generate cold and hot platforms seperatly and add safe house platforms
-2. Add UI and collision effects to villains
-3. Add movement scripts to villains
+Reconstruct scripts.
 
-Yang Chen Todo:
+Applied camera move down feature.
+
+# v0.1.4
+Chueyue TODO:
+1. Add camera shake animation when player attacks
+2. Add movement scripts to villains
+3. Add UI to villains and collision/damage effects to player
+4. Add safe house platforms
+
+Yang Chen TODO:
 1. Improve double jump System
+2. Add air jet effects to double jump
 
+Xinsheng Yi TODO:
+1. Add tutorial texts to the game
+2. Complete the storyline
+3. Edit level and fit the text story
+
+Leo Winner Xu TODO:
+1. Add sound effects
