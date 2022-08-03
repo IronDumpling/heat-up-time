@@ -36,3 +36,6 @@ Xinsheng Yi TODO:
 
 Leo Winner Xu TODO:
 1. Add sound effects
+
+Zixiang Zhang TODO:
+1. Compose background music
