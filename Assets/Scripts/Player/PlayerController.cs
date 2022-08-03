@@ -110,10 +110,10 @@ public class PlayerController : MonoBehaviour
     {
         collideObj = collision.gameObject;
 
-        if (coll.IsTouchingLayers(villainLayer) && collideObj)
+        if (collideObj.layer == 7) // 7 is layer of villains
         {
             // Heat Change if collide villains
-            float otherHeat = collideObj.GetComponent<PlaneVillainHeat>().curHeat;
+            float otherHeat = collideObj.GetComponent<VillainController>().curHeat; 
             if (otherHeat != GetComponent<PlayerHeat>().curHeat)
             {
                 GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
@@ -122,15 +122,15 @@ public class PlayerController : MonoBehaviour
             isOnPlane = true;
 
             // Health Change if collide villains
-            float damage = collideObj.GetComponent<VillainController>().damage; // TODO
+            float damage = collideObj.GetComponent<VillainController>().damage; 
             GetComponent<PlayerHealth>().Damage(damage);
         }
 
         
-        else if (coll.IsTouchingLayers(planeLayer) && collideObj)
+        else if (collideObj.layer == 9) // 9 is layer of platforms
         {
             // Heat Change if collide platforms
-            float otherHeat = collideObj.GetComponent<PlaneVillainHeat>().curHeat;
+            float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
             if (otherHeat != GetComponent<PlayerHeat>().curHeat)
             {
                 GetComponent<PlayerHeat>().HeatTransfer(otherHeat);

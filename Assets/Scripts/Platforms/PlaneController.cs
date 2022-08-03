@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlaneVillainHeat : MonoBehaviour
+public class PlaneController : MonoBehaviour
 {
     // Component pointers
     private Collider2D coll;
@@ -35,16 +35,8 @@ public class PlaneVillainHeat : MonoBehaviour
     {
         collideObj = collision.gameObject;
 
-        if (coll.IsTouchingLayers(playerLayer))
-        {
-            float otherHeat = collideObj.GetComponent<PlayerHeat>().curHeat; // TODO
-            if (otherHeat != curHeat)
-            {
-                HeatTransfer(otherHeat);
-            }
-        }
-
-        else if (coll.IsTouchingLayers(bulletLayer))
+        // 1.1 Touch Bullets
+        if (collideObj.layer == 8) // 8 is layer of bullets
         {
             float otherHeat = collideObj.GetComponent<BulletController>().curHeat;
             if (otherHeat != curHeat)
@@ -53,10 +45,31 @@ public class PlaneVillainHeat : MonoBehaviour
             }
         }
 
-        else if (coll.IsTouchingLayers(planeLayer) ||
-            coll.IsTouchingLayers(villainLayer))
+        // 1.2 Touhch Platforms
+        else if (collideObj.layer == 9) // 9 is layer of platforms
         {
-            float otherHeat = collideObj.GetComponent<PlaneVillainHeat>().curHeat;
+            float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
+            if (otherHeat != curHeat)
+            {
+                HeatTransfer(otherHeat);
+            }
+        }
+
+        // 1.3 Touhch Villains
+        else if (collideObj.layer == 7) // 7 is layer of villains
+        {
+            float otherHeat = collideObj.GetComponent<VillainController>().curHeat;
+            if (otherHeat != curHeat)
+            {
+                HeatTransfer(otherHeat);
+            }
+        }
+
+        // 1.4 Touch Player
+        else if (collideObj.layer == 3) // 3 is layer of player
+        {
+            float otherHeat = collideObj.GetComponent<PlayerHeat>().curHeat;
+            if (otherHeat != curHeat)
             {
                 HeatTransfer(otherHeat);
             }
@@ -84,3 +97,4 @@ public class PlaneVillainHeat : MonoBehaviour
         render.color = gradient.Evaluate(curHeat / boundHeat);
     }
 }
+

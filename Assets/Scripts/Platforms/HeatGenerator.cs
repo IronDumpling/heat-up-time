@@ -20,22 +20,22 @@ public class HeatGenerator : MonoBehaviour
         // Hotter Plane Heat Initialise
         foreach (GameObject plane in hotterPlanes)
         {
-            plane.GetComponent<PlaneVillainHeat>().boundHeat = maxHeat;
-            plane.GetComponent<PlaneVillainHeat>().curHeat = Random.Range(maxHeat / 2, maxHeat);
+            plane.GetComponent<PlaneController>().boundHeat = maxHeat;
+            plane.GetComponent<PlaneController>().curHeat = Random.Range(maxHeat / 2, maxHeat);
         }
 
         // Hotter Plane Heat Initialise
         foreach (GameObject plane in colderPlanes)
         {
-            plane.GetComponent<PlaneVillainHeat>().boundHeat = maxHeat;
-            plane.GetComponent<PlaneVillainHeat>().curHeat = Random.Range(0f, maxHeat / 2);
+            plane.GetComponent<PlaneController>().boundHeat = maxHeat;
+            plane.GetComponent<PlaneController>().curHeat = Random.Range(0f, maxHeat / 2);
         }
 
         // Hotter Plane Heat Initialise
         foreach (GameObject villain in villains)
         {
-            villain.GetComponent<PlaneVillainHeat>().boundHeat = Random.Range(maxHeat / 2, maxHeat);
-            villain.GetComponent<PlaneVillainHeat>().curHeat = Random.Range(0f, villain.GetComponent<PlaneVillainHeat>().boundHeat);
+            villain.GetComponent<VillainController>().boundHeat = Random.Range(maxHeat / 2, maxHeat);
+            villain.GetComponent<VillainController>().curHeat = Random.Range(0f, villain.GetComponent<VillainController>().boundHeat/2);
         }
     }
 }
