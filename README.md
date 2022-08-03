@@ -14,7 +14,7 @@ Applied random heat generator to cold and hot platforms seperatly.
 
 Applied heat and health relating to villains.
 
-Reconstruct scripts.
+Reconstructed scripts.
 
 Applied camera move down feature.
 
