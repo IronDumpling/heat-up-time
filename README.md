@@ -34,7 +34,7 @@ Xinsheng Yi TODO:
 2. Complete the storyline
 3. Edit level and fit the text story
 
-Leo Winner Xu TODO:
+Leo Hanxu TODO:
 1. Add sound effects
 
 Zixiang Zhang TODO:
