@@ -109,32 +109,38 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         collideObj = collision.gameObject;
+        
+        if (coll.IsTouchingLayers(villainLayer) && collideObj)
+        {
+            // Heat Change if collide villains
+            float otherHeat = collideObj.GetComponent<VillainController>().curHeat;
+            if (otherHeat != GetComponent<VillainController>().curHeat)
+            {
+                GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
+            }
 
-        // Heat Change if collide platforms or villains
-        if (coll.IsTouchingLayers(planeLayer) ||
-            coll.IsTouchingLayers(villainLayer))
-        { 
-            float otherHeat = collideObj.GetComponent<PlaneVillainHeat>().curHeat;
+            // Health Change if collide villains
+            float damage = collideObj.GetComponent<VillainController>().damage; // TODO
+            GetComponent<PlayerHealth>().Damage(damage);
+
+            isOnPlane = true;
+        }
+
+        
+        if (coll.IsTouchingLayers(planeLayer) && collideObj)
+        {
+            // Heat Change if collide platforms
+            float otherHeat = collideObj.GetComponent<PlaneHeat>().curHeat;
             if (otherHeat != GetComponent<PlayerHeat>().curHeat)
             {
                 GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
             }
 
-            isOnPlane = true;
-        }
-
-        // Health Change if collide villains
-        if (coll.IsTouchingLayers(villainLayer) && collideObj)
-        {
-            float damage = collideObj.GetComponent<VillainController>().damage; // TODO
-            GetComponent<PlayerHealth>().Damage(damage);
-        }
-
-        // Record the last landing place if collide platform
-        if (coll.IsTouchingLayers(planeLayer) && collideObj)
-        {
+            // Record the last landing place if collide platform
             lastPlanePosition = collideObj.transform.position;
             lastPlanePosition.y += 0.5f;
+
+            isOnPlane = true;
         }
         
     }

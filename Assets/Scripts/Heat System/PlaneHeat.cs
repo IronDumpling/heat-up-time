@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlaneVillainHeat : MonoBehaviour
+public class PlaneHeat : MonoBehaviour
 {
     // Component pointers
     private Collider2D coll;
@@ -26,11 +26,7 @@ public class PlaneVillainHeat : MonoBehaviour
         coll = GetComponent<Collider2D>();
         render = GetComponent<SpriteRenderer>();
 
-        // Heat Initialise
-        boundHeat = 100f;
-        curHeat = Random.Range(0f, 100f);
-
-        // First Lurp
+        // First Lerp
         ColorLerp(curHeat, boundHeat);
     }
 
@@ -57,10 +53,17 @@ public class PlaneVillainHeat : MonoBehaviour
             }
         }
 
-        else if (coll.IsTouchingLayers(planeLayer) ||
-            coll.IsTouchingLayers(villainLayer))
+        else if (coll.IsTouchingLayers(planeLayer))
         {
-            float otherHeat = collideObj.GetComponent<PlaneVillainHeat>().curHeat;
+            float otherHeat = collideObj.GetComponent<PlaneHeat>().curHeat;
+            {
+                HeatTransfer(otherHeat);
+            }
+        }
+
+        else if (coll.IsTouchingLayers(villainLayer))
+        {
+            float otherHeat = collideObj.GetComponent<PlaneHeat>().curHeat;
             {
                 HeatTransfer(otherHeat);
             }

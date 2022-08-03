@@ -71,6 +71,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ColderPlane
       objectReference: {fileID: 0}
+    - target: {fileID: 5648929358706995915, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: m_TagString
+      value: ColderPlane
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8141d718158d24b1789d9508322a3586, type: 3}
 --- !u!212 &536877501964672 stripped
