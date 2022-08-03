@@ -19,7 +19,7 @@ Reconstruct scripts.
 Applied camera move down feature.
 
 # v0.1.4
-Chueyue TODO:
+Chuyue Zhang TODO:
 1. Add camera shake animation when player attacks
 2. Add movement scripts to villains
 3. Add UI to villains and collision/damage effects to player
