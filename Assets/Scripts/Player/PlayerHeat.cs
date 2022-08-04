@@ -20,11 +20,6 @@ public class PlayerHeat : MonoBehaviour
     public Gradient renderGradient;
 
     // Start is called before the first frame update
-    void Awake()
-    {
-        SetBoundHeat(100);
-    }
-
     private void Start()
     {
         render = GetComponent<SpriteRenderer>();

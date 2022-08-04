@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        triggerJump();
+        TriggerJump();
 
         // Decrease Health by Falling
         if (transform.position.y < lowerBound) 
@@ -59,8 +59,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void triggerJump() {
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))) {
+    void TriggerJump() {
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) {
             pressJump = true;
         }
     }
@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
         }
 
         
-        else if (collideObj.layer == 9) // 9 is layer of platforms
+        else if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms and not safe plane
         {
             // Heat Change if collide platforms
             float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
