@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public float bulletVelocity;
     // Flags
     public bool isOnPlane;
-    public bool notJumped;
+    public int jumpCount;
     public bool pressJump;
     // Falling Variables
     private int lowerBound;
@@ -39,17 +39,13 @@ public class PlayerController : MonoBehaviour
         // Movement Variables
         velocity = 2f;
         jumpForce = 7f;
-        notJumped = false;
+        jumpCount = 2;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) // TODO: Need a jump buffer
-            && notJumped)
-        {
-            pressJump = true;
-        }
+        triggerJump();
 
         // Decrease Health by Falling
         if (transform.position.y < lowerBound) 
@@ -63,12 +59,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void triggerJump() {
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))) {
+            pressJump = true;
+        }
+    }
+
     // FixedUpdate for physics events 
     void FixedUpdate()
     {
         OnPlaneCheck();
         HorizontalMove();
-        Jump();
+        JumpHandler();
     }
 
     // Method 1. Movement
@@ -86,21 +88,20 @@ public class PlayerController : MonoBehaviour
         {
             isOnPlane = false;
         }
+        else {
+            isOnPlane = true;
+            jumpCount = 2;
+        }
     }
 
     // Method 3. Jump
-    void Jump()
+    void JumpHandler()
     {
-        // Case 1. Stay on the planes
-        if (isOnPlane)
-        {
-            notJumped = true;
-        }
-        // Case 2. Jump on the Plane or in the Air
-        if (pressJump)
-        {
-            rigBody.velocity = new Vector2(rigBody.velocity.x, jumpForce);
-            notJumped = false;
+        if (pressJump) {
+            if (jumpCount > 0) {
+                rigBody.velocity = new Vector2(rigBody.velocity.x, jumpForce);
+                jumpCount--;
+            }
             pressJump = false;
         }
     }
