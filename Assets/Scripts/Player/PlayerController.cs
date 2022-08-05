@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
         // Movement Variables
         velocity = 2f;
-        jumpForce = 7f;
+        jumpForce = 8f;
         jumpCount = 2;
         PlayerGnd = getChildGameObject(this.gameObject, "PlayerGnd").transform;
     }

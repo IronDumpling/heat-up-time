@@ -6,24 +6,25 @@ public class GraffitiController : MonoBehaviour
 {
     // Component pointers
     private GameObject collideObj;
-    private Transform playerTransform;
+    protected Transform playerTransform;
 
     // Health System
-    public float curHealth;
-    public float maxHealth;
+    public float maxHealth { get; set; }
+    public float curHealth { get; set; }
 
     // Heating System
     public float heatingDamage;
-    public float upperHeatBound;
-    public float lowerHeatBound;
-    public float curHeat;
-    public float boundHeat;
+    public float upperDamageHeatBound;
+    public float lowerDamageHeatBound;
+    public float curHeat { get; set; }
+    public float lowerHeatBound { get; set; }
+    public float upperHeatBound { get; set; }
 
     // Attack
     public float damage;
     public float speed;
     public float radius;
-    private float distance;
+    protected float distance;
 
     // Color Change
     [SerializeField] private SpriteRenderer render;
@@ -33,8 +34,8 @@ public class GraffitiController : MonoBehaviour
     public int fallingBound;
 
     // Moving
-    private Vector3[] moveRanges = new Vector3[2];
-    private int moveIndex = 0;
+    protected Vector3[] moveRanges = new Vector3[2];
+    protected int moveIndex = 0;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -48,8 +49,8 @@ public class GraffitiController : MonoBehaviour
 
         // Heat
         heatingDamage = maxHealth/20;
-        upperHeatBound = 0.8f;
-        lowerHeatBound = 0.2f;
+        upperDamageHeatBound = 0.8f;
+        lowerDamageHeatBound = 0.2f;
         // Falling
         fallingBound = -20;
         // Attack
@@ -57,15 +58,15 @@ public class GraffitiController : MonoBehaviour
         radius = 5f;
         damage = 1;
         // First Lerp
-        ColorLerp(curHeat, boundHeat);
+        ColorLerp(curHeat, upperHeatBound);
     }
 
     // Update per frame
     protected virtual void Update()
     {
         // Heat/Cooling Health Damage
-        if (curHeat >= boundHeat * upperHeatBound
-            && curHeat <= boundHeat * lowerHeatBound)
+        if (curHeat >= upperHeatBound * upperDamageHeatBound
+            && curHeat <= upperHeatBound * lowerDamageHeatBound)
         {
             ContinousDamage(heatingDamage);
         }
@@ -134,7 +135,7 @@ public class GraffitiController : MonoBehaviour
         }
 
         // Change color of planes and villains
-        ColorLerp(curHeat, boundHeat);
+        ColorLerp(curHeat, upperHeatBound);
     }
 
     // Method 2. Damage Health
@@ -184,14 +185,16 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 8. Move Around
-    protected virtual void Move()
+    public virtual void Move()
     {
         if (playerTransform != null)
         {
             distance = (transform.position - playerTransform.position).sqrMagnitude;
 
             // Catch player
-            if (distance < radius)
+            if (distance < radius &&
+                transform.position.x > moveRanges[0].x &&
+                transform.position.x < moveRanges[1].x)
             {
                 transform.position = Vector2.MoveTowards(transform.position,
                                                          playerTransform.position,
@@ -228,9 +231,6 @@ public class GraffitiController : MonoBehaviour
 
         moveRanges[0] = new Vector3(position.x - width/2 + 0.2f, position.y + height/2, 0);
         moveRanges[1] = new Vector3(position.x + width/2 - 0.2f, position.y + height/2, 0);
-
-        Debug.Log(moveRanges[0]);
-        Debug.Log(moveRanges[1]);
 
         moveIndex = 0;
     }
