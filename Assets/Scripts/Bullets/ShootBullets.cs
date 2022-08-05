@@ -23,7 +23,7 @@ public class ShootBullets : MonoBehaviour
         mainCamera = Camera.main;
         bulletVelocity = 15f;
 
-        boundHeat = GetComponent<PlayerHeat>().boundHeat;
+        boundHeat = GetComponent<PlayerHeat>().upperBoundHeat;
         lowMidBound = boundHeat / 3;
         midHighBound = boundHeat * 2/3;
     }

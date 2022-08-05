@@ -18,8 +18,10 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     public float bulletVelocity;
     
+    [Range(0.5f, 2)]
     public float timeScale;
-    WorldSpeed ws;
+
+
     // Flags
     public bool isOnPlane;
     public int jumpCount = 2;
@@ -33,7 +35,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ws = FindObjectOfType<WorldSpeed>();
+        timeScale = 1f;
 
         // Get this Components
         rigBody = GetComponent<Rigidbody2D>();
@@ -53,6 +55,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Time.timeScale = timeScale;
+
         TriggerJump();
 
         // Decrease Health by Falling
@@ -76,8 +80,6 @@ public class PlayerController : MonoBehaviour
     // FixedUpdate for physics events 
     void FixedUpdate()
     {
-        timeScale = ws.modifyScale;
-
         HorizontalMove();
         OnPlaneCheck();
         JumpHandler();
@@ -87,10 +89,7 @@ public class PlayerController : MonoBehaviour
     void HorizontalMove()
     {
         xInput = Input.GetAxisRaw("Horizontal");
-        //rigBody.velocity.x = xInput * velocity / timeScale;
-        //rigBody.velocity.y = rigBody.velocity.y;
         rigBody.velocity = new Vector2(xInput * velocity / timeScale, rigBody.velocity.y);
-        //rigBody.gravityScale = 1 / timeScale;
     }
 
     // Method 2. Plane collision check

@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class PlayerHeat : MonoBehaviour
 {
     // Heat Bar
-    public float curHeat;
-    public float boundHeat;
+    public float curHeat { get; set; }
+    public float lowerBoundHeat { get; private set; }
+    public float upperBoundHeat { get; private set; }
     public Slider heatBar;
     // Layers
     public LayerMask villainLayer;
@@ -23,18 +24,19 @@ public class PlayerHeat : MonoBehaviour
     private void Start()
     {
         render = GetComponent<SpriteRenderer>();
-        ColorLerp(curHeat, boundHeat);
+        ColorLerp(curHeat, upperBoundHeat, lowerBoundHeat);
     }
 
     // Method 0. Set Bound Heat
-    public void SetBoundHeat(float heat)
+    public void SetBoundHeat(float upperBoundHeat, float lowerBoundHeat)
     {
         // Heat value
-        boundHeat = heat;
-        curHeat = boundHeat / 2;
+        this.upperBoundHeat = upperBoundHeat;
+        this.lowerBoundHeat = lowerBoundHeat;
+        curHeat = (upperBoundHeat - lowerBoundHeat) / 2;
         // Heat Bar
         heatBar.value = curHeat;
-        heatBar.maxValue = boundHeat;
+        heatBar.maxValue = upperBoundHeat;
         // Set Color
         fill.color = gradient.Evaluate(1f);
     }
@@ -44,7 +46,7 @@ public class PlayerHeat : MonoBehaviour
     {
         heatBar.value = heat;
         fill.color = gradient.Evaluate(heatBar.normalizedValue);
-        ColorLerp(heat, boundHeat);
+        ColorLerp(heat, upperBoundHeat, lowerBoundHeat);
     }
 
     // Method 2. Heat Change
@@ -62,8 +64,8 @@ public class PlayerHeat : MonoBehaviour
     }
 
     // Method 4. Color Change
-    public void ColorLerp(float curHeat, float boundHeat)
+    public void ColorLerp(float curHeat, float upperBoundHeat, float lowerBoundHeat)
     {
-        render.color = renderGradient.Evaluate(curHeat / boundHeat);
+        render.color = renderGradient.Evaluate(curHeat - lowerBoundHeat / upperBoundHeat - lowerBoundHeat);
     }
 }
