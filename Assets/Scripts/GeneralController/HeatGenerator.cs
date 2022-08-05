@@ -42,6 +42,6 @@ public class HeatGenerator : MonoBehaviour
         }
 
         // Player Initialise
-        player.GetComponent<PlayerHeat>().SetBoundHeat(100f);
+        player.GetComponent<PlayerHeat>().SetBoundHeat(100f, 0f);
     }
 }
