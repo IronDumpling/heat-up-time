@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class GraffitiController : MonoBehaviour
 {
-    // Damage
-    public float damage; 
-
     // Component pointers
     private GameObject collideObj;
     private Collider2D coll;
+    private Transform playerTransform;
 
     // Layers
     public LayerMask planeLayer;
@@ -23,16 +21,23 @@ public class GraffitiController : MonoBehaviour
 
     // Heating System
     public float heatingDamage;
-    public float damageBound;
+    public float upperHeatBound;
+    public float lowerHeatBound;
     public float curHeat;
     public float boundHeat;
+
+    // Attack
+    public float damage;
+    public float speed;
+    public float radius;
+    private float distance;
 
     // Color Change
     [SerializeField] private SpriteRenderer render;
     public Gradient gradient;
 
     // Falling
-    public int lowerBound;
+    public int fallingBound;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -42,11 +47,17 @@ public class GraffitiController : MonoBehaviour
         // Pointer
         coll = GetComponent<Collider2D>();
         render = GetComponent<SpriteRenderer>();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         // Heat
         heatingDamage = maxHealth/20;
-        damageBound = 0.9f;
+        upperHeatBound = 0.8f;
+        lowerHeatBound = 0.2f;
         // Falling
-        lowerBound = -20;
+        fallingBound = -20;
+        // Attack
+        speed = 1f;
+        radius = 5f;
+        damage = 1;
         // First Lerp
         ColorLerp(curHeat, boundHeat);
     }
@@ -55,13 +66,27 @@ public class GraffitiController : MonoBehaviour
     protected virtual void Update()
     {
         // Heat Health Damage
-        if (curHeat >= boundHeat * damageBound)
+        if (curHeat >= boundHeat * upperHeatBound
+            && curHeat <= boundHeat * lowerHeatBound)
         {
             ContinousDamage(heatingDamage);
         }
 
+        // Find player on the platform
+        if (playerTransform != null)
+        {
+            distance = (transform.position - playerTransform.position).sqrMagnitude;
+
+            if (distance < radius)
+            {
+                transform.position = Vector2.MoveTowards(transform.position,
+                                                         playerTransform.position,
+                                                         speed * Time.deltaTime);
+            }
+        }
+
         // Die Conditions
-        if (transform.position.y < lowerBound)
+        if (transform.position.y < fallingBound)
         {
             Die();
         }
