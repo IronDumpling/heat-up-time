@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     // Components pointer
     private Rigidbody2D rigBody;
+    public Vector2 GetrigBodyVeloc() { return rigBody.velocity; }
+    public void SetrigBodyVeloc(Vector2 veloc) { rigBody.velocity = veloc; }
+
     private GameObject collideObj;
     public LayerMask planeLayer;
     public LayerMask villainLayer;
@@ -14,6 +17,9 @@ public class PlayerController : MonoBehaviour
     public float xInput;
     public float jumpForce;
     public float bulletVelocity;
+    
+    public float timeScale;
+    WorldSpeed ws;
     // Flags
     public bool isOnPlane;
     public int jumpCount = 2;
@@ -27,6 +33,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ws = FindObjectOfType<WorldSpeed>();
+
         // Get this Components
         rigBody = GetComponent<Rigidbody2D>();
 
@@ -68,6 +76,8 @@ public class PlayerController : MonoBehaviour
     // FixedUpdate for physics events 
     void FixedUpdate()
     {
+        timeScale = ws.modifyScale;
+
         HorizontalMove();
         OnPlaneCheck();
         JumpHandler();
@@ -77,7 +87,10 @@ public class PlayerController : MonoBehaviour
     void HorizontalMove()
     {
         xInput = Input.GetAxisRaw("Horizontal");
-        rigBody.velocity = new Vector2(xInput * velocity, rigBody.velocity.y);
+        //rigBody.velocity.x = xInput * velocity / timeScale;
+        //rigBody.velocity.y = rigBody.velocity.y;
+        rigBody.velocity = new Vector2(xInput * velocity / timeScale, rigBody.velocity.y);
+        //rigBody.gravityScale = 1 / timeScale;
     }
 
     // Method 2. Plane collision check
@@ -97,7 +110,10 @@ public class PlayerController : MonoBehaviour
     {
         if (pressJump) {
             if (jumpCount > 0) {
-                rigBody.velocity = new Vector2(rigBody.velocity.x, jumpForce);
+
+                //rigBody.velocity.x = 
+
+                rigBody.velocity = new Vector2(rigBody.velocity.x / timeScale, jumpForce);
                 jumpCount--;
             }
             pressJump = false;

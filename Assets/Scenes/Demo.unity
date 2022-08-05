@@ -3129,6 +3129,11 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4919065641935403073, guid: 1ef940ad08e63466f9868f3f424953fa, type: 3}
   m_PrefabInstance: {fileID: 4919065643248069567}
   m_PrefabAsset: {fileID: 0}
+--- !u!50 &1925338121 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4919065641935403075, guid: 1ef940ad08e63466f9868f3f424953fa, type: 3}
+  m_PrefabInstance: {fileID: 4919065643248069567}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1972931689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3240,6 +3245,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08cdce413e284fb42b0bc20c2415e2a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  modifyScale: 0
+  plyCtrl: {fileID: 1925338121}
+  on: 1
 --- !u!4 &1999314686
 Transform:
   m_ObjectHideFlags: 0
