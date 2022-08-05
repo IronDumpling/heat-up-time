@@ -56,7 +56,7 @@ public class PlaneController : MonoBehaviour
         // 1.3 Touhch Villains
         else if (collideObj.layer == 7) // 7 is layer of villains
         {
-            float otherHeat = collideObj.GetComponent<VillainController>().curHeat;
+            float otherHeat = collideObj.GetComponent<GraffitiController>().curHeat;
             if (otherHeat != curHeat)
             {
                 HeatTransfer(otherHeat);

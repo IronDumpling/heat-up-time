@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VillainController : MonoBehaviour
+public class GraffitiController : MonoBehaviour
 {
     // Damage
     public float damage; 
@@ -35,7 +35,7 @@ public class VillainController : MonoBehaviour
     public int lowerBound;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         // Health 
         curHealth = maxHealth;
@@ -52,7 +52,7 @@ public class VillainController : MonoBehaviour
     }
 
     // Update per frame
-    private void Update()
+    protected virtual void Update()
     {
         // Heat Health Damage
         if (curHeat >= boundHeat * damageBound)
@@ -68,7 +68,7 @@ public class VillainController : MonoBehaviour
     }
 
     // Method 1. Collision
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void OnCollisionEnter2D(Collision2D collision)
     {
         collideObj = collision.gameObject;
 
@@ -100,7 +100,7 @@ public class VillainController : MonoBehaviour
         // 1.3 Touhch Villains
         else if (collideObj.layer == 7) // 7 is layer of villains
         {
-            float otherHeat = collideObj.GetComponent<VillainController>().curHeat;
+            float otherHeat = collideObj.GetComponent<GraffitiController>().curHeat;
             if (otherHeat != curHeat)
             {
                 HeatTransfer(otherHeat);

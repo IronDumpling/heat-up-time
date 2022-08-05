@@ -37,8 +37,8 @@ public class HeatGenerator : MonoBehaviour
         // Villains Heat Initialise
         foreach (GameObject villain in villains)
         {
-            villain.GetComponent<VillainController>().boundHeat = Random.Range(maxHeat / 2, maxHeat);
-            villain.GetComponent<VillainController>().curHeat = Random.Range(0f, villain.GetComponent<VillainController>().boundHeat/2);
+            villain.GetComponent<GraffitiController>().boundHeat = Random.Range(maxHeat / 2, maxHeat);
+            villain.GetComponent<GraffitiController>().curHeat = Random.Range(0f, villain.GetComponent<GraffitiController>().boundHeat/2);
         }
 
         // Player Initialise

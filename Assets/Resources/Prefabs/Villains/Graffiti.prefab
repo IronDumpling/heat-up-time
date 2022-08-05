@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4431335337287122782}
   - component: {fileID: 4431335337287122780}
   - component: {fileID: 6097861852926807845}
-  - component: {fileID: -3062009395863537287}
+  - component: {fileID: -6792345948895141570}
   m_Layer: 7
-  m_Name: Villain
+  m_Name: Graffiti
   m_TagString: Villain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,7 +134,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-3062009395863537287
+--- !u!114 &-6792345948895141570
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4431335337287122778}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6123fad9aae84307a960b52dd49dc1a, type: 3}
+  m_Script: {fileID: 11500000, guid: f3ca202752a5b4a119c1dd8e50b3bd52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
@@ -161,6 +161,7 @@ MonoBehaviour:
     m_Bits: 256
   curHealth: 0
   maxHealth: 0
+  heatingDamage: 0
   damageBound: 0
   curHeat: 0
   boundHeat: 0
@@ -194,3 +195,4 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
+  lowerBound: 0

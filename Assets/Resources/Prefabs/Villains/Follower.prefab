@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4431335337287122778, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
       propertyPath: m_Name
-      value: SmartVillain
+      value: Follower
       objectReference: {fileID: 0}
     - target: {fileID: 4431335337287122780, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
       propertyPath: m_Mass
@@ -105,18 +105,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -3062009395863537287, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
+    - {fileID: -6792345948895141570, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
---- !u!212 &6316235190907769113 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 4431335337287122782, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
-  m_PrefabInstance: {fileID: 7699046989736144455}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6316235190907769117 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4431335337287122778, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
   m_PrefabInstance: {fileID: 7699046989736144455}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-8151918159565137909
+--- !u!114 &9056934804212288604
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,7 +121,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6316235190907769117}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcdc7aac69fb84743afd239ba3f75e0e, type: 3}
+  m_Script: {fileID: 11500000, guid: bb1b42ce97ca741f5a0b7b2425558f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
@@ -147,7 +143,7 @@ MonoBehaviour:
   damageBound: 0
   curHeat: 0
   boundHeat: 0
-  render: {fileID: 6316235190907769113}
+  render: {fileID: 0}
   gradient:
     serializedVersion: 2
     key0: {r: 0.12941177, g: 0.6156863, b: 0.82745105, a: 1}
