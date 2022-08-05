@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     // Components pointer
     private Rigidbody2D rigBody;
-    private Collider2D coll;
     private GameObject collideObj;
     public LayerMask planeLayer;
     public LayerMask villainLayer;
@@ -30,7 +29,6 @@ public class PlayerController : MonoBehaviour
     {
         // Get this Components
         rigBody = GetComponent<Rigidbody2D>();
-        coll = GetComponent<Collider2D>();
 
         // Falling Variables
         lowerBound = -20;
