@@ -10,29 +10,23 @@ public class SmartVillainController : VillainController
     private Transform playerTransform;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        // Health 
-        curHealth = maxHealth;
-        // Heat
-        heatingDamage = maxHealth / 20;
+        base.Start();
         damageBound = 1f;
-        // Falling
-        lowerBound = -20;
-        // First Lerp
-        ColorLerp(curHeat, boundHeat);
-        // Player's position
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+
         if (playerTransform != null)
         {
             distance = (transform.position - playerTransform.position).sqrMagnitude;
 
-            if(distance < radius)
+            if (distance < radius)
             {
                 transform.position = Vector2.MoveTowards(transform.position,
                                                          playerTransform.position,
