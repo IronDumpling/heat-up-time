@@ -8,6 +8,7 @@ public class FollowerController : GraffitiController
     protected override void Start()
     {
         base.Start();
+        maxHealth = 20;
         upperHeatBound = 0.9f;
     }
 

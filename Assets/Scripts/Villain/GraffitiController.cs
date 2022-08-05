@@ -43,6 +43,7 @@ public class GraffitiController : MonoBehaviour
     protected virtual void Start()
     {
         // Health 
+        maxHealth = 10;
         curHealth = maxHealth;
         // Pointer
         coll = GetComponent<Collider2D>();

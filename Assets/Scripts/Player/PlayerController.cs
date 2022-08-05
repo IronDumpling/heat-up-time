@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
                 GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
             }
 
-            isOnPlane = true;
+            jumpCount++;
 
             // Health Change if collide villains
             float damage = collideObj.GetComponent<GraffitiController>().damage; 
@@ -134,8 +134,6 @@ public class PlayerController : MonoBehaviour
             {
                 GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
             }
-
-            isOnPlane = true;
 
             // Record the last landing place if collide platform
             lastPlanePosition = collideObj.transform.position;
