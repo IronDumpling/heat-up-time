@@ -17,8 +17,9 @@ public class PlayerController : MonoBehaviour
     public float bulletVelocity;
     // Flags
     public bool isOnPlane;
-    public int jumpCount;
-    public bool pressJump;
+    public int jumpCount = 2;
+    public bool pressJump = false;
+    public Transform PlayerGnd;
     // Falling Variables
     private int lowerBound;
     public float fallingDamage;
@@ -68,8 +69,8 @@ public class PlayerController : MonoBehaviour
     // FixedUpdate for physics events 
     void FixedUpdate()
     {
-        OnPlaneCheck();
         HorizontalMove();
+        OnPlaneCheck();
         JumpHandler();
     }
 
@@ -83,14 +84,12 @@ public class PlayerController : MonoBehaviour
     // Method 2. Plane collision check
     void OnPlaneCheck()
     {
-        if (!coll.IsTouchingLayers(planeLayer) &&
-            !coll.IsTouchingLayers(villainLayer))
-        {
-            isOnPlane = false;
-        }
-        else {
+        if(Physics2D.OverlapCircle(PlayerGnd.position, 0.1f, planeLayer.value)) {
             isOnPlane = true;
             jumpCount = 2;
+        }
+        else {
+            isOnPlane=false;
         }
     }
 
