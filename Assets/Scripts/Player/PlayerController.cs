@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public bool isOnPlane;
     public int jumpCount = 2;
     public bool pressJump = false;
-    public Transform PlayerGnd;
+    private Transform PlayerGnd;
     // Falling Variables
     private int lowerBound;
     public float fallingDamage;
@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
         velocity = 2f;
         jumpForce = 7f;
         jumpCount = 2;
+        PlayerGnd = getChildGameObject(this.gameObject, "PlayerGnd").transform;
     }
 
     // Update is called once per frame
@@ -148,4 +149,13 @@ public class PlayerController : MonoBehaviour
         transform.position = lastPlanePosition;
         rigBody.velocity = Vector2.zero;
     }
+
+
+    static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
+        //Author: Isaac Dart, June-13.
+        Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>();
+        foreach (Transform t in ts) if (t.gameObject.name == withName) return t.gameObject;
+        return null;
+    }
 }
+
