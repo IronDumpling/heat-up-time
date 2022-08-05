@@ -32,6 +32,7 @@ Chuyue Zhang TODO:
 
 Yang Chen TODO:
 1. Add air jet effects to double jump
+2. Add Q skill to spread heat AOE entirely
 
 Xinsheng Yi TODO:
 1. Add tutorial texts to the game
