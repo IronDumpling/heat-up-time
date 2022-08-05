@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlaneController : MonoBehaviour
 {
     // Component pointers
-    private Collider2D coll;
     private GameObject collideObj;
     // Heat Value
     public float curHeat;
@@ -23,7 +22,6 @@ public class PlaneController : MonoBehaviour
     void Start()
     {
         // Pointers
-        coll = GetComponent<Collider2D>();
         render = GetComponent<SpriteRenderer>();
 
         // First Lerp
@@ -46,7 +44,7 @@ public class PlaneController : MonoBehaviour
         }
 
         // 1.2 Touhch Platforms
-        else if (collideObj.layer == 9) // 9 is layer of platforms
+        else if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms
         {
             float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
             if (otherHeat != curHeat)

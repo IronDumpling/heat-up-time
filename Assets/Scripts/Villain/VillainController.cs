@@ -5,7 +5,7 @@ using UnityEngine;
 public class VillainController : MonoBehaviour
 {
     // Damage
-    public float damage;
+    public float damage; 
 
     // Component pointers
     private GameObject collideObj;
@@ -22,7 +22,7 @@ public class VillainController : MonoBehaviour
     public float maxHealth;
 
     // Heating System
-    private float heatingDamage;
+    public float heatingDamage;
     public float damageBound;
     public float curHeat;
     public float boundHeat;
@@ -32,11 +32,7 @@ public class VillainController : MonoBehaviour
     public Gradient gradient;
 
     // Falling
-    private int lowerBound;
-
-    // Movement
-    public float speed;
-    public float startWaitTime;
+    public int lowerBound;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +43,7 @@ public class VillainController : MonoBehaviour
         coll = GetComponent<Collider2D>();
         render = GetComponent<SpriteRenderer>();
         // Heat
-        heatingDamage = maxHealth / 20;
+        heatingDamage = maxHealth/20;
         damageBound = 0.9f;
         // Falling
         lowerBound = -20;
@@ -65,7 +61,7 @@ public class VillainController : MonoBehaviour
         }
 
         // Die Conditions
-        if (transform.position.y < lowerBound || curHealth <= 0)
+        if (transform.position.y < lowerBound)
         {
             Die();
         }
@@ -92,7 +88,7 @@ public class VillainController : MonoBehaviour
         }
 
         // 1.2 Touhch Platforms
-        else if (collideObj.layer == 9) // 9 is layer of platforms
+        else if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms
         {
             float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
             if (otherHeat != curHeat)
@@ -129,12 +125,22 @@ public class VillainController : MonoBehaviour
     void Damage(float decreaseValue)
     {
         curHealth -= decreaseValue;
+
+        if (curHealth <= 0)
+        {
+            Die();
+        }
     }
 
     // Method 3. Damage Health Continously
     void ContinousDamage(float decreaseValue)
     {
         curHealth -= decreaseValue * Time.deltaTime;
+
+        if (curHealth <= 0)
+        {
+            Die();
+        }
     }
 
     // Method 4. Die

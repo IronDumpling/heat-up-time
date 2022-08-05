@@ -19,17 +19,29 @@ public class PlayerHealth : MonoBehaviour
     // Change Color
     public Gradient gradient;
     public Image fill;
+    // Blink Color
+    public SpriteRenderer myRenderer;
+    public int blinks;
+    public float time;
 
     // Start is called before the first frame update
     private void Awake()
     {
         // Health Bar
-        SetMaxHealth(20);
+        SetMaxHealth(20f);
 
         // Heating
         heatingDamage = maxHealth / 20;
         damageBound = 0.9f;
         recoverBound = 0.1f;
+
+        // Pointer
+        myRenderer = GetComponent<SpriteRenderer>();
+        myRenderer.enabled = true;
+
+        // Blink
+        blinks = 1;
+        time = 0.1f;
     }
 
     // Update is called once per frame
@@ -50,12 +62,6 @@ public class PlayerHealth : MonoBehaviour
         }
 
         // Increase Health by picking hearts
-
-        // Start Again
-        if (curHealth <= 0)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
     }
 
     // Method 0. Set Max Health
@@ -80,6 +86,13 @@ public class PlayerHealth : MonoBehaviour
     {
         curHealth -= decreaseValue * Time.deltaTime;
         SetCurHealth(curHealth);
+        BlinkPlayer(blinks, time);
+
+        // Start Again
+        if (curHealth <= 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     // Method 3. Damage Health Instantly
@@ -87,6 +100,13 @@ public class PlayerHealth : MonoBehaviour
     {
         curHealth -= decreaseValue;
         SetCurHealth(curHealth);
+        BlinkPlayer(blinks, time);
+
+        // Start Again
+        if (curHealth <= 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     // Method 4. Recover Continously
@@ -109,5 +129,21 @@ public class PlayerHealth : MonoBehaviour
         }
 
         SetCurHealth(curHealth);
+    }
+
+    // Method 6. Blink After Damage
+    void BlinkPlayer(int numBlinks, float seconds)
+    {
+        StartCoroutine(DoBlinks(numBlinks, seconds));
+    }
+
+    IEnumerator DoBlinks(int numBlinks, float seconds)
+    {
+        for(int i = 0; i < numBlinks * 2; i++)
+        {
+            myRenderer.enabled = !myRenderer.enabled;
+            yield return new WaitForSeconds(seconds);
+        }
+        myRenderer.enabled = true;
     }
 }
