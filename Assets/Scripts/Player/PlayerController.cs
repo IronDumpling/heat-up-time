@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
         if (collideObj.layer == 7) // 7 is layer of villains
         {
             // Heat Change if collide villains
-            float otherHeat = collideObj.GetComponent<VillainController>().curHeat; 
+            float otherHeat = collideObj.GetComponent<GraffitiController>().curHeat; 
             if (otherHeat != GetComponent<PlayerHeat>().curHeat)
             {
                 GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
             isOnPlane = true;
 
             // Health Change if collide villains
-            float damage = collideObj.GetComponent<VillainController>().damage; 
+            float damage = collideObj.GetComponent<GraffitiController>().damage; 
             GetComponent<PlayerHealth>().Damage(damage);
         }
 

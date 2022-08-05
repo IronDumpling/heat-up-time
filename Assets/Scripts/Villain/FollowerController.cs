@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SmartVillainController : VillainController
+public class FollowerController : GraffitiController
 {
     public float speed;
     public float radius;
