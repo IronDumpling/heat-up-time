@@ -19,4 +19,39 @@ public class FollowerController : GraffitiController
     {
         base.Update();
     }
+
+    // Method 8. Move Around
+    //protected override void Move()
+    //{
+    //    if (playerTransform != null)
+    //    {
+    //        distance = (transform.position - playerTransform.position).sqrMagnitude;
+
+    //        // Catch player
+    //        if (distance < radius)
+    //        {
+    //            transform.position = Vector2.MoveTowards(transform.position,
+    //                                                     playerTransform.position,
+    //                                                     speed * Time.deltaTime);
+    //        }
+    //        // Move on the plane 
+    //        else if (moveRanges != null)
+    //        {
+    //            transform.position = Vector2.MoveTowards(transform.position,
+    //                                                     moveRanges[moveIndex],
+    //                                                     speed * Time.deltaTime);
+    //            if (transform.position.x == moveRanges[moveIndex].x)
+    //            {
+    //                if (moveIndex == 1)
+    //                {
+    //                    moveIndex--;
+    //                }
+    //                else
+    //                {
+    //                    moveIndex++;
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 }

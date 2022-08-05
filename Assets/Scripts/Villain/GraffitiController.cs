@@ -184,7 +184,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 8. Move Around
-    public void Move()
+    protected virtual void Move()
     {
         if (playerTransform != null)
         {
