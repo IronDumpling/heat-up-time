@@ -6,14 +6,7 @@ public class GraffitiController : MonoBehaviour
 {
     // Component pointers
     private GameObject collideObj;
-    private Collider2D coll;
     private Transform playerTransform;
-
-    // Layers
-    public LayerMask planeLayer;
-    public LayerMask villainLayer;
-    public LayerMask playerLayer;
-    public LayerMask bulletLayer;
 
     // Health System
     public float curHealth;
@@ -39,6 +32,10 @@ public class GraffitiController : MonoBehaviour
     // Falling
     public int fallingBound;
 
+    // Moving
+    private Vector3[] moveRanges = new Vector3[2];
+    private int moveIndex = 0;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -46,9 +43,9 @@ public class GraffitiController : MonoBehaviour
         maxHealth = 10;
         curHealth = maxHealth;
         // Pointer
-        coll = GetComponent<Collider2D>();
         render = GetComponent<SpriteRenderer>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+
         // Heat
         heatingDamage = maxHealth/20;
         upperHeatBound = 0.8f;
@@ -66,25 +63,14 @@ public class GraffitiController : MonoBehaviour
     // Update per frame
     protected virtual void Update()
     {
-        // Heat Health Damage
+        // Heat/Cooling Health Damage
         if (curHeat >= boundHeat * upperHeatBound
             && curHeat <= boundHeat * lowerHeatBound)
         {
             ContinousDamage(heatingDamage);
         }
 
-        // Find player on the platform
-        if (playerTransform != null)
-        {
-            distance = (transform.position - playerTransform.position).sqrMagnitude;
-
-            if (distance < radius)
-            {
-                transform.position = Vector2.MoveTowards(transform.position,
-                                                         playerTransform.position,
-                                                         speed * Time.deltaTime);
-            }
-        }
+        Move();
 
         // Die Conditions
         if (transform.position.y < fallingBound)
@@ -114,12 +100,16 @@ public class GraffitiController : MonoBehaviour
         }
 
         // 1.2 Touhch Platforms
-        else if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms
+        else if (collideObj.layer == 9) // 9 is layer of platforms
         {
-            float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
-            if (otherHeat != curHeat)
+            GetMoveRange(collideObj);
+            if (collideObj.tag != "SafePlane")
             {
-                HeatTransfer(otherHeat);
+                float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
+                if (otherHeat != curHeat)
+                {
+                    HeatTransfer(otherHeat);
+                }
             }
         }
 
@@ -191,5 +181,57 @@ public class GraffitiController : MonoBehaviour
     public void ColorLerp(float curHeat, float boundHeat)
     {
         render.color = gradient.Evaluate(curHeat / boundHeat);
+    }
+
+    // Method 8. Move Around
+    public void Move()
+    {
+        if (playerTransform != null)
+        {
+            distance = (transform.position - playerTransform.position).sqrMagnitude;
+
+            // Catch player
+            if (distance < radius)
+            {
+                transform.position = Vector2.MoveTowards(transform.position,
+                                                         playerTransform.position,
+                                                         speed * Time.deltaTime);
+            }
+            // Move on the plane 
+            else if(moveRanges != null)
+            {
+                transform.position = Vector2.MoveTowards(transform.position,
+                                                         moveRanges[moveIndex],
+                                                         speed * Time.deltaTime);
+                if(transform.position.x == moveRanges[moveIndex].x)
+                {
+                    if(moveIndex == 1)
+                    {
+                        moveIndex--;
+                    }
+                    else
+                    {
+                        moveIndex++;
+                    }
+                }
+            }
+        }
+    }
+
+    // Method 9. Move Range
+    public void GetMoveRange(GameObject obj)
+    {
+        Vector3 position = obj.GetComponent<Transform>().position;
+        float width = obj.GetComponent<SpriteRenderer>().bounds.size.x;
+        float height = obj.GetComponent<SpriteRenderer>().bounds.size.y + GetComponent<SpriteRenderer>().bounds.size.y;
+
+
+        moveRanges[0] = new Vector3(position.x - width/2 + 0.2f, position.y + height/2, 0);
+        moveRanges[1] = new Vector3(position.x + width/2 - 0.2f, position.y + height/2, 0);
+
+        Debug.Log(moveRanges[0]);
+        Debug.Log(moveRanges[1]);
+
+        moveIndex = 0;
     }
 }

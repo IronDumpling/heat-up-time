@@ -123,6 +123,7 @@ public class PlayerController : MonoBehaviour
             // Health Change if collide villains
             float damage = collideObj.GetComponent<GraffitiController>().damage; 
             GetComponent<PlayerHealth>().Damage(damage);
+            CollideRecoil(collideObj, damage * 5);
         }
 
         
@@ -148,12 +149,33 @@ public class PlayerController : MonoBehaviour
         rigBody.velocity = Vector2.zero;
     }
 
-
+    // Method 6. 
     static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
         //Author: Isaac Dart, June-13.
         Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>();
         foreach (Transform t in ts) if (t.gameObject.name == withName) return t.gameObject;
         return null;
+    }
+
+    // Method 7. Recoil if collide villains
+    public void CollideRecoil(GameObject obj, float damage)
+    {
+        if (obj.transform.position.x <= transform.position.x && obj.transform.position.y <= transform.position.y)
+        {
+            rigBody.velocity = new Vector2(damage, damage);
+        }
+        else if (obj.transform.position.x <= transform.position.x && obj.transform.position.y > transform.position.y)
+        {
+            rigBody.velocity = new Vector2(damage, -damage);
+        }
+        else if (obj.transform.position.x > transform.position.x && obj.transform.position.y <= transform.position.y)
+        {
+            rigBody.velocity = new Vector2(-damage, damage);
+        }
+        else
+        {
+            rigBody.velocity = new Vector2(-damage, -damage);
+        }
     }
 }
 
