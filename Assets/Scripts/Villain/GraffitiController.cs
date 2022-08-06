@@ -10,7 +10,7 @@ public class GraffitiController : MonoBehaviour
     public const int PLATFORMS = 9;
     
     // Component pointers
-    private GameObject collideObj;
+    protected GameObject collideObj;
     private List<GameObject> collideObjs;
 
 
@@ -86,13 +86,16 @@ public class GraffitiController : MonoBehaviour
             ContinousDamage(heatingDamage);
         }
 
-        Move();
-
         // Die Conditions
         if (transform.position.y < fallingBound)
         {
             Die();
         }
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        Move();
     }
 
     // Method 1. Collision
@@ -188,7 +191,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 5. Heat Transfer
-    void HeatTransfer(float otherHeat)
+    public void HeatTransfer(float otherHeat)
     {
         float endHeat = (curHeat + otherHeat) / 2;
         curHeat += (endHeat - curHeat) * Time.deltaTime;
@@ -210,7 +213,7 @@ public class GraffitiController : MonoBehaviour
     // Method 8.
     IEnumerator DetectionCoroutine()
     {
-        yield return new WaitForSeconds(0);
+        yield return new WaitForSeconds(0.3f);
         PerformDetection();
         StartCoroutine(DetectionCoroutine());
     }
