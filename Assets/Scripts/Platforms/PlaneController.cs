@@ -22,7 +22,7 @@ public class PlaneController : MonoBehaviour
     public Gradient gradient;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         // Pointers
         render = GetComponent<SpriteRenderer>();
@@ -32,14 +32,14 @@ public class PlaneController : MonoBehaviour
         ColorLerp(curHeat, boundHeat);
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         HeatTransferHandler();
         ColorLerp(curHeat, boundHeat);
     }
 
     // Method 1. Get colliding object
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         collideObj = collision.gameObject;
 
