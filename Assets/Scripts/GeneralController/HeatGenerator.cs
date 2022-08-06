@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeatGenerator : MonoBehaviour
-{
+public class HeatGenerator : MonoBehaviour {
     private GameObject[] hotterPlanes;
     private GameObject[] colderPlanes;
     private GameObject[] villains;
@@ -15,9 +14,11 @@ public class HeatGenerator : MonoBehaviour
     public float maxPlayerHeat = 100f;
     public float minPlayerHeat = -100f;
 
+    public float maxEnemyHeat = 80f;
+    public float minEnemyHeat = -80f;
+
     // Start is called before the first frame update
-    void Awake()
-    {
+    void Awake() {
         // Get Plane Lists
         hotterPlanes = GameObject.FindGameObjectsWithTag("HotterPlane");
         colderPlanes = GameObject.FindGameObjectsWithTag("ColderPlane");
@@ -25,32 +26,33 @@ public class HeatGenerator : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
 
         // Hotter Plane Heat Initialise
-        foreach (GameObject plane in hotterPlanes)
-        {
+        foreach (GameObject plane in hotterPlanes) {
             plane.GetComponent<PlaneController>().maxHeat = maxPlaneHeat;
             plane.GetComponent<PlaneController>().minHeat = minPlaneHeat;
             plane.GetComponent<PlaneController>().curHeat = Random.Range(0, maxPlaneHeat);
         }
 
         // Hotter Plane Heat Initialise
-        foreach (GameObject plane in colderPlanes)
-        {
+        foreach (GameObject plane in colderPlanes) {
             plane.GetComponent<PlaneController>().maxHeat = maxPlaneHeat;
             plane.GetComponent<PlaneController>().minHeat = minPlaneHeat;
             plane.GetComponent<PlaneController>().curHeat = Random.Range(minPlaneHeat, 0f);
         }
 
         // Villains Heat Initialise
-        foreach (GameObject villain in villains)
-        {
-            villain.GetComponent<GraffitiController>().upperHeatBound  = Random.Range(maxPlaneHeat / 2, maxPlaneHeat);
-            villain.GetComponent<GraffitiController>().curHeat = Random.Range(0f, villain.GetComponent<GraffitiController>().upperHeatBound /2);
-        }
+        foreach (GameObject villain in villains) {
+            villain.GetComponent<GraffitiController>().upperHeatBound = maxEnemyHeat;
+            villain.GetComponent<GraffitiController>().lowerHeatBound = minEnemyHeat;
+            villain.GetComponent<GraffitiController>().curHeat = Random.Range(minEnemyHeat, maxEnemyHeat);
 
-        // Player Initialise
-        player.GetComponent<PlayerHeat>().InitalizePlayerHeat(maxPlayerHeat, minPlayerHeat);
+            // Player Initialise
+            player.GetComponent<PlayerHeat>().InitalizePlayerHeat(maxPlayerHeat, minPlayerHeat);
+        }
     }
 }
+
+
+
 public static class HeatOp {
 
     public static float HeatCoeff(float curHeat, float maxHeat, float minHeat) {

@@ -13,7 +13,7 @@ public class ShootBullets : MonoBehaviour
     public float bulletVelocity;
 
     [Range(0, 1)]
-    public float bulletDmgPercent = 0.1f;
+    public float bulletHeatPercent = 0.1f;
 
     // Use this for initialization
     void Start()
@@ -53,7 +53,7 @@ public class ShootBullets : MonoBehaviour
 
         PlayerHeat pH = this.GetComponent<PlayerHeat>();
         BulletController bH = bullet.GetComponent<BulletController>();
-        bH.bulletHeat = pH.curHeat * bulletDmgPercent;
+        bH.bulletHeat = pH.curHeat * bulletHeatPercent;
         pH.ShootHeat(bH.bulletHeat);
     }
 }

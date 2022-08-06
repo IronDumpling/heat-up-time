@@ -109,40 +109,41 @@ public class PlaneController : MonoBehaviour
         curHeat += otherHeat;
     }
 
-    //void HeatTransferHandler(){
+    void HeatTransferHandler() {
 
-    //    foreach (GameObject collider in collideObjs){
-    //        float otherHeat;
-            
-    //        switch(collider.layer){
-    //            case PLAYER:
-    //                otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
-    //                break;
+        foreach (GameObject collider in collideObjs) {
+            float otherHeat;
 
-    //            case VILLAINS:
-    //                otherHeat = collider.GetComponent<GraffitiController>().curHeat;
-    //                break;
+            switch (collider.layer) {
+                case PLAYER:
+                    otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
+                    break;
 
-    //            case BULLETS:
-    //                otherHeat = collider.GetComponent<BulletController>().bulletHeat;
-    //                break;
+                case VILLAINS:
+                    otherHeat = collider.GetComponent<GraffitiController>().curHeat;
+                    break;
 
-    //            case PLATFORMS:
-    //                if (collider.tag != "SafePlane"){
-    //                    otherHeat = collider.GetComponent<PlaneController>().curHeat;
-    //                }else{
-    //                    otherHeat = curHeat;
-    //                }
-    //                break;
+                case BULLETS:
+                    otherHeat = collider.GetComponent<BulletController>().bulletHeat;
+                    break;
 
-    //            default:
-    //                otherHeat = curHeat;
-    //                break;
-                
-    //        }
-    //        HeatTransfer(otherHeat);
-    //    }
-    //}
+                case PLATFORMS:
+                    if (collider.tag != "SafePlane") {
+                        otherHeat = collider.GetComponent<PlaneController>().curHeat;
+                    }
+                    else {
+                        otherHeat = curHeat;
+                    }
+                    break;
+
+                default:
+                    otherHeat = curHeat;
+                    break;
+
+            }
+            HeatTransfer(otherHeat);
+        }
+    }
 
     public void SetPlaneColor() {
         float heatCoeff = HeatOp.HeatCoeff(curHeat, maxHeat, minHeat);

@@ -72,7 +72,7 @@ public class GraffitiController : MonoBehaviour
         radius = 3f;
         StartCoroutine(DetectionCoroutine());
         // First Lerp
-        ColorLerp(curHeat);
+        SetEnemyColor();
     }
 
     // Update per frame
@@ -155,7 +155,7 @@ public class GraffitiController : MonoBehaviour
         }
 
         // Change color of planes and villains
-        ColorLerp(curHeat);
+        SetEnemyColor();
     }
 
     public void OnCollisionExit2D(Collision2D collision){
@@ -163,7 +163,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 2. Damage Health
-    void Damage(float decreaseValue)
+    public void Damage(float decreaseValue)
     {
         curHealth -= decreaseValue;
 
@@ -204,11 +204,6 @@ public class GraffitiController : MonoBehaviour
         curHeat += otherHeat;
     }
 
-    // Method 7. Color Change
-    public void ColorLerp(float curHeat)
-    {
-        render.color = gradient.Evaluate((curHeat-lowerHeatBound) / (upperHeatBound - lowerHeatBound));
-    }
 
     // Method 8.
     IEnumerator DetectionCoroutine()
@@ -288,7 +283,7 @@ public class GraffitiController : MonoBehaviour
                     break;
 
                 case BULLETS:
-                    HeatOp.HeatTransfer(ref this.curHeat, collider.GetComponent<BulletController>().bulletHeat);
+                    Debug.Log(curHeat);
                     break;
 
                 case PLATFORMS:
@@ -306,5 +301,10 @@ public class GraffitiController : MonoBehaviour
             }
             HeatTransfer(otherHeat);
         }
+    }
+
+    public void SetEnemyColor() {
+        float heatCoeff = HeatOp.HeatCoeff(curHeat, upperHeatBound, lowerHeatBound);
+        HeatOp.ColorLerp(ref render, gradient, heatCoeff);
     }
 }

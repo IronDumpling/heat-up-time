@@ -16,12 +16,6 @@ public class BulletController : MonoBehaviour
         coll = GetComponent<Collider2D>();
     }
 
-    // FixedUpdate is called once per physics frame
-    //void FixedUpdate()
-    //{
-    //    Collide();
-    //}
-
     // Method 1. Destroy out of bound
     private void OnBecameInvisible()
     {
@@ -29,6 +23,10 @@ public class BulletController : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
+
+        //Platform: Heat Transfer, no dmg
+        //Enemy: Heat Transfer, dmg applied
+
         PlaneController pC = collision.gameObject.GetComponent<PlaneController>();
         GraffitiController gC = collision.gameObject.GetComponent<GraffitiController>();
 
@@ -37,6 +35,7 @@ public class BulletController : MonoBehaviour
         }
         if (gC != null) {
             HeatOp.HeatTransfer(ref gC.curHeat, bulletHeat);
+            gC.Damage(damage);
         }
         Destroy(gameObject);
     }
