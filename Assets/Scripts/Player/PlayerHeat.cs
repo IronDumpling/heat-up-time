@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerHeat : MonoBehaviour
 {
     // Heat Bar
+    [SerializeField]
     public float curHeat { get; set; }
     public float lowerBoundHeat { get; private set; }
     public float upperBoundHeat { get; private set; }
@@ -66,6 +67,6 @@ public class PlayerHeat : MonoBehaviour
     // Method 4. Color Change
     public void ColorLerp(float curHeat, float upperBoundHeat, float lowerBoundHeat)
     {
-        render.color = renderGradient.Evaluate(curHeat - lowerBoundHeat / upperBoundHeat - lowerBoundHeat);
+        render.color = renderGradient.Evaluate((curHeat - lowerBoundHeat) / (upperBoundHeat - lowerBoundHeat));
     }
 }
