@@ -17,10 +17,11 @@ public class PlayerController : MonoBehaviour
     public float xInput;
     public float jumpForce;
     public float bulletVelocity;
-    
-    [Range(0.5f, 2)]
-    public float timeScale;
 
+    [SerializeField]
+    private float timeScale;
+    public float upperTimeScale;
+    public float lowerTimeScale;
 
     // Flags
     public bool isOnPlane;
@@ -32,6 +33,8 @@ public class PlayerController : MonoBehaviour
     public float fallingDamage;
     private Vector3 lastPlanePosition;
 
+    private PlayerHeat plyHeat;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +42,7 @@ public class PlayerController : MonoBehaviour
 
         // Get this Components
         rigBody = GetComponent<Rigidbody2D>();
+        plyHeat = GetComponent<PlayerHeat>();
 
         // Falling Variables
         lowerBound = -20;
@@ -52,10 +56,19 @@ public class PlayerController : MonoBehaviour
         PlayerGnd = getChildGameObject(this.gameObject, "PlayerGnd").transform;
     }
 
+    void updateTimescaleByPlayerHeat() {
+        timeScale = lowerTimeScale + (plyHeat.upperBoundHeat - plyHeat.curHeat) * 
+            ((upperTimeScale - lowerTimeScale) / (plyHeat.upperBoundHeat - plyHeat.lowerBoundHeat));
+
+        if (timeScale < lowerTimeScale) timeScale = lowerTimeScale;
+        if (timeScale > upperTimeScale) timeScale = upperTimeScale;
+        Time.timeScale = timeScale;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        Time.timeScale = timeScale;
+        updateTimescaleByPlayerHeat();
 
         TriggerJump();
 
@@ -109,8 +122,6 @@ public class PlayerController : MonoBehaviour
     {
         if (pressJump) {
             if (jumpCount > 0) {
-
-                //rigBody.velocity.x = 
 
                 rigBody.velocity = new Vector2(rigBody.velocity.x / timeScale, jumpForce);
                 jumpCount--;
