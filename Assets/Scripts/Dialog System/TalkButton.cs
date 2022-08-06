@@ -7,6 +7,9 @@ public class TalkButton : MonoBehaviour
     public GameObject Button;
     public GameObject talkUI;
     private GameObject obj;
+
+    [Header("TextFile")]
+    public TextAsset textFile;
     // Start is called before the first frame update
     private void OnCollisionEnter2D(Collision2D other)
 
@@ -34,6 +37,7 @@ public class TalkButton : MonoBehaviour
         if(Button.activeSelf && Input.GetKeyDown(KeyCode.R))
         {
             talkUI.SetActive(true);
+           
         }
     }
 }
