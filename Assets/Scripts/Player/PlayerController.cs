@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
     public float lowerTimeScale;
 
     // Flags
-    public bool isOnPlane;
     public int jumpCount = 2;
     public bool pressJump = false;
     private Transform PlayerGnd;
@@ -57,9 +56,8 @@ public class PlayerController : MonoBehaviour
 
         // Movement Variables
         velocity = 2f;
-        jumpForce = 7f;
+        jumpForce = 8f;
         jumpCount = 2;
-        isOnPlane = false;
         PlayerGnd = getChildGameObject(this.gameObject, "PlayerGnd").transform;
     }
 
@@ -117,11 +115,7 @@ public class PlayerController : MonoBehaviour
     void OnPlaneCheck()
     {
         if(Physics2D.OverlapCircle(PlayerGnd.position, 0.1f, planeLayer.value)) {
-            isOnPlane = true;
             jumpCount = 2;
-        }
-        else {
-            isOnPlane=false;
         }
     }
 
