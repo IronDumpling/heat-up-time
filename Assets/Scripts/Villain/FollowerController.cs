@@ -23,19 +23,20 @@ public class FollowerController : GraffitiController
         speed = 4.5f; // Fast
         damage = 1.5f; // Mid
         maxHealth = 20;
-        upperDamageHeatBound = 0.9f;
+        heatDamageBound = 0.9f;
         // Detection coroutine started
         radius = 7f;
         detectionDelay = 0.3f;
         StartCoroutine(DetectionCoroutine());
         // Jump variables
-        jumpForce = 15f; // Higher than player's jump force
+        jumpForce = 20f; // Higher than player's jump force
         rigBody = GetComponent<Rigidbody2D>();
         // Seeker Pointer
         seeker = GetComponent<Seeker>();
         InvokeRepeating("UpdatePath", 0f, .5f);
     }
 
+    // Re-Start path generating per 0.5s 
     void UpdatePath()
     {
         if (seeker.IsDone())
@@ -47,6 +48,7 @@ public class FollowerController : GraffitiController
     {
         base.Update();
 
+        // Flip the renderer
         if(rigBody.velocity.x >= 0.01f)
         {
             transform.localScale = new Vector3(-1f, 1f, 1f);
@@ -57,7 +59,7 @@ public class FollowerController : GraffitiController
         }
     }
 
-    // Method 1.
+    // Method 1. Detecting the player
     IEnumerator DetectionCoroutine()
     {
         yield return new WaitForSeconds(detectionDelay);
@@ -65,7 +67,7 @@ public class FollowerController : GraffitiController
         StartCoroutine(DetectionCoroutine());
     }
 
-    // Method 2. Move Around
+    // Method 2. Follower A* Moving AI
     public override void Move()
     {
         // Catch player
@@ -87,6 +89,7 @@ public class FollowerController : GraffitiController
                 transform.position = Vector2.MoveTowards(transform.position, path.vectorPath[currentWaypoint], speed * Time.deltaTime);
             }
 
+            // Move to the next Way Point
             float distance = Vector2.Distance(rigBody.position, path.vectorPath[currentWaypoint]);
             if(distance < nextWaypointDistance)
             {
@@ -113,7 +116,7 @@ public class FollowerController : GraffitiController
         }
     }
 
-    // Method 3.
+    // Method 3. Avoid kicking the player
     private void OnCollisionStay2D(Collision2D collision)
     {
         collideObj = collision.gameObject;

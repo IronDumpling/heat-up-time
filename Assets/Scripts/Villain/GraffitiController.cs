@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GraffitiController : MonoBehaviour
 {
@@ -13,15 +14,16 @@ public class GraffitiController : MonoBehaviour
     protected GameObject collideObj;
     private List<GameObject> collideObjs;
 
-
     // Health System
     public float maxHealth { get; set; }
     public float curHealth { get; set; }
+    public Slider healthBar;
+    public Gradient healthBarGradient;
+    public Image fill;
 
     // Heating System
     public float heatingDamage;
-    public float upperDamageHeatBound;
-    public float lowerDamageHeatBound;
+    public float heatDamageBound;
     [SerializeField]
     public float curHeat;
     public float lowerHeatBound { get; set; }
@@ -54,13 +56,15 @@ public class GraffitiController : MonoBehaviour
         // Health 
         maxHealth = 10;
         curHealth = maxHealth;
+        healthBar.value = curHealth;
+        healthBar.maxValue = maxHealth;
+        fill.color = healthBarGradient.Evaluate(1f);
         // Pointer
         render = GetComponent<SpriteRenderer>();
         collideObjs = new List<GameObject>();
         // Heat
-        heatingDamage = maxHealth/20;
-        upperDamageHeatBound = 0.8f;
-        lowerDamageHeatBound = 0.2f;
+        heatingDamage = maxHealth/10;
+        heatDamageBound = 0.8f;
         // Falling
         fallingBound = -20;
         // Jumping Flag
@@ -72,7 +76,7 @@ public class GraffitiController : MonoBehaviour
         radius = 3f;
         StartCoroutine(DetectionCoroutine());
         // First Lerp
-        SetEnemyColor();
+        ColorLerp(curHeat);
     }
 
     // Update per frame
@@ -80,8 +84,8 @@ public class GraffitiController : MonoBehaviour
     {
         HeatTransferHandler();
         // Heat/Cooling Health Damage
-        if (curHeat >= upperHeatBound * upperDamageHeatBound
-            && curHeat <= upperHeatBound * lowerDamageHeatBound)
+        if (curHeat >= upperHeatBound * heatDamageBound // 150 * 0.8 ~ 150
+            && curHeat <= lowerHeatBound * heatDamageBound) // -150 ~ -150 * 0.8
         {
             ContinousDamage(heatingDamage);
         }
@@ -105,24 +109,21 @@ public class GraffitiController : MonoBehaviour
         collideObjs.Add(collideObj);
         
         // 1.1 Touch Bullet
-        if (collideObj.layer == 8) // 8 is layer of bullets
+        if (collideObj.layer == BULLETS) // 8 is layer of bullets
         {
             float otherHeat = collideObj.GetComponent<BulletController>().bulletHeat;
             float bulletDamage = collideObj.GetComponent<BulletController>().damage;
-
-            if (otherHeat != curHeat)
-            {
-                HeatGain(otherHeat);
-            }
+            HeatGain(otherHeat);
 
             // Direct Health Damage
             Damage(bulletDamage);
         }
 
         // 1.2 Touhch Platforms
-        else if (collideObj.layer == 9) // 9 is layer of platforms
+        else if (collideObj.layer == PLATFORMS) // 9 is layer of platforms
         {
             GetMoveRange(collideObj);
+
             if (collideObj.tag != "SafePlane")
             {
                 float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
@@ -135,7 +136,7 @@ public class GraffitiController : MonoBehaviour
         }
 
         // 1.3 Touhch Villains
-        else if (collideObj.layer == 7) // 7 is layer of villains
+        else if (collideObj.layer == VILLAINS) // 7 is layer of villains
         {
             float otherHeat = collideObj.GetComponent<GraffitiController>().curHeat;
             if (otherHeat != curHeat)
@@ -145,7 +146,7 @@ public class GraffitiController : MonoBehaviour
         }
 
         // 1.4 Touch Player
-        else if (collideObj.layer == 3) // 3 is layer of player
+        else if (collideObj.layer == PLAYER) // 3 is layer of player
         {
             float otherHeat = collideObj.GetComponent<PlayerHeat>().curHeat;
             if (otherHeat != curHeat)
@@ -155,7 +156,7 @@ public class GraffitiController : MonoBehaviour
         }
 
         // Change color of planes and villains
-        SetEnemyColor();
+        ColorLerp(curHeat);
     }
 
     public void OnCollisionExit2D(Collision2D collision){
@@ -166,6 +167,8 @@ public class GraffitiController : MonoBehaviour
     public void Damage(float decreaseValue)
     {
         curHealth -= decreaseValue;
+        healthBar.value = curHealth;
+        fill.color = healthBarGradient.Evaluate(healthBar.normalizedValue);
 
         if (curHealth <= 0)
         {
@@ -177,6 +180,8 @@ public class GraffitiController : MonoBehaviour
     void ContinousDamage(float decreaseValue)
     {
         curHealth -= decreaseValue * Time.deltaTime;
+        healthBar.value = curHealth;
+        fill.color = healthBarGradient.Evaluate(healthBar.normalizedValue);
 
         if (curHealth <= 0)
         {
@@ -204,6 +209,11 @@ public class GraffitiController : MonoBehaviour
         curHeat += otherHeat;
     }
 
+    // Method 7. Color Change
+    public void ColorLerp(float curHeat)
+    {
+        render.color = gradient.Evaluate((curHeat-lowerHeatBound) / (upperHeatBound - lowerHeatBound));
+    }
 
     // Method 8.
     IEnumerator DetectionCoroutine()
@@ -228,7 +238,7 @@ public class GraffitiController : MonoBehaviour
         }
     }
 
-    // Method 10. Move Around
+    // Method 10. Basic Moving AI
     public virtual void Move()
     {
         // Catch player
@@ -260,7 +270,7 @@ public class GraffitiController : MonoBehaviour
         }
     }
 
-    // Method 11. Move Range
+    // Method 11. Move Range on the Platform
     public void GetMoveRange(GameObject obj)
     {
         Vector3 position = obj.GetComponent<Transform>().position;
@@ -272,8 +282,8 @@ public class GraffitiController : MonoBehaviour
         moveIndex = 0;
     }
 
+    // Method 12. Heat Transfer with Multiple players
     void HeatTransferHandler(){
-
         foreach (GameObject collider in collideObjs){
             float otherHeat = 0.0f;
             
@@ -283,7 +293,7 @@ public class GraffitiController : MonoBehaviour
                     break;
 
                 case BULLETS:
-                    Debug.Log(curHeat);
+                    HeatOp.HeatTransfer(ref this.curHeat, collider.GetComponent<BulletController>().bulletHeat);
                     break;
 
                 case PLATFORMS:
@@ -297,14 +307,8 @@ public class GraffitiController : MonoBehaviour
                 default:
                     otherHeat = curHeat;
                     break;
-                
             }
             HeatTransfer(otherHeat);
         }
-    }
-
-    public void SetEnemyColor() {
-        float heatCoeff = HeatOp.HeatCoeff(curHeat, upperHeatBound, lowerHeatBound);
-        HeatOp.ColorLerp(ref render, gradient, heatCoeff);
     }
 }

@@ -10,13 +10,9 @@ public class PlayerHeat : MonoBehaviour
     public float curHeat; /*{ get; set; }*/
     public float minHeat; /*{ get; private set; }*/
     public float maxHeat; /*{ get; private set; }*/
-    public Slider heatBar;
     // Layers
     public LayerMask villainLayer;
     public LayerMask planeLayer;
-    // Heat Bar Color Change
-    public Gradient gradient;
-    public Image fill;
     // Player Color Change
     [SerializeField] 
     private SpriteRenderer render;
