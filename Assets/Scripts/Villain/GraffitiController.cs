@@ -36,6 +36,7 @@ public class GraffitiController : MonoBehaviour
     // Moving
     protected Vector3[] moveRanges = new Vector3[2];
     protected int moveIndex = 0;
+    protected bool notJumped;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -46,19 +47,20 @@ public class GraffitiController : MonoBehaviour
         // Pointer
         render = GetComponent<SpriteRenderer>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-
         // Heat
         heatingDamage = maxHealth/20;
         upperDamageHeatBound = 0.8f;
         lowerDamageHeatBound = 0.2f;
         // Falling
         fallingBound = -20;
+        // Jumping Flag
+        notJumped = true;
         // Attack
-        speed = 1f;
+        speed = 1f; // Slow
         radius = 5f;
         damage = 1;
         // First Lerp
-        ColorLerp(curHeat, upperHeatBound);
+        ColorLerp(curHeat);
     }
 
     // Update per frame
@@ -107,6 +109,7 @@ public class GraffitiController : MonoBehaviour
             if (collideObj.tag != "SafePlane")
             {
                 float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
+                notJumped = true;
                 if (otherHeat != curHeat)
                 {
                     HeatTransfer(otherHeat);
@@ -135,7 +138,7 @@ public class GraffitiController : MonoBehaviour
         }
 
         // Change color of planes and villains
-        ColorLerp(curHeat, upperHeatBound);
+        ColorLerp(curHeat);
     }
 
     // Method 2. Damage Health
@@ -179,9 +182,9 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 7. Color Change
-    public void ColorLerp(float curHeat, float boundHeat)
+    public void ColorLerp(float curHeat)
     {
-        render.color = gradient.Evaluate(curHeat / boundHeat);
+        render.color = gradient.Evaluate((curHeat-lowerHeatBound) / (upperHeatBound - lowerHeatBound));
     }
 
     // Method 8. Move Around
@@ -229,8 +232,8 @@ public class GraffitiController : MonoBehaviour
         float height = obj.GetComponent<SpriteRenderer>().bounds.size.y + GetComponent<SpriteRenderer>().bounds.size.y;
 
 
-        moveRanges[0] = new Vector3(position.x - width/2 + 0.2f, position.y + height/2, 0);
-        moveRanges[1] = new Vector3(position.x + width/2 - 0.2f, position.y + height/2, 0);
+        moveRanges[0] = new Vector3(position.x - width/2, position.y + height/2, 0);
+        moveRanges[1] = new Vector3(position.x + width/2, position.y + height/2, 0);
 
         moveIndex = 0;
     }

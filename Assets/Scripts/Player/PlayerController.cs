@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
 
 
     // Flags
-    public bool isOnPlane;
     public int jumpCount = 2;
     public bool pressJump = false;
     private Transform PlayerGnd;
@@ -96,11 +95,7 @@ public class PlayerController : MonoBehaviour
     void OnPlaneCheck()
     {
         if(Physics2D.OverlapCircle(PlayerGnd.position, 0.1f, planeLayer.value)) {
-            isOnPlane = true;
             jumpCount = 2;
-        }
-        else {
-            isOnPlane=false;
         }
     }
 
