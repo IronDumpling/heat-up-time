@@ -20,12 +20,6 @@ public class GraffitiController : MonoBehaviour
     public float lowerHeatBound { get; set; }
     public float upperHeatBound { get; set; }
 
-    // Attack
-    public float damage;
-    public float speed;
-    public float radius;
-    protected float distance;
-
     // Color Change
     [SerializeField] private SpriteRenderer render;
     public Gradient gradient;
@@ -37,6 +31,12 @@ public class GraffitiController : MonoBehaviour
     protected Vector3[] moveRanges = new Vector3[2];
     protected int moveIndex = 0;
     protected bool notJumped;
+
+    // Attack
+    public float damage;
+    public float speed;
+    public float radius;
+    protected float distance;
 
     // Start is called before the first frame update
     protected virtual void Start()
