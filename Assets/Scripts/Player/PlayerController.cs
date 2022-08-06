@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float timeScale;
-    public float upperTimeScale;
-    public float lowerTimeScale;
+    public float upperTimeScale = 2.5f;
+    public float lowerTimeScale = 0.5f;
 
     // Flags
     public bool isOnPlane;
@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
     void HorizontalMove()
     {
         xInput = Input.GetAxisRaw("Horizontal");
-        rigBody.velocity = new Vector2(xInput * velocity / timeScale, rigBody.velocity.y);
+        rigBody.velocity = new Vector2(xInput * velocity, rigBody.velocity.y);
     }
 
     // Method 2. Plane collision check
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
         if (pressJump) {
             if (jumpCount > 0) {
 
-                rigBody.velocity = new Vector2(rigBody.velocity.x / timeScale, jumpForce);
+                rigBody.velocity = new Vector2(rigBody.velocity.x, jumpForce);
                 jumpCount--;
             }
             pressJump = false;

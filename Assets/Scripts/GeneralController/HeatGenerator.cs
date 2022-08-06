@@ -9,7 +9,11 @@ public class HeatGenerator : MonoBehaviour
     private GameObject[] villains;
     private GameObject player;
 
-    public float maxHeat = 150f;
+    public float maxPlaneHeat = 150f;
+    public float minPlaneHeat = -150f;
+
+    public float maxPlayerHeat = 100f;
+    public float minPlayerHeat = -100f;
 
     // Start is called before the first frame update
     void Awake()
@@ -23,25 +27,50 @@ public class HeatGenerator : MonoBehaviour
         // Hotter Plane Heat Initialise
         foreach (GameObject plane in hotterPlanes)
         {
-            plane.GetComponent<PlaneController>().boundHeat = maxHeat;
-            plane.GetComponent<PlaneController>().curHeat = Random.Range(maxHeat / 2, maxHeat);
+            plane.GetComponent<PlaneController>().maxHeat = maxPlaneHeat;
+            plane.GetComponent<PlaneController>().minHeat = minPlaneHeat;
+            plane.GetComponent<PlaneController>().curHeat = Random.Range(0, maxPlaneHeat);
         }
 
         // Hotter Plane Heat Initialise
         foreach (GameObject plane in colderPlanes)
         {
-            plane.GetComponent<PlaneController>().boundHeat = maxHeat;
-            plane.GetComponent<PlaneController>().curHeat = Random.Range(0f, maxHeat / 2);
+            plane.GetComponent<PlaneController>().maxHeat = maxPlaneHeat;
+            plane.GetComponent<PlaneController>().minHeat = minPlaneHeat;
+            plane.GetComponent<PlaneController>().curHeat = Random.Range(minPlaneHeat, 0f);
         }
 
         // Villains Heat Initialise
         foreach (GameObject villain in villains)
         {
-            villain.GetComponent<GraffitiController>().boundHeat = Random.Range(maxHeat / 2, maxHeat);
+            villain.GetComponent<GraffitiController>().boundHeat = Random.Range(maxPlaneHeat / 2, maxPlaneHeat);
             villain.GetComponent<GraffitiController>().curHeat = Random.Range(0f, villain.GetComponent<GraffitiController>().boundHeat/2);
         }
 
         // Player Initialise
-        player.GetComponent<PlayerHeat>().SetBoundHeat(100f, 0f);
+        player.GetComponent<PlayerHeat>().SetBoundHeat(maxPlayerHeat, minPlayerHeat);
+    }
+}
+public static class HeatTransfer {
+
+    public static float mappingCoeff(float currHeat, float maxHeat, float minHeat) {
+        return (currHeat - minHeat)/(maxHeat - minHeat);    
+    }
+
+    // Method 2. Heat Change
+    public static void HeatTransferLerp(ref float currentHeat, ref float otherHeat) {
+        //curHeat = (curHeat + otherHeat) / 2;
+        //SetCurHeat(curHeat);
+    }
+
+    // Method 3. Shoot Bullet
+    public static void ShootHeat(int bulletHeat) {
+        curHeat -= bulletHeat;
+        SetCurHeat(curHeat);
+    }
+
+    // Method 4. Color Change
+    public static void ColorLerp(float curHeat, float upperBoundHeat, float lowerBoundHeat) {
+        render.color = renderGradient.Evaluate((curHeat - lowerBoundHeat) / (upperBoundHeat - lowerBoundHeat));
     }
 }

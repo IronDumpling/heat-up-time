@@ -18,7 +18,8 @@ public class PlayerHeat : MonoBehaviour
     public Gradient gradient;
     public Image fill;
     // Player Color Change
-    [SerializeField] private SpriteRenderer render;
+    [SerializeField] 
+    private SpriteRenderer render;
     public Gradient renderGradient;
 
     // Start is called before the first frame update
@@ -35,19 +36,22 @@ public class PlayerHeat : MonoBehaviour
         this.upperBoundHeat = upperBoundHeat;
         this.lowerBoundHeat = lowerBoundHeat;
         curHeat = (upperBoundHeat - lowerBoundHeat) / 2;
-        // Heat Bar
-        heatBar.value = curHeat;
-        heatBar.maxValue = upperBoundHeat;
-        // Set Color
-        fill.color = gradient.Evaluate(1f);
+
+        //// Heat Bar
+        //heatBar.value = curHeat;
+        //heatBar.maxValue = upperBoundHeat;
+        //// Set Color
+        //fill.color = gradient.Evaluate(1f);
     }
 
     // Method 1. Set Current Heat
     public void SetCurHeat(float heat)
     {
         heatBar.value = heat;
-        fill.color = gradient.Evaluate(heatBar.normalizedValue);
         ColorLerp(heat, upperBoundHeat, lowerBoundHeat);
+
+        // for heat Bar
+        //fill.color = gradient.Evaluate(heatBar.normalizedValue);
     }
 
     // Method 2. Heat Change

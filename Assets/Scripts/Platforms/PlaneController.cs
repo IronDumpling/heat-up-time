@@ -8,7 +8,8 @@ public class PlaneController : MonoBehaviour
     private GameObject collideObj;
     // Heat Value
     public float curHeat;
-    public float boundHeat;
+    public float maxHeat { get; set; }
+    public float minHeat { get; set; }
     // Layers
     public LayerMask bulletLayer;
     public LayerMask planeLayer;
@@ -25,7 +26,7 @@ public class PlaneController : MonoBehaviour
         render = GetComponent<SpriteRenderer>();
 
         // First Lerp
-        ColorLerp(curHeat, boundHeat);
+        ColorLerp(curHeat, maxHeat);
     }
 
     // Method 1. Get colliding object
@@ -74,7 +75,7 @@ public class PlaneController : MonoBehaviour
         }
 
         // Change color of planes and villains
-        ColorLerp(curHeat, boundHeat);
+        ColorLerp(curHeat, maxHeat);
     }
 
     // Method 2. Heat Transfer
