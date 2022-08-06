@@ -57,7 +57,8 @@ public class PlayerHeat : MonoBehaviour
     // Method 2. Heat Change
     public void HeatTransfer(float otherHeat)
     {
-        curHeat = (curHeat + otherHeat) / 2;
+        float endHeat = (curHeat + otherHeat) / 2;
+        curHeat += (endHeat - curHeat) * Time.deltaTime;
         SetCurHeat(curHeat);
     }
 

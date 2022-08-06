@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 public class DialogSystem : MonoBehaviour
 {
-    [Header("UI组件")]
+    [Header("UI")]
     public Text textLabel;
     public Text Name;
 
-    [Header("文本文件")]
+    [Header("TextFile")]
     public TextAsset textFile;
     public int index;
     public float textSpeed;
@@ -76,13 +76,18 @@ public class DialogSystem : MonoBehaviour
 
         switch (textList[index].Trim()) //显示说话人名
         {
-            case "旁白":
+            case "0":
                 Name.text = "";
                 index++;
                 break;
 
-            case "清道夫":
-                Name.text = "清道夫";
+            case "D":
+                Name.text = "Doodle Robot";
+                index++;
+                break;
+
+            case "H":
+                Name.text = "Human Being";
                 index++;
                 break;
         }

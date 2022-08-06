@@ -4,26 +4,27 @@ using UnityEngine;
 
 public class GraffitiController : MonoBehaviour
 {
+    public const int PLAYER = 3;
+    public const int VILLAINS = 7;
+    public const int BULLETS = 8;
+    public const int PLATFORMS = 9;
+    
     // Component pointers
     private GameObject collideObj;
-    private Transform playerTransform;
+    private List<GameObject> collideObjs;
+
 
     // Health System
-    public float curHealth;
-    public float maxHealth;
+    public float maxHealth { get; set; }
+    public float curHealth { get; set; }
 
     // Heating System
     public float heatingDamage;
-    public float upperHeatBound;
-    public float lowerHeatBound;
-    public float curHeat;
-    public float boundHeat;
-
-    // Attack
-    public float damage;
-    public float speed;
-    public float radius;
-    private float distance;
+    public float upperDamageHeatBound;
+    public float lowerDamageHeatBound;
+    public float curHeat { get; set; }
+    public float lowerHeatBound { get; set; }
+    public float upperHeatBound { get; set; }
 
     // Color Change
     [SerializeField] private SpriteRenderer render;
@@ -33,8 +34,18 @@ public class GraffitiController : MonoBehaviour
     public int fallingBound;
 
     // Moving
-    private Vector3[] moveRanges = new Vector3[2];
-    private int moveIndex = 0;
+    protected Vector3[] moveRanges = new Vector3[2];
+    protected int moveIndex = 0;
+    protected bool notJumped;
+
+    // Attack
+    public float damage;
+    public float speed;
+
+    // Detect Player
+    public float radius;
+    protected GameObject target;
+    public LayerMask detectorLayer;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -44,28 +55,32 @@ public class GraffitiController : MonoBehaviour
         curHealth = maxHealth;
         // Pointer
         render = GetComponent<SpriteRenderer>();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-
+        collideObjs = new List<GameObject>();
         // Heat
         heatingDamage = maxHealth/20;
-        upperHeatBound = 0.8f;
-        lowerHeatBound = 0.2f;
+        upperDamageHeatBound = 0.8f;
+        lowerDamageHeatBound = 0.2f;
         // Falling
         fallingBound = -20;
+        // Jumping Flag
+        notJumped = true;
         // Attack
-        speed = 1f;
-        radius = 5f;
+        speed = 1f; // Slow
         damage = 1;
+        // Detect Player
+        radius = 3f;
+        StartCoroutine(DetectionCoroutine());
         // First Lerp
-        ColorLerp(curHeat, boundHeat);
+        ColorLerp(curHeat);
     }
 
     // Update per frame
     protected virtual void Update()
     {
+        HeatTransferHandler();
         // Heat/Cooling Health Damage
-        if (curHeat >= boundHeat * upperHeatBound
-            && curHeat <= boundHeat * lowerHeatBound)
+        if (curHeat >= upperHeatBound * upperDamageHeatBound
+            && curHeat <= upperHeatBound * lowerDamageHeatBound)
         {
             ContinousDamage(heatingDamage);
         }
@@ -83,7 +98,8 @@ public class GraffitiController : MonoBehaviour
     public void OnCollisionEnter2D(Collision2D collision)
     {
         collideObj = collision.gameObject;
-
+        collideObjs.Add(collideObj);
+        
         // 1.1 Touch Bullet
         if (collideObj.layer == 8) // 8 is layer of bullets
         {
@@ -106,6 +122,7 @@ public class GraffitiController : MonoBehaviour
             if (collideObj.tag != "SafePlane")
             {
                 float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
+                notJumped = true;
                 if (otherHeat != curHeat)
                 {
                     HeatTransfer(otherHeat);
@@ -134,7 +151,11 @@ public class GraffitiController : MonoBehaviour
         }
 
         // Change color of planes and villains
-        ColorLerp(curHeat, boundHeat);
+        ColorLerp(curHeat);
+    }
+
+    public void OnCollisionExit2D(Collision2D collision){
+        collideObjs.Remove(collision.gameObject);
     }
 
     // Method 2. Damage Health
@@ -168,7 +189,9 @@ public class GraffitiController : MonoBehaviour
     // Method 5. Heat Transfer
     void HeatTransfer(float otherHeat)
     {
-        curHeat = (curHeat + otherHeat) / 2;
+        float endHeat = (curHeat + otherHeat) / 2;
+        curHeat += (endHeat - curHeat) * Time.deltaTime;
+    
     }
 
     // Method 6. Heat Gain
@@ -178,60 +201,110 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 7. Color Change
-    public void ColorLerp(float curHeat, float boundHeat)
+    public void ColorLerp(float curHeat)
     {
-        render.color = gradient.Evaluate(curHeat / boundHeat);
+        render.color = gradient.Evaluate((curHeat-lowerHeatBound) / (upperHeatBound - lowerHeatBound));
     }
 
-    // Method 8. Move Around
-    public void Move()
+    // Method 8.
+    IEnumerator DetectionCoroutine()
     {
-        if (playerTransform != null)
-        {
-            distance = (transform.position - playerTransform.position).sqrMagnitude;
+        yield return new WaitForSeconds(0);
+        PerformDetection();
+        StartCoroutine(DetectionCoroutine());
+    }
 
-            // Catch player
-            if (distance < radius)
+    // Method 9.
+    public void PerformDetection()
+    {
+        Collider2D collider = Physics2D.OverlapCircle((Vector2)transform.position, radius, detectorLayer);
+
+        if (collider != null)
+        {
+            target = collider.gameObject;
+        }
+        else
+        {
+            target = null;
+        }
+    }
+
+    // Method 10. Move Around
+    public virtual void Move()
+    {
+        // Catch player
+        if (target &&
+            transform.position.x > moveRanges[0].x &&
+            transform.position.x < moveRanges[1].x)
+        {
+            transform.position = Vector2.MoveTowards(transform.position,
+                                                     target.transform.position,
+                                                     speed * Time.deltaTime);
+        }
+        // Move on the plane 
+        else if(moveRanges != null)
+        {
+            transform.position = Vector2.MoveTowards(transform.position,
+                                                        moveRanges[moveIndex],
+                                                        speed * Time.deltaTime);
+            if(transform.position.x == moveRanges[moveIndex].x)
             {
-                transform.position = Vector2.MoveTowards(transform.position,
-                                                         playerTransform.position,
-                                                         speed * Time.deltaTime);
-            }
-            // Move on the plane 
-            else if(moveRanges != null)
-            {
-                transform.position = Vector2.MoveTowards(transform.position,
-                                                         moveRanges[moveIndex],
-                                                         speed * Time.deltaTime);
-                if(transform.position.x == moveRanges[moveIndex].x)
+                if(moveIndex == 1)
                 {
-                    if(moveIndex == 1)
-                    {
-                        moveIndex--;
-                    }
-                    else
-                    {
-                        moveIndex++;
-                    }
+                    moveIndex--;
+                }
+                else
+                {
+                    moveIndex++;
                 }
             }
         }
     }
 
-    // Method 9. Move Range
+    // Method 11. Move Range
     public void GetMoveRange(GameObject obj)
     {
         Vector3 position = obj.GetComponent<Transform>().position;
         float width = obj.GetComponent<SpriteRenderer>().bounds.size.x;
         float height = obj.GetComponent<SpriteRenderer>().bounds.size.y + GetComponent<SpriteRenderer>().bounds.size.y;
 
-
-        moveRanges[0] = new Vector3(position.x - width/2 + 0.2f, position.y + height/2, 0);
-        moveRanges[1] = new Vector3(position.x + width/2 - 0.2f, position.y + height/2, 0);
-
-        Debug.Log(moveRanges[0]);
-        Debug.Log(moveRanges[1]);
-
+        moveRanges[0] = new Vector3(position.x - width/2, position.y + height/2, 0);
+        moveRanges[1] = new Vector3(position.x + width/2, position.y + height/2, 0);
         moveIndex = 0;
+    }
+
+    void HeatTransferHandler(){
+
+        foreach (GameObject collider in collideObjs){
+            float otherHeat;
+            
+            switch(collider.layer){
+                case PLAYER:
+                    otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
+                    break;
+
+                case VILLAINS:
+                    otherHeat = collider.GetComponent<GraffitiController>().curHeat;
+                    break;
+
+                case BULLETS:
+                    otherHeat = collider.GetComponent<BulletController>().curHeat;
+                    break;
+
+                case PLATFORMS:
+                    if (collider.tag != "SafePlane"){
+                        otherHeat = collider.GetComponent<PlaneController>().curHeat;
+                    }else{
+                        otherHeat = curHeat;
+                    }
+                    break;
+
+                default:
+                    otherHeat = curHeat;
+                    break;
+                
+            }
+            HeatTransfer(otherHeat);
+        }
     }
 }
