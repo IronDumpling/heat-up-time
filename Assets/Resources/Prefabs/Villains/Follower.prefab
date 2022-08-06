@@ -107,6 +107,11 @@ PrefabInstance:
     - {fileID: -3062009395863537287, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
     - {fileID: -6792345948895141570, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
+--- !u!212 &6316235190907769113 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4431335337287122782, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
+  m_PrefabInstance: {fileID: 7699046989736144455}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6316235190907769117 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4431335337287122778, guid: 14d94246c53fd4190b6b4cd8cbca6882, type: 3}
@@ -124,26 +129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb1b42ce97ca741f5a0b7b2425558f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
-  planeLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  villainLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  bulletLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  curHealth: 0
-  maxHealth: 0
   heatingDamage: 0
-  damageBound: 0
-  curHeat: 0
-  boundHeat: 0
-  render: {fileID: 0}
+  upperDamageHeatBound: 0
+  lowerDamageHeatBound: 0
+  render: {fileID: 6316235190907769113}
   gradient:
     serializedVersion: 2
     key0: {r: 0.12941177, g: 0.6156863, b: 0.82745105, a: 1}
@@ -173,6 +162,11 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  lowerBound: 0
+  fallingBound: 0
+  damage: 0
   speed: 0
   radius: 0
+  detectionDelay: 0.3
+  detectorLayer:
+    serializedVersion: 2
+    m_Bits: 8

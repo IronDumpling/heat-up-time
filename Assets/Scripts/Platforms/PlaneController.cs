@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class PlaneController : MonoBehaviour
 {
+    public const int PLAYER = 3;
+    public const int VILLAINS = 7;
+    public const int BULLETS = 8;
+    public const int PLATFORMS = 9;
+    
     // Component pointers
     private GameObject collideObj;
+    
+    private List<GameObject> collideObjs;
     // Heat Value
     public float curHeat;
     public float boundHeat;
-    // Layers
-    public LayerMask bulletLayer;
-    public LayerMask planeLayer;
-    public LayerMask villainLayer;
-    public LayerMask playerLayer;
+    public float ratePerSec;
     // Color Change
     [SerializeField] private SpriteRenderer render;
     public Gradient gradient;
@@ -23,8 +26,15 @@ public class PlaneController : MonoBehaviour
     {
         // Pointers
         render = GetComponent<SpriteRenderer>();
+        collideObjs = new List<GameObject>();
 
         // First Lerp
+        ColorLerp(curHeat, boundHeat);
+    }
+
+    void FixedUpdate()
+    {
+        HeatTransferHandler();
         ColorLerp(curHeat, boundHeat);
     }
 
@@ -33,14 +43,13 @@ public class PlaneController : MonoBehaviour
     {
         collideObj = collision.gameObject;
 
+        collideObjs.Add(collideObj);
         // 1.1 Touch Bullets
         if (collideObj.layer == 8) // 8 is layer of bullets
         {
             float otherHeat = collideObj.GetComponent<BulletController>().curHeat;
-            if (otherHeat != curHeat)
-            {
-                HeatGain(otherHeat);
-            }
+            HeatGain(otherHeat);
+
         }
 
         // 1.2 Touhch Platforms
@@ -77,10 +86,15 @@ public class PlaneController : MonoBehaviour
         ColorLerp(curHeat, boundHeat);
     }
 
+    private void OnCollisionExit2D(Collision2D collision){
+        collideObjs.Remove(collision.gameObject);
+    }
+
     // Method 2. Heat Transfer
     void HeatTransfer(float otherHeat)
     {
-        curHeat = (curHeat + otherHeat) / 2;
+        float endHeat = (curHeat + otherHeat) / 2;
+        curHeat += (endHeat - curHeat) * Time.deltaTime;
     }
 
     // Method 3. Heat Gain
@@ -93,6 +107,41 @@ public class PlaneController : MonoBehaviour
     public void ColorLerp(float curHeat, float boundHeat)
     {
         render.color = gradient.Evaluate(curHeat / boundHeat);
+    }
+
+    void HeatTransferHandler(){
+
+        foreach (GameObject collider in collideObjs){
+            float otherHeat;
+            
+            switch(collider.layer){
+                case PLAYER:
+                    otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
+                    break;
+
+                case VILLAINS:
+                    otherHeat = collider.GetComponent<GraffitiController>().curHeat;
+                    break;
+
+                case BULLETS:
+                    otherHeat = collider.GetComponent<BulletController>().curHeat;
+                    break;
+
+                case PLATFORMS:
+                    if (collider.tag != "SafePlane"){
+                        otherHeat = collider.GetComponent<PlaneController>().curHeat;
+                    }else{
+                        otherHeat = curHeat;
+                    }
+                    break;
+
+                default:
+                    otherHeat = curHeat;
+                    break;
+                
+            }
+            HeatTransfer(otherHeat);
+        }
     }
 }
 
