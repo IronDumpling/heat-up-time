@@ -10,7 +10,7 @@ public class GraffitiController : MonoBehaviour
     public const int PLATFORMS = 9;
     
     // Component pointers
-    private GameObject collideObj;
+    protected GameObject collideObj;
     private List<GameObject> collideObjs;
 
 
@@ -22,7 +22,8 @@ public class GraffitiController : MonoBehaviour
     public float heatingDamage;
     public float upperDamageHeatBound;
     public float lowerDamageHeatBound;
-    public float curHeat { get; set; }
+    [SerializeField]
+    public float curHeat;
     public float lowerHeatBound { get; set; }
     public float upperHeatBound { get; set; }
 
@@ -71,7 +72,7 @@ public class GraffitiController : MonoBehaviour
         radius = 3f;
         StartCoroutine(DetectionCoroutine());
         // First Lerp
-        ColorLerp(curHeat);
+        SetEnemyColor();
     }
 
     // Update per frame
@@ -85,13 +86,16 @@ public class GraffitiController : MonoBehaviour
             ContinousDamage(heatingDamage);
         }
 
-        Move();
-
         // Die Conditions
         if (transform.position.y < fallingBound)
         {
             Die();
         }
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        Move();
     }
 
     // Method 1. Collision
@@ -103,7 +107,7 @@ public class GraffitiController : MonoBehaviour
         // 1.1 Touch Bullet
         if (collideObj.layer == 8) // 8 is layer of bullets
         {
-            float otherHeat = collideObj.GetComponent<BulletController>().curHeat;
+            float otherHeat = collideObj.GetComponent<BulletController>().bulletHeat;
             float bulletDamage = collideObj.GetComponent<BulletController>().damage;
 
             if (otherHeat != curHeat)
@@ -151,7 +155,7 @@ public class GraffitiController : MonoBehaviour
         }
 
         // Change color of planes and villains
-        ColorLerp(curHeat);
+        SetEnemyColor();
     }
 
     public void OnCollisionExit2D(Collision2D collision){
@@ -159,7 +163,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 2. Damage Health
-    void Damage(float decreaseValue)
+    public void Damage(float decreaseValue)
     {
         curHealth -= decreaseValue;
 
@@ -187,7 +191,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 5. Heat Transfer
-    void HeatTransfer(float otherHeat)
+    public void HeatTransfer(float otherHeat)
     {
         float endHeat = (curHeat + otherHeat) / 2;
         curHeat += (endHeat - curHeat) * Time.deltaTime;
@@ -200,16 +204,11 @@ public class GraffitiController : MonoBehaviour
         curHeat += otherHeat;
     }
 
-    // Method 7. Color Change
-    public void ColorLerp(float curHeat)
-    {
-        render.color = gradient.Evaluate((curHeat-lowerHeatBound) / (upperHeatBound - lowerHeatBound));
-    }
 
     // Method 8.
     IEnumerator DetectionCoroutine()
     {
-        yield return new WaitForSeconds(0);
+        yield return new WaitForSeconds(0.3f);
         PerformDetection();
         StartCoroutine(DetectionCoroutine());
     }
@@ -276,19 +275,15 @@ public class GraffitiController : MonoBehaviour
     void HeatTransferHandler(){
 
         foreach (GameObject collider in collideObjs){
-            float otherHeat;
+            float otherHeat = 0.0f;
             
             switch(collider.layer){
-                case PLAYER:
-                    otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
-                    break;
-
                 case VILLAINS:
                     otherHeat = collider.GetComponent<GraffitiController>().curHeat;
                     break;
 
                 case BULLETS:
-                    otherHeat = collider.GetComponent<BulletController>().curHeat;
+                    Debug.Log(curHeat);
                     break;
 
                 case PLATFORMS:
@@ -306,5 +301,10 @@ public class GraffitiController : MonoBehaviour
             }
             HeatTransfer(otherHeat);
         }
+    }
+
+    public void SetEnemyColor() {
+        float heatCoeff = HeatOp.HeatCoeff(curHeat, upperHeatBound, lowerHeatBound);
+        HeatOp.ColorLerp(ref render, gradient, heatCoeff);
     }
 }

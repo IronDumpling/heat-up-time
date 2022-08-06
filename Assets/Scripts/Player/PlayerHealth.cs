@@ -49,14 +49,14 @@ public class PlayerHealth : MonoBehaviour
     {
         // Decrease Health by heating
         if (this.GetComponent<PlayerHeat>().curHeat >=
-            this.GetComponent<PlayerHeat>().upperBoundHeat * damageBound)
+            this.GetComponent<PlayerHeat>().maxHeat * damageBound)
         {
             ContinousDamage(heatingDamage);
         }
 
         // Increse Health by cooling
         else if (this.GetComponent<PlayerHeat>().curHeat <=
-                 this.GetComponent<PlayerHeat>().upperBoundHeat * recoverBound)
+                 this.GetComponent<PlayerHeat>().maxHeat * recoverBound)
         {
             ContinousRecover(heatingDamage);
         }

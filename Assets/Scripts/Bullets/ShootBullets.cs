@@ -9,23 +9,17 @@ public class ShootBullets : MonoBehaviour
     private Vector3 shootDirection;
     // Bullet Types Pointers
     public GameObject bulletType;
-    public float curHeat;
     // Speed
     public float bulletVelocity;
-    // Bounds
-    public float boundHeat;
-    public float lowMidBound;
-    public float midHighBound;
+
+    [Range(0, 1)]
+    public float bulletHeatPercent = 0.1f;
 
     // Use this for initialization
     void Start()
     {
         mainCamera = Camera.main;
         bulletVelocity = 15f;
-
-        boundHeat = GetComponent<PlayerHeat>().upperBoundHeat;
-        lowMidBound = boundHeat / 3;
-        midHighBound = boundHeat * 2/3;
     }
 
     // Update is called once per frame
@@ -36,29 +30,6 @@ public class ShootBullets : MonoBehaviour
             GetComponent<PlayerHeat>().curHeat > 0)
         {
             Shoot();
-            GetComponent<PlayerHeat>().ShootHeat(bulletType.
-                GetComponent<BulletController>().curHeat);
-        }
-
-        // Switch Bullet Types
-        curHeat = GetComponent<PlayerHeat>().curHeat;
-
-        // Low Heat Bullet
-        if(curHeat <= lowMidBound)
-        {
-            bulletType = Resources.Load<GameObject>("Prefabs/Bullets/LowHeatBullet");
-        }
-
-        // High Heat Bullet
-        else if (midHighBound < curHeat)
-        {
-            bulletType = Resources.Load<GameObject>("Prefabs/Bullets/HighHeatBullet");
-        }
-
-        // Mid Heat Bullet
-        else
-        {
-            bulletType = Resources.Load<GameObject>("Prefabs/Bullets/MediumHeatBullet");
         }
     }
 
@@ -78,5 +49,11 @@ public class ShootBullets : MonoBehaviour
         // Shoot to the mouse direction
         bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootDirection.x * bulletVelocity,
                                                                   shootDirection.y * bulletVelocity);
+
+
+        PlayerHeat pH = this.GetComponent<PlayerHeat>();
+        BulletController bH = bullet.GetComponent<BulletController>();
+        bH.bulletHeat = pH.curHeat * bulletHeatPercent;
+        pH.ShootHeat(bH.bulletHeat);
     }
 }

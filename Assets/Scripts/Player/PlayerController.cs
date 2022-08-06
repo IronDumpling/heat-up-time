@@ -25,8 +25,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float timeScale;
-    public float upperTimeScale;
-    public float lowerTimeScale;
+    public float upperTimeScale = 2.5f;
+    public float lowerTimeScale = 0.5f;
 
     // Flags
     public int jumpCount = 2;
@@ -62,8 +62,8 @@ public class PlayerController : MonoBehaviour
     }
 
     void updateTimescaleByPlayerHeat() {
-        timeScale = lowerTimeScale + (plyHeat.upperBoundHeat - plyHeat.curHeat) * 
-            ((upperTimeScale - lowerTimeScale) / (plyHeat.upperBoundHeat - plyHeat.lowerBoundHeat));
+        timeScale = lowerTimeScale + (plyHeat.maxHeat - plyHeat.curHeat) * 
+            ((upperTimeScale - lowerTimeScale) / (plyHeat.maxHeat - plyHeat.minHeat));
 
         if (timeScale < lowerTimeScale) timeScale = lowerTimeScale;
         if (timeScale > upperTimeScale) timeScale = upperTimeScale;
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
     void HorizontalMove()
     {
         xInput = Input.GetAxisRaw("Horizontal");
-        rigBody.velocity = new Vector2(xInput * velocity / timeScale, rigBody.velocity.y);
+        rigBody.velocity = new Vector2(xInput * velocity, rigBody.velocity.y);
     }
 
     // Method 2. Plane collision check
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
         if (pressJump) {
             if (jumpCount > 0) {
 
-                rigBody.velocity = new Vector2(rigBody.velocity.x / timeScale, jumpForce);
+                rigBody.velocity = new Vector2(rigBody.velocity.x, jumpForce);
                 jumpCount--;
             }
             pressJump = false;
@@ -184,7 +184,6 @@ public class PlayerController : MonoBehaviour
 
     // Method 6. 
     static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
-        //Author: Isaac Dart, June-13.
         Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>();
         foreach (Transform t in ts) if (t.gameObject.name == withName) return t.gameObject;
         return null;
@@ -193,21 +192,28 @@ public class PlayerController : MonoBehaviour
     // Method 7. Recoil if collide villains
     public void CollideRecoil(GameObject obj, float damage)
     {
-        if (obj.transform.position.x <= transform.position.x && obj.transform.position.y <= transform.position.y)
+        if (obj.transform.position.x <= transform.position.x && obj.transform.position.y < transform.position.y)
         {
             rigBody.velocity = new Vector2(damage, damage);
         }
-        else if (obj.transform.position.x <= transform.position.x && obj.transform.position.y > transform.position.y)
-        {
-            rigBody.velocity = new Vector2(damage, -damage);
-        }
-        else if (obj.transform.position.x > transform.position.x && obj.transform.position.y <= transform.position.y)
+        else if (obj.transform.position.x > transform.position.x && obj.transform.position.y < transform.position.y)
         {
             rigBody.velocity = new Vector2(-damage, damage);
         }
         else
         {
-            rigBody.velocity = new Vector2(-damage, -damage);
+            if (this.GetComponent<Collider2D>().IsTouchingLayers(3))
+            {
+                rigBody.velocity = new Vector2(-damage * 2, 0);
+            }
+            else if (obj.transform.position.x <= transform.position.x)
+            {
+                rigBody.velocity = new Vector2(damage, -damage);
+            }
+            else
+            {
+                rigBody.velocity = new Vector2(-damage, -damage);
+            }
         }
     }
 
@@ -225,7 +231,7 @@ public class PlayerController : MonoBehaviour
                     break;
 
                 case BULLETS:
-                    otherHeat = collider.GetComponent<BulletController>().curHeat;
+                    otherHeat = collider.GetComponent<BulletController>().bulletHeat;
                     break;
 
                 case PLATFORMS:
