@@ -7,7 +7,7 @@ public class BulletController : MonoBehaviour
     private Collider2D coll;
     public LayerMask planeLayer;
     public LayerMask villainLayer;
-    public int curHeat;
+    public float bulletHeat;
     public float damage;
 
     // Start is called before the first frame update
@@ -16,25 +16,27 @@ public class BulletController : MonoBehaviour
         coll = GetComponent<Collider2D>();
     }
 
-    // FixedUpdate is called once per physics frame
-    void FixedUpdate()
-    {
-        Collide();
-    }
-
     // Method 1. Destroy out of bound
     private void OnBecameInvisible()
     {
         Destroy(gameObject);
     }
 
-    // Method 2. Destroy if collision
-    void Collide()
-    {
-        if (coll.IsTouchingLayers(planeLayer) ||
-            coll.IsTouchingLayers(villainLayer))
-        {
-            Destroy(this.gameObject);
+    private void OnTriggerEnter2D(Collider2D collision) {
+
+        //Platform: Heat Transfer, no dmg
+        //Enemy: Heat Transfer, dmg applied
+
+        PlaneController pC = collision.gameObject.GetComponent<PlaneController>();
+        GraffitiController gC = collision.gameObject.GetComponent<GraffitiController>();
+
+        if (pC != null) {
+            HeatOp.HeatTransfer(ref pC.curHeat, bulletHeat);
         }
+        if (gC != null) {
+            HeatOp.HeatTransfer(ref gC.curHeat, bulletHeat);
+            gC.Damage(damage);
+        }
+        Destroy(gameObject);
     }
 }

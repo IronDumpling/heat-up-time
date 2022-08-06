@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class FollowerController : GraffitiController
 {
@@ -8,27 +9,52 @@ public class FollowerController : GraffitiController
     private float jumpForce;
     public float detectionDelay;
 
+    protected float nextWaypointDistance = 3f;
+    Path path;
+    int currentWaypoint = 0;
+
+    Seeker seeker;
+
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
         // Redefine
         speed = 4.5f; // Fast
+        damage = 1.5f; // Mid
         maxHealth = 20;
         upperDamageHeatBound = 0.9f;
         // Detection coroutine started
-        radius = 5.5f;
-        detectionDelay = 1.5f;
+        radius = 7f;
+        detectionDelay = 0.3f;
         StartCoroutine(DetectionCoroutine());
         // Jump variables
-        jumpForce = 9f; // Higher than player's jump force
+        jumpForce = 15f; // Higher than player's jump force
         rigBody = GetComponent<Rigidbody2D>();
+        // Seeker Pointer
+        seeker = GetComponent<Seeker>();
+        InvokeRepeating("UpdatePath", 0f, .5f);
+    }
+
+    void UpdatePath()
+    {
+        if (seeker.IsDone())
+            seeker.StartPath(rigBody.position, GameObject.FindGameObjectWithTag("Player").transform.position, OnPathComplete);
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
+
+        if(rigBody.velocity.x >= 0.01f)
+        {
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+        }
+        else if (rigBody.velocity.x <= -0.01f)
+        {
+            transform.localScale = new Vector3(1f, 1f, 1f);
+        }
     }
 
     // Method 1.
@@ -45,29 +71,34 @@ public class FollowerController : GraffitiController
         // Catch player
         if (target)
         {
-            // Jump to the player
+            // Check Path Ending or Not 
+            if (path == null) return;
+            if (currentWaypoint >= path.vectorPath.Count) return;
+
             if (notJumped && target.transform.position.y > transform.position.y)
             {
-                rigBody.velocity = new Vector2(rigBody.velocity.x, jumpForce);
+                Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rigBody.position).normalized;
+                Vector2 force = direction * jumpForce;
+                rigBody.AddForce(force);
                 notJumped = false;
-            }
-            else if(transform.position.y == moveRanges[0].y && target.transform.position.y < transform.position.y)
-            {
-                Vector3 tempPosition = new Vector3(target.transform.position.x, transform.position.y, 0);
-                transform.position = Vector2.MoveTowards(transform.position, tempPosition, speed * Time.deltaTime);
             }
             else
             {
-                transform.position = Vector2.MoveTowards(transform.position,
-                    target.transform.position, speed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, path.vectorPath[currentWaypoint], speed * Time.deltaTime);
+            }
+
+            float distance = Vector2.Distance(rigBody.position, path.vectorPath[currentWaypoint]);
+            if(distance < nextWaypointDistance)
+            {
+                currentWaypoint++;
             }
         }
-        // Move on the plane 
+        // Move on the plane slower 
         else if (moveRanges != null)
         {
             transform.position = Vector2.MoveTowards(transform.position,
                                                         moveRanges[moveIndex],
-                                                        speed * Time.deltaTime);
+                                                        speed/2 * Time.deltaTime);
             if (transform.position.x == moveRanges[moveIndex].x)
             {
                 if (moveIndex == 1)
@@ -79,6 +110,34 @@ public class FollowerController : GraffitiController
                     moveIndex++;
                 }
             }
+        }
+    }
+
+    // Method 3.
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        collideObj = collision.gameObject;
+
+        if (collideObj.layer == 3) // 3 is layer of player
+        {
+            float otherHeat = collideObj.GetComponent<PlayerHeat>().curHeat;
+            if (otherHeat != curHeat)
+            {
+                HeatTransfer(otherHeat);
+            }
+            // Collide player and move back
+            collideObj.GetComponent<PlayerController>().CollideRecoil(this.gameObject, damage * 7);
+
+        }
+    }
+
+    // Method 4. If path completed
+    void OnPathComplete(Path p)
+    {
+        if (!p.error)
+        {
+            path = p;
+            currentWaypoint = 0;
         }
     }
 }

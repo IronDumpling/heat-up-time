@@ -7,9 +7,9 @@ public class PlayerHeat : MonoBehaviour
 {
     // Heat Bar
     [SerializeField]
-    public float curHeat { get; set; }
-    public float lowerBoundHeat { get; private set; }
-    public float upperBoundHeat { get; private set; }
+    public float curHeat; /*{ get; set; }*/
+    public float minHeat; /*{ get; private set; }*/
+    public float maxHeat; /*{ get; private set; }*/
     public Slider heatBar;
     // Layers
     public LayerMask villainLayer;
@@ -18,36 +18,24 @@ public class PlayerHeat : MonoBehaviour
     public Gradient gradient;
     public Image fill;
     // Player Color Change
-    [SerializeField] private SpriteRenderer render;
+    [SerializeField] 
+    private SpriteRenderer render;
     public Gradient renderGradient;
 
     // Start is called before the first frame update
     private void Start()
     {
         render = GetComponent<SpriteRenderer>();
-        ColorLerp(curHeat, upperBoundHeat, lowerBoundHeat);
+
+        SetPlayerColor();
     }
 
-    // Method 0. Set Bound Heat
-    public void SetBoundHeat(float upperBoundHeat, float lowerBoundHeat)
+    public void InitalizePlayerHeat(float upperBoundHeat, float lowerBoundHeat)
     {
         // Heat value
-        this.upperBoundHeat = upperBoundHeat;
-        this.lowerBoundHeat = lowerBoundHeat;
-        curHeat = (upperBoundHeat - lowerBoundHeat) / 2;
-        // Heat Bar
-        heatBar.value = curHeat;
-        heatBar.maxValue = upperBoundHeat;
-        // Set Color
-        fill.color = gradient.Evaluate(1f);
-    }
-
-    // Method 1. Set Current Heat
-    public void SetCurHeat(float heat)
-    {
-        heatBar.value = heat;
-        fill.color = gradient.Evaluate(heatBar.normalizedValue);
-        ColorLerp(heat, upperBoundHeat, lowerBoundHeat);
+        this.maxHeat = upperBoundHeat;
+        this.minHeat = lowerBoundHeat;
+        curHeat = (upperBoundHeat - lowerBoundHeat) / 2 + lowerBoundHeat;
     }
 
     // Method 2. Heat Change
@@ -55,19 +43,19 @@ public class PlayerHeat : MonoBehaviour
     {
         float endHeat = (curHeat + otherHeat) / 2;
         curHeat += (endHeat - curHeat) * Time.deltaTime;
-        SetCurHeat(curHeat);
+        SetPlayerColor();
     }
 
     // Method 3. Shoot Bullet
-    public void ShootHeat(int bulletHeat)
+    public void ShootHeat(float bulletHeat)
     {
         curHeat -= bulletHeat;
-        SetCurHeat(curHeat);
+        SetPlayerColor();
     }
 
-    // Method 4. Color Change
-    public void ColorLerp(float curHeat, float upperBoundHeat, float lowerBoundHeat)
-    {
-        render.color = renderGradient.Evaluate((curHeat - lowerBoundHeat) / (upperBoundHeat - lowerBoundHeat));
+    // Method 1. Set Player Color
+    public void SetPlayerColor() {
+        float heatCoeff = HeatOp.HeatCoeff(curHeat, maxHeat, minHeat);
+        HeatOp.ColorLerp(ref render, renderGradient, heatCoeff);
     }
 }
