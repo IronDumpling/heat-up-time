@@ -62,8 +62,8 @@ public class PlayerController : MonoBehaviour
     }
 
     void updateTimescaleByPlayerHeat() {
-        timeScale = lowerTimeScale + (plyHeat.upperBoundHeat - plyHeat.curHeat) * 
-            ((upperTimeScale - lowerTimeScale) / (plyHeat.upperBoundHeat - plyHeat.lowerBoundHeat));
+        timeScale = lowerTimeScale + (plyHeat.maxHeat - plyHeat.curHeat) * 
+            ((upperTimeScale - lowerTimeScale) / (plyHeat.maxHeat - plyHeat.minHeat));
 
         if (timeScale < lowerTimeScale) timeScale = lowerTimeScale;
         if (timeScale > upperTimeScale) timeScale = upperTimeScale;
@@ -184,7 +184,6 @@ public class PlayerController : MonoBehaviour
 
     // Method 6. 
     static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
-        //Author: Isaac Dart, June-13.
         Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>();
         foreach (Transform t in ts) if (t.gameObject.name == withName) return t.gameObject;
         return null;
@@ -225,7 +224,7 @@ public class PlayerController : MonoBehaviour
                     break;
 
                 case BULLETS:
-                    otherHeat = collider.GetComponent<BulletController>().curHeat;
+                    otherHeat = collider.GetComponent<BulletController>().bulletHeat;
                     break;
 
                 case PLATFORMS:

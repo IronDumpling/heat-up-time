@@ -43,34 +43,34 @@ public class HeatGenerator : MonoBehaviour
         // Villains Heat Initialise
         foreach (GameObject villain in villains)
         {
-            villain.GetComponent<GraffitiController>().upperHeatBound = Random.Range(maxHeat / 2, maxHeat);
-            villain.GetComponent<GraffitiController>().curHeat = Random.Range(0f, villain.GetComponent<GraffitiController>().upperHeatBound/2);
+            villain.GetComponent<GraffitiController>().upperHeatBound  = Random.Range(maxPlaneHeat / 2, maxPlaneHeat);
+            villain.GetComponent<GraffitiController>().curHeat = Random.Range(0f, villain.GetComponent<GraffitiController>().upperHeatBound /2);
         }
 
         // Player Initialise
-        player.GetComponent<PlayerHeat>().SetBoundHeat(maxPlayerHeat, minPlayerHeat);
+        player.GetComponent<PlayerHeat>().InitalizePlayerHeat(maxPlayerHeat, minPlayerHeat);
     }
 }
-public static class HeatTransfer {
+public static class HeatOp {
 
-    public static float mappingCoeff(float currHeat, float maxHeat, float minHeat) {
-        return (currHeat - minHeat)/(maxHeat - minHeat);    
+    public static float HeatCoeff(float curHeat, float maxHeat, float minHeat) {
+        return (curHeat - minHeat)/(maxHeat - minHeat);    
     }
 
-    // Method 2. Heat Change
-    public static void HeatTransferLerp(ref float currentHeat, ref float otherHeat) {
-        //curHeat = (curHeat + otherHeat) / 2;
-        //SetCurHeat(curHeat);
+    // Method 2. Heat Balance
+    public static void HeatBalance(ref float srcHeat, ref float targetHeat, float speed) {
+        float tempSrc = Mathf.Lerp(srcHeat, targetHeat, 0.5f * speed * Time.deltaTime);
+        targetHeat = targetHeat - (tempSrc - srcHeat);
+        srcHeat = tempSrc;
     }
 
-    // Method 3. Shoot Bullet
-    public static void ShootHeat(int bulletHeat) {
-        curHeat -= bulletHeat;
-        SetCurHeat(curHeat);
+    // Method 3. Heat Transfer
+    public static void HeatTransfer(ref float currentHeat, float gainAmount) {
+        currentHeat += gainAmount;
     }
 
     // Method 4. Color Change
-    public static void ColorLerp(float curHeat, float upperBoundHeat, float lowerBoundHeat) {
-        render.color = renderGradient.Evaluate((curHeat - lowerBoundHeat) / (upperBoundHeat - lowerBoundHeat));
+    public static void ColorLerp(ref SpriteRenderer rend, Gradient grad, float HeatCoeff) {
+        rend.color = grad.Evaluate(HeatCoeff);
     }
 }

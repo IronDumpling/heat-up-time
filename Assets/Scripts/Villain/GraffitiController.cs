@@ -22,7 +22,8 @@ public class GraffitiController : MonoBehaviour
     public float heatingDamage;
     public float upperDamageHeatBound;
     public float lowerDamageHeatBound;
-    public float curHeat { get; set; }
+    [SerializeField]
+    public float curHeat;
     public float lowerHeatBound { get; set; }
     public float upperHeatBound { get; set; }
 
@@ -103,7 +104,7 @@ public class GraffitiController : MonoBehaviour
         // 1.1 Touch Bullet
         if (collideObj.layer == 8) // 8 is layer of bullets
         {
-            float otherHeat = collideObj.GetComponent<BulletController>().curHeat;
+            float otherHeat = collideObj.GetComponent<BulletController>().bulletHeat;
             float bulletDamage = collideObj.GetComponent<BulletController>().damage;
 
             if (otherHeat != curHeat)
@@ -276,19 +277,15 @@ public class GraffitiController : MonoBehaviour
     void HeatTransferHandler(){
 
         foreach (GameObject collider in collideObjs){
-            float otherHeat;
+            float otherHeat = 0.0f;
             
             switch(collider.layer){
-                case PLAYER:
-                    otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
-                    break;
-
                 case VILLAINS:
                     otherHeat = collider.GetComponent<GraffitiController>().curHeat;
                     break;
 
                 case BULLETS:
-                    otherHeat = collider.GetComponent<BulletController>().curHeat;
+                    HeatOp.HeatTransfer(ref this.curHeat, collider.GetComponent<BulletController>().bulletHeat);
                     break;
 
                 case PLATFORMS:

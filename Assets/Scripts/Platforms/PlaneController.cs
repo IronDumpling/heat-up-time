@@ -35,14 +35,13 @@ public class PlaneController : MonoBehaviour
         render = GetComponent<SpriteRenderer>();
         collideObjs = new List<GameObject>();
 
-        // First Lerp
-        ColorLerp(curHeat, maxHeat);
+        SetPlaneColor();
     }
 
     void FixedUpdate()
     {
-        HeatTransferHandler();
-        ColorLerp(curHeat, boundHeat);
+        //HeatTransferHandler();
+        //SetPlaneColor();
     }
 
     // Method 1. Get colliding object
@@ -54,7 +53,7 @@ public class PlaneController : MonoBehaviour
         // 1.1 Touch Bullets
         if (collideObj.layer == 8) // 8 is layer of bullets
         {
-            float otherHeat = collideObj.GetComponent<BulletController>().curHeat;
+            float otherHeat = collideObj.GetComponent<BulletController>().bulletHeat;
             HeatGain(otherHeat);
 
         }
@@ -90,7 +89,7 @@ public class PlaneController : MonoBehaviour
         }
 
         // Change color of planes and villains
-        ColorLerp(curHeat, maxHeat);
+        SetPlaneColor();
     }
 
     private void OnCollisionExit2D(Collision2D collision){
@@ -110,45 +109,44 @@ public class PlaneController : MonoBehaviour
         curHeat += otherHeat;
     }
 
-    // Method 4. Color Change
-    public void ColorLerp(float curHeat, float boundHeat)
-    {
-        render.color = gradient.Evaluate(curHeat / boundHeat);
-    }
+    //void HeatTransferHandler(){
 
-    void HeatTransferHandler(){
-
-        foreach (GameObject collider in collideObjs){
-            float otherHeat;
+    //    foreach (GameObject collider in collideObjs){
+    //        float otherHeat;
             
-            switch(collider.layer){
-                case PLAYER:
-                    otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
-                    break;
+    //        switch(collider.layer){
+    //            case PLAYER:
+    //                otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
+    //                break;
 
-                case VILLAINS:
-                    otherHeat = collider.GetComponent<GraffitiController>().curHeat;
-                    break;
+    //            case VILLAINS:
+    //                otherHeat = collider.GetComponent<GraffitiController>().curHeat;
+    //                break;
 
-                case BULLETS:
-                    otherHeat = collider.GetComponent<BulletController>().curHeat;
-                    break;
+    //            case BULLETS:
+    //                otherHeat = collider.GetComponent<BulletController>().bulletHeat;
+    //                break;
 
-                case PLATFORMS:
-                    if (collider.tag != "SafePlane"){
-                        otherHeat = collider.GetComponent<PlaneController>().curHeat;
-                    }else{
-                        otherHeat = curHeat;
-                    }
-                    break;
+    //            case PLATFORMS:
+    //                if (collider.tag != "SafePlane"){
+    //                    otherHeat = collider.GetComponent<PlaneController>().curHeat;
+    //                }else{
+    //                    otherHeat = curHeat;
+    //                }
+    //                break;
 
-                default:
-                    otherHeat = curHeat;
-                    break;
+    //            default:
+    //                otherHeat = curHeat;
+    //                break;
                 
-            }
-            HeatTransfer(otherHeat);
-        }
+    //        }
+    //        HeatTransfer(otherHeat);
+    //    }
+    //}
+
+    public void SetPlaneColor() {
+        float heatCoeff = HeatOp.HeatCoeff(curHeat, maxHeat, minHeat);
+        HeatOp.ColorLerp(ref render, gradient, heatCoeff);
     }
 }
 

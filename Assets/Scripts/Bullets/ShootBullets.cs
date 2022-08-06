@@ -12,6 +12,8 @@ public class ShootBullets : MonoBehaviour
     // Speed
     public float bulletVelocity;
 
+    [Range(0, 1)]
+    public float bulletDmgPercent = 0.1f;
 
     // Use this for initialization
     void Start()
@@ -28,7 +30,6 @@ public class ShootBullets : MonoBehaviour
             GetComponent<PlayerHeat>().curHeat > 0)
         {
             Shoot();
-            
         }
     }
 
@@ -49,7 +50,10 @@ public class ShootBullets : MonoBehaviour
         bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootDirection.x * bulletVelocity,
                                                                   shootDirection.y * bulletVelocity);
 
-        GetComponent<PlayerHeat>().ShootHeat(bulletType.
-                GetComponent<BulletController>().curHeat);
+
+        PlayerHeat pH = this.GetComponent<PlayerHeat>();
+        BulletController bH = bullet.GetComponent<BulletController>();
+        bH.bulletHeat = pH.curHeat * bulletDmgPercent;
+        pH.ShootHeat(bH.bulletHeat);
     }
 }
