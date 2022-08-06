@@ -193,21 +193,28 @@ public class PlayerController : MonoBehaviour
     // Method 7. Recoil if collide villains
     public void CollideRecoil(GameObject obj, float damage)
     {
-        if (obj.transform.position.x <= transform.position.x && obj.transform.position.y <= transform.position.y)
+        if (obj.transform.position.x <= transform.position.x && obj.transform.position.y < transform.position.y)
         {
             rigBody.velocity = new Vector2(damage, damage);
         }
-        else if (obj.transform.position.x <= transform.position.x && obj.transform.position.y > transform.position.y)
-        {
-            rigBody.velocity = new Vector2(damage, -damage);
-        }
-        else if (obj.transform.position.x > transform.position.x && obj.transform.position.y <= transform.position.y)
+        else if (obj.transform.position.x > transform.position.x && obj.transform.position.y < transform.position.y)
         {
             rigBody.velocity = new Vector2(-damage, damage);
         }
         else
         {
-            rigBody.velocity = new Vector2(-damage, -damage);
+            if (this.GetComponent<Collider2D>().IsTouchingLayers(3))
+            {
+                rigBody.velocity = new Vector2(-damage * 2, 0);
+            }
+            else if (obj.transform.position.x <= transform.position.x)
+            {
+                rigBody.velocity = new Vector2(damage, -damage);
+            }
+            else
+            {
+                rigBody.velocity = new Vector2(-damage, -damage);
+            }
         }
     }
 
