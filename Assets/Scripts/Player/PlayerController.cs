@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public void SetrigBodyVeloc(Vector2 veloc) { rigBody.velocity = veloc; }
 
     private GameObject collideObj;
-    private List<GameObject> collideObjs;
+    public List<GameObject> collideObjs;
     public LayerMask planeLayer;
     public LayerMask villainLayer;
     // Movement facters
