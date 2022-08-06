@@ -81,8 +81,13 @@ public class DialogSystem : MonoBehaviour
                 index++;
                 break;
 
-            case "A":
-                Name.text = "machine";
+            case "D":
+                Name.text = "Doodle Robot";
+                index++;
+                break;
+
+            case "H":
+                Name.text = "Human Being";
                 index++;
                 break;
         }
