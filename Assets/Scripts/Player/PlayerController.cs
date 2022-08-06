@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public const int PLAYER = 3;
+    public const int VILLAINS = 7;
+    public const int BULLETS = 8;
+    public const int PLATFORMS = 9;
     // Components pointer
     private Rigidbody2D rigBody;
     public Vector2 GetrigBodyVeloc() { return rigBody.velocity; }
     public void SetrigBodyVeloc(Vector2 veloc) { rigBody.velocity = veloc; }
 
     private GameObject collideObj;
+    private List<GameObject> collideObjs;
     public LayerMask planeLayer;
     public LayerMask villainLayer;
     // Movement facters
@@ -37,6 +42,7 @@ public class PlayerController : MonoBehaviour
 
         // Get this Components
         rigBody = GetComponent<Rigidbody2D>();
+        collideObjs = new List<GameObject>();
 
         // Falling Variables
         lowerBound = -20;
@@ -47,6 +53,7 @@ public class PlayerController : MonoBehaviour
         velocity = 2f;
         jumpForce = 7f;
         jumpCount = 2;
+        isOnPlane = false;
         PlayerGnd = getChildGameObject(this.gameObject, "PlayerGnd").transform;
     }
 
@@ -80,6 +87,7 @@ public class PlayerController : MonoBehaviour
 
         HorizontalMove();
         OnPlaneCheck();
+        HeatTransferHandler();
         JumpHandler();
     }
 
@@ -124,6 +132,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         collideObj = collision.gameObject;
+        collideObjs.Add(collideObj);
 
         if (collideObj.layer == 7) // 7 is layer of villains
         {
@@ -156,6 +165,10 @@ public class PlayerController : MonoBehaviour
             lastPlanePosition = collideObj.transform.position;
             lastPlanePosition.y += 0.5f;
         }    
+    }
+
+    private void OnCollisionExit2D(Collision2D collision){
+        collideObjs.Remove(collision.gameObject);
     }
 
     // Method 5. Back to the last collision plane
@@ -192,6 +205,57 @@ public class PlayerController : MonoBehaviour
         {
             rigBody.velocity = new Vector2(-damage, -damage);
         }
+    }
+
+    void HeatTransferHandler(){
+        foreach (GameObject collider in collideObjs){
+            float otherHeat;
+            
+            switch(collider.layer){
+                case PLAYER:
+                    otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
+                    break;
+
+                case VILLAINS:
+                    otherHeat = collider.GetComponent<GraffitiController>().curHeat;
+                    break;
+
+                case BULLETS:
+                    otherHeat = collider.GetComponent<BulletController>().curHeat;
+                    break;
+
+                case PLATFORMS:
+                    if (collider.tag != "SafePlane"){
+                        otherHeat = collider.GetComponent<PlaneController>().curHeat;
+                    }else{
+                        otherHeat = GetComponent<PlayerHeat>().curHeat;
+                    }
+                    break;
+
+                default:
+                    otherHeat = GetComponent<PlayerHeat>().curHeat;
+                    break;
+                
+            }
+            GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
+        }
+        // int numColliders = 10;
+        // Collider2D[] colliders = new Collider2D[numColliders];
+        // ContactFilter2D contactFilter = new ContactFilter2D();
+        // int num = GetComponent<Collider2D>().OverlapCollider(contactFilter, colliders);
+
+        // if (num > 0){
+        //     if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms and not safe plane
+        //     {
+        //         // Heat Change if collide platforms
+        //         float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
+        //         if (otherHeat != GetComponent<PlayerHeat>().curHeat)
+        //         {
+        //             GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
+        //         }
+
+        //     }  
+        // }
     }
 }
 
