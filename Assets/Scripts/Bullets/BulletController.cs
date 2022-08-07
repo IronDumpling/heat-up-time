@@ -30,12 +30,12 @@ public class BulletController : MonoBehaviour
         GraffitiController gC = collision.gameObject.GetComponent<GraffitiController>();
 
         if (hI != null) {
-            Debug.Log(hI);
+            //Debug.Log(hI);
 
             HeatOp.HeatTransfer(ref hI.curHeat, bulletHeat);
         }
         if (gC != null) {
-            Debug.Log(gC);
+            //Debug.Log(gC);
 
 
             gC.Damage(damage);

@@ -28,8 +28,7 @@ public class ShootBullets : MonoBehaviour
     void Update()
     {
         // Shoot Bullet
-        if (Input.GetKeyDown(KeyCode.Mouse0) &&
-            GetComponent<HeatInfo>().curHeat > 0)
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Shoot();
         }

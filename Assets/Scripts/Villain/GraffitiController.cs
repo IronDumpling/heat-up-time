@@ -9,11 +9,9 @@ public class GraffitiController : MonoBehaviour
     public const int VILLAINS = 7;
     public const int BULLETS = 8;
     public const int PLATFORMS = 9;
-    
-    // Component pointers
-    protected GameObject collideObj;
-    protected List<GameObject> collideObjs;
 
+    //HeatInfo
+    HeatInfo hI;
     // Health System
     public float maxHealth { get; set; }
     public float curHealth { get; set; }
@@ -24,15 +22,6 @@ public class GraffitiController : MonoBehaviour
 
     // Heating System
     public float heatingDamage;
-    public float heatDamageBound;
-    [SerializeField]
-    public float curHeat;
-    public float lowerHeatBound { get; set; }
-    public float upperHeatBound { get; set; }
-
-    // Color Change
-    [SerializeField] private SpriteRenderer render;
-    public Gradient gradient;
 
     // Falling
     public int fallingBound;
@@ -61,12 +50,8 @@ public class GraffitiController : MonoBehaviour
         healthBar.maxValue = maxHealth;
         fill.color = healthBarGradient.Evaluate(1f);
         myHealthBar = transform.Find("WorldSpaceUI").gameObject.GetComponent<Canvas>();
-        // Pointer
-        render = GetComponent<SpriteRenderer>();
-        collideObjs = new List<GameObject>();
         // Heat
         heatingDamage = maxHealth/10;
-        heatDamageBound = 0.8f;
         // Falling
         fallingBound = -20;
         // Jumping Flag
@@ -77,15 +62,18 @@ public class GraffitiController : MonoBehaviour
         // Detect Player
         radius = 3f;
         StartCoroutine(DetectionCoroutine());
+
+        hI = GetComponent<HeatInfo>();
     }
 
     // Update per frame
     protected virtual void Update()
     {
         // Heat/Cooling Health Damage
-        if (curHeat >= upperHeatBound * heatDamageBound // 150 * 0.8 ~ 150
-            && curHeat <= lowerHeatBound * heatDamageBound) // -150 ~ -150 * 0.8
+        if (hI.curHeat >= hI.maxHeat || hI.curHeat <= hI.minHeat)
         {
+            Debug.Log(curHealth + "dec val");
+
             ContinousDamage(heatingDamage);
         }
 
@@ -99,10 +87,6 @@ public class GraffitiController : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         Move();
-    }
-
-    public void OnCollisionExit2D(Collision2D collision){
-        collideObjs.Remove(collision.gameObject);
     }
 
     // Method 2. Damage Health
@@ -122,6 +106,7 @@ public class GraffitiController : MonoBehaviour
     // Method 3. Damage Health Continously
     void ContinousDamage(float decreaseValue)
     {
+        hI.DebugLogInfo("ENEMY CONT DMG: ");
         curHealth -= decreaseValue * Time.deltaTime;
         healthBar.value = curHealth;
         fill.color = healthBarGradient.Evaluate(healthBar.normalizedValue);

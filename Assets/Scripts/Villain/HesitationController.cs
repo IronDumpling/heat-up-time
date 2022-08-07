@@ -13,7 +13,6 @@ public class HesitationController : GraffitiController
         speed = 0.3f; // Slow
         damage = 0.5f; // Mid
         maxHealth = 60;
-        heatDamageBound = 0.9f;
     }
 
 

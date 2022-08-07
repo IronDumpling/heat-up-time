@@ -107,6 +107,12 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(-0.4f, 0.4f, 1f);
         }
     }
+    // Back to the last collision plane
+    void BackToPlane()
+    {
+        transform.position = lastPlanePosition;
+        rigBody.velocity = Vector2.zero;
+    }
     //check if player fall out of mapid
     void fallOutOfWorld() {
         // Decrease Health by Falling
@@ -124,7 +130,6 @@ public class PlayerController : MonoBehaviour
     {
         HorizontalMove();
         OnPlaneCheck();
-        //HeatTransferHandler();
         JumpHandler();
     }
 
@@ -142,6 +147,10 @@ public class PlayerController : MonoBehaviour
             jumpCount = 2;
             isGrounded = true;
         }
+        if (Physics2D.OverlapCircle(PlayerGnd.position, 0.1f, villainLayer.value)) {
+            jumpCount = 1;
+            isGrounded = false;
+        }
         else isGrounded = false;
     }
 
@@ -156,112 +165,6 @@ public class PlayerController : MonoBehaviour
             }
             pressJump = false;
         }
-    }
-
-
-    //void HeatTransferHandler() {
-    //    foreach (GameObject collider in collideObjs) {
-    //        float otherHeat;
-
-    //        switch (collider.layer) {
-    //            case PLAYER:
-    //                otherHeat = collider.GetComponent<HeatInfo>().curHeat;
-    //                break;
-
-    //            case VILLAINS:
-    //                otherHeat = collider.GetComponent<GraffitiController>().curHeat;
-    //                break;
-
-    //            case BULLETS:
-    //                otherHeat = collider.GetComponent<BulletController>().bulletHeat;
-    //                break;
-
-    //            case PLATFORMS:
-    //                if (collider.tag != "SafePlane") {
-    //                    otherHeat = collider.GetComponent<PlaneController>().curHeat;
-    //                }
-    //                else {
-    //                    otherHeat = GetComponent<HeatInfo>().curHeat;
-    //                }
-    //                break;
-
-    //            default:
-    //                otherHeat = GetComponent<HeatInfo>().curHeat;
-    //                break;
-
-    //        }
-    //        GetComponent<HeatInfo>().HeatTransfer(otherHeat);
-    //    }
-    //    // int numColliders = 10;
-    //    // Collider2D[] colliders = new Collider2D[numColliders];
-    //    // ContactFilter2D contactFilter = new ContactFilter2D();
-    //    // int num = GetComponent<Collider2D>().OverlapCollider(contactFilter, colliders);
-
-    //    // if (num > 0){
-    //    //     if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms and not safe plane
-    //    //     {
-    //    //         // Heat Change if collide platforms
-    //    //         float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
-    //    //         if (otherHeat != GetComponent<HeatInfo>().curHeat)
-    //    //         {
-    //    //             GetComponent<HeatInfo>().HeatTransfer(otherHeat);
-    //    //         }
-
-    //    //     }  
-    //    // }
-    //}
-
-    
-
-
-    // Method 4. Collision
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    collideObj = collision.gameObject;
-    //    collideObjs.Add(collideObj);
-
-    //    if (collideObj.layer == 7) // 7 is layer of villains
-    //    {
-    //        // Heat Change if collide villains
-    //        float otherHeat = collideObj.GetComponent<GraffitiController>().curHeat; 
-    //        if (otherHeat != GetComponent<HeatInfo>().curHeat)
-    //        {
-    //            GetComponent<HeatInfo>().HeatTransfer(otherHeat);
-    //        }
-
-    //        jumpCount++;
-
-    //        // Health Change if collide villains
-    //        float damage = collideObj.GetComponent<GraffitiController>().damage; 
-    //        GetComponent<PlayerHealth>().Damage(damage);
-    //        CollideRecoil(collideObj, damage * 5);
-    //    }
-
-
-    //    else if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms and not safe plane
-    //    {
-    //        // Heat Change if collide platforms
-    //        float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
-    //        if (otherHeat != GetComponent<HeatInfo>().curHeat)
-    //        {
-    //            GetComponent<HeatInfo>().HeatTransfer(otherHeat);
-    //        }
-
-    //        // Record the last landing place if collide platform
-    //        lastPlanePosition = collideObj.transform.position;
-    //        lastPlanePosition.y += 0.5f;
-    //    }    
-    //}
-
-    //private void OnCollisionExit2D(Collision2D collision){
-    //    collideObjs.Remove(collision.gameObject);
-    //}
-
-    // Method 5. Back to the last collision plane
-    void BackToPlane()
-    {
-        transform.position = lastPlanePosition;
-        rigBody.velocity = Vector2.zero;
     }
 
 
@@ -293,10 +196,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    public void Hurt() {
-        jumpCount = 1;
-    }
 
     ////////////////////// Helper Functions STARTING////////////////////////////
     static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {

@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 3128702517136060106}
   m_Layer: 0
   m_Name: MovingHotterPlane
-  m_TagString: Untagged
+  m_TagString: MovingHotterPlane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -185,7 +185,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4739486289806099076, guid: 652896ca663bb4e0482efe2456dc24cf, type: 3}
       propertyPath: m_TagString
-      value: MovingHotterPlane
+      value: HotterPlane
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4034836397914432178, guid: 652896ca663bb4e0482efe2456dc24cf, type: 3}
@@ -193,11 +193,6 @@ PrefabInstance:
 --- !u!4 &809653979012814570 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2330360321591557202, guid: 652896ca663bb4e0482efe2456dc24cf, type: 3}
-  m_PrefabInstance: {fileID: 3128702515783887544}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &2840615567497637641 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 864839092109526449, guid: 652896ca663bb4e0482efe2456dc24cf, type: 3}
   m_PrefabInstance: {fileID: 3128702515783887544}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7686918851829786684 stripped
@@ -217,51 +212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4fac5150abe584479ea814ee3ae326b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curHeat: 70
-  bulletLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  planeLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  villainLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  boundHeat: 150
-  ratePerSec: 0
-  render: {fileID: 2840615567497637641}
-  gradient:
-    serializedVersion: 2
-    key0: {r: 0.12941177, g: 0.6156863, b: 0.82745105, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
-    key2: {r: 0.78823537, g: 0.20000002, b: 0.15294118, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 32768
-    ctime2: 65535
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_NumColorKeys: 3
-    m_NumAlphaKeys: 2
   speed: 1
   waypoints:
   - {fileID: 3128702516979354281}

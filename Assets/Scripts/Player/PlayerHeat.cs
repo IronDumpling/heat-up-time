@@ -12,14 +12,8 @@ public class PlayerHeat : MonoBehaviour
     void Awake(){
         heatInfo = GetComponent<HeatInfo>();
     }
-    
-    public void InitalizePlayerHeat (float upperBoundHeat, float lowerBoundHeat, float transferSpeed)
-    {
-        // Heat value
-        heatInfo.maxHeat = upperBoundHeat;
-        heatInfo.minHeat = lowerBoundHeat;
-        heatInfo.curHeat = (upperBoundHeat - lowerBoundHeat) / 2 + lowerBoundHeat;
-        heatInfo.heatTransferSpeed = transferSpeed;
+    private void OnCollisionEnter2D(Collision2D collision) {
+        SetPlayerColor();
     }
 
     private void OnCollisionStay2D(Collision2D collision) {

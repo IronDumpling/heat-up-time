@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class HeatInfo : MonoBehaviour
 {
-    bool HEATDEBUG = true;
+    bool HEATDEBUG = false;
 
     public Gradient gradient;
 
     // Heat Bar
-    [HideInInspector] public float curHeat; /*{ get; set; }*/
-    [HideInInspector] public float minHeat; /*{ get; private set; }*/
-    [HideInInspector] public float maxHeat; /*{ get; private set; }*/
-    [HideInInspector] public float heatTransferSpeed = 1f;
+    public float curHeat; /*{ get; set; }*/
+    public float minHeat; /*{ get; private set; }*/
+    public float maxHeat; /*{ get; private set; }*/
+    public float heatTransferSpeed = 1f;
 
 
     // Set Color

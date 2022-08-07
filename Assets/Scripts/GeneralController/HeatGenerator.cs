@@ -14,8 +14,8 @@ public class HeatGenerator : MonoBehaviour {
     public float maxPlayerHeat = 100f;
     public float minPlayerHeat = -100f;
 
-    public float maxEnemyHeat = 80f;
-    public float minEnemyHeat = -80f;
+    public float maxEnemyHeat = 150f;
+    public float minEnemyHeat = -150f;
 
     public float heatTransferSpeed = 15f;
 
@@ -30,23 +30,23 @@ public class HeatGenerator : MonoBehaviour {
         // Hotter Plane Heat Initialise
         foreach (GameObject plane in hotterPlanes) {
             HeatInfo hI = plane.GetComponent<HeatInfo>();
-            hI.setVal(Random.Range(0, maxPlaneHeat), maxPlaneHeat, minPlaneHeat, heatTransferSpeed);
+            hI.setVal(Random.Range(0, maxPlaneHeat), minPlaneHeat, maxPlaneHeat, heatTransferSpeed);
         }
 
         // Hotter Plane Heat Initialise
         foreach (GameObject plane in colderPlanes) {
             HeatInfo hI = plane.GetComponent<HeatInfo>();
-            hI.setVal(Random.Range(minPlaneHeat, 0f), maxPlaneHeat, minPlaneHeat, heatTransferSpeed);
+            hI.setVal(Random.Range(minPlaneHeat, 0f), minPlaneHeat, maxPlaneHeat, heatTransferSpeed);
         }
 
         // Villains Heat Initialise
         foreach (GameObject villain in villains) {
             HeatInfo hI = villain.GetComponent<HeatInfo>();
-            hI.setVal(Random.Range(minEnemyHeat, maxEnemyHeat), maxEnemyHeat, minEnemyHeat, heatTransferSpeed);
+            hI.setVal(Random.Range(minEnemyHeat, maxEnemyHeat), minEnemyHeat, maxEnemyHeat, heatTransferSpeed);
         }
 
         HeatInfo plyH = player.GetComponent<HeatInfo>();
-        plyH.setVal((maxPlayerHeat - minPlayerHeat)/2+minPlayerHeat, maxPlaneHeat, minPlaneHeat, heatTransferSpeed);
+        plyH.setVal(0, minPlayerHeat, maxPlayerHeat, heatTransferSpeed);
     }
 }
 
