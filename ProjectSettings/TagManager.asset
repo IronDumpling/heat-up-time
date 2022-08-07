@@ -9,6 +9,10 @@ TagManager:
   - SafePlane
   - Villain
   - MovingHotterPlane
+  - Graffiti-Villain
+  - Follower-Villain
+  - Hesitation-Villain
+  - HodgeHog-Villain
   layers:
   - Default
   - TransparentFX

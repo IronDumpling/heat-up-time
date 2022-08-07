@@ -44,12 +44,7 @@ public class GraffitiController : MonoBehaviour
     protected virtual void Start()
     {
         // Health 
-        maxHealth = 10;
-        curHealth = maxHealth;
-        healthBar.value = curHealth;
-        healthBar.maxValue = maxHealth;
-        fill.color = healthBarGradient.Evaluate(1f);
-        myHealthBar = transform.Find("WorldSpaceUI").gameObject.GetComponent<Canvas>();
+        SetMaxHealth(20);
         // Heat
         heatingDamage = maxHealth/10;
         // Falling
@@ -72,8 +67,6 @@ public class GraffitiController : MonoBehaviour
         // Heat/Cooling Health Damage
         if (hI.curHeat >= hI.maxHeat || hI.curHeat <= hI.minHeat)
         {
-            Debug.Log(curHealth + "dec val");
-
             ContinousDamage(heatingDamage);
         }
 
@@ -88,9 +81,18 @@ public class GraffitiController : MonoBehaviour
     {
         Move();
     }
-
+   // Method 2.
+    protected void SetMaxHealth(float health)
+    {
+        maxHealth = health;
+        curHealth = maxHealth;
+        healthBar.value = curHealth;
+        healthBar.maxValue = maxHealth;
+        fill.color = healthBarGradient.Evaluate(1f);
+        myHealthBar = transform.Find("WorldSpaceUI").gameObject.GetComponent<Canvas>();
+    }
     // Method 2. Damage Health
-    public void Damage(float decreaseValue)
+    public virtual void Damage(float decreaseValue)
     {
         curHealth -= decreaseValue;
         healthBar.value = curHealth;
@@ -104,9 +106,8 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 3. Damage Health Continously
-    void ContinousDamage(float decreaseValue)
+    protected virtual void ContinousDamage(float decreaseValue)
     {
-        hI.DebugLogInfo("ENEMY CONT DMG: ");
         curHealth -= decreaseValue * Time.deltaTime;
         healthBar.value = curHealth;
         fill.color = healthBarGradient.Evaluate(healthBar.normalizedValue);
@@ -119,7 +120,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 4. Die
-    void Die()
+    public void Die()
     {
         Destroy(this.gameObject);
     }
@@ -181,7 +182,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 11. Move Range on the Platform
-    public void GetMoveRange(GameObject obj)
+    protected virtual void GetMoveRange(GameObject obj)
     {
         Vector3 position = obj.GetComponent<Transform>().position;
         float width = obj.GetComponent<SpriteRenderer>().bounds.size.x;

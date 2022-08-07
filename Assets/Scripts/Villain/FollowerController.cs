@@ -26,7 +26,7 @@ public class FollowerController : GraffitiController
         // Redefine
         speed = 4.5f; // Fast
         damage = 1.5f; // Mid
-        maxHealth = 20;
+        SetMaxHealth(40);
         // Detection coroutine started
         radius = 7f;
         detectionDelay = 0.3f;

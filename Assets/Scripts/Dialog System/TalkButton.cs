@@ -7,9 +7,8 @@ public class TalkButton : MonoBehaviour
     public GameObject Button;
     public GameObject talkUI;
     private GameObject obj;
-
-    [Header("TextFile")]
-    public TextAsset textFile;
+    public TextAsset specifiedtextFile;
+   
     // Start is called before the first frame update
     private void OnCollisionEnter2D(Collision2D other)
 
@@ -29,6 +28,8 @@ public class TalkButton : MonoBehaviour
         if (obj.tag == "Player")
         {
             Button.SetActive(false);
+            talkUI.SetActive(false);
+            talkUI.GetComponent<DialogSystem>().index = 0;
         }
     }
     // Update is called once per frame
@@ -36,8 +37,13 @@ public class TalkButton : MonoBehaviour
     {
         if(Button.activeSelf && Input.GetKeyDown(KeyCode.R))
         {
+            talkUI.GetComponent<DialogSystem>().textFile = specifiedtextFile;
+            if (talkUI.GetComponent<DialogSystem>().index == 0)
+            {
+                talkUI.GetComponent<DialogSystem>().GetTextFormFile(specifiedtextFile);
+            }
             talkUI.SetActive(true);
-           
         }
+ 
     }
 }

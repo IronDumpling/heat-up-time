@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    private Collider2D coll;
     public LayerMask planeLayer;
     public LayerMask villainLayer;
     public float bulletHeat;
@@ -13,7 +12,7 @@ public class BulletController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        coll = GetComponent<Collider2D>();
+
     }
 
     // Method 1. Destroy out of bound
