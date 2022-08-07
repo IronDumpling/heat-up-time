@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 4857289255432136187}
   - component: {fileID: 1621163327663735509}
   - component: {fileID: 8773110569158239355}
-  - component: {fileID: 8779999519826362049}
+  - component: {fileID: -8389255856825978930}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -307,8 +307,8 @@ MonoBehaviour:
   bulletType: {fileID: 4311090050997226157, guid: a80a13707441d4e349dd7e0777e8ee67, type: 3}
   bulletVelocity: 0
   bulletHeatPercent: 0.1
---- !u!61 &8779999519826362049
-BoxCollider2D:
+--- !u!70 &-8389255856825978930
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -316,20 +316,10 @@ BoxCollider2D:
   m_GameObject: {fileID: 8779999519826360639}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9277baed3fa574e5180d3cefc1ccaa11, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.23229468, y: 0.10218245}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.56, y: 2.56}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.7530825, y: 2.3556352}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0.2384919, y: 0.08386925}
+  m_Size: {x: 1.7607877, y: 2.3018816}
+  m_Direction: 0

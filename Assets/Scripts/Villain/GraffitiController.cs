@@ -12,7 +12,7 @@ public class GraffitiController : MonoBehaviour
     
     // Component pointers
     protected GameObject collideObj;
-    private List<GameObject> collideObjs;
+    protected List<GameObject> collideObjs;
 
     // Health System
     public float maxHealth { get; set; }
@@ -72,7 +72,7 @@ public class GraffitiController : MonoBehaviour
         // Jumping Flag
         notJumped = true;
         // Attack
-        speed = 1f; // Slow
+        speed = 1f; // Kind of Slow
         damage = 1;
         // Detect Player
         radius = 3f;
@@ -105,7 +105,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 1. Collision
-    public void OnCollisionEnter2D(Collision2D collision)
+    public virtual void OnCollisionEnter2D(Collision2D collision)
     {
         collideObj = collision.gameObject;
         collideObjs.Add(collideObj);
@@ -208,7 +208,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 6. Heat Gain
-    void HeatGain(float otherHeat)
+    protected void HeatGain(float otherHeat)
     {
         curHeat += otherHeat;
     }
