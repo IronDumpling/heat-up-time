@@ -14,27 +14,35 @@ public class PlayerController : MonoBehaviour
     public void SetrigBodyVeloc(Vector2 veloc) { rigBody.velocity = veloc; }
 
     private GameObject collideObj;
-    public List<GameObject> collideObjs;
+    private List<GameObject> collideObjs;
+
+    [Header("Collision Attribute")]
     public LayerMask planeLayer;
     public LayerMask villainLayer;
-    // Movement facters
+
+    [Header("Movement Attribute")]
     public float velocity;
     public float xInput;
     public float jumpForce;
     public float bulletVelocity;
 
+    [Header("TimeScale Attribute")]
     [SerializeField]
-    private float timeScale;
+    private float TimeScaletoView;
     public float upperTimeScale = 2.5f;
     public float lowerTimeScale = 0.5f;
+    public float slopDecay = 30f;
+
 
     // Flags
-    public int jumpCount = 2;
-    public bool pressJump = false;
+    private int jumpCount = 2;
+    private bool pressJump = false;
+    public bool isGrounded { get; private set; }
+
     private Transform PlayerGnd;
     // Falling Variables
     private int lowerBound;
-    public float fallingDamage;
+    private float fallingDamage;
     private Vector3 lastPlanePosition;
 
     private PlayerHeat plyHeat;
@@ -42,8 +50,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeScale = 1f;
-
         // Get this Components
         rigBody = GetComponent<Rigidbody2D>();
         plyHeat = GetComponent<PlayerHeat>();
@@ -61,47 +67,53 @@ public class PlayerController : MonoBehaviour
         PlayerGnd = getChildGameObject(this.gameObject, "PlayerGnd").transform;
     }
 
-    void updateTimescaleByPlayerHeat() {
-        timeScale = lowerTimeScale + (plyHeat.maxHeat - plyHeat.curHeat) * 
-            ((upperTimeScale - lowerTimeScale) / (plyHeat.maxHeat - plyHeat.minHeat));
-
-        if (timeScale < lowerTimeScale) timeScale = lowerTimeScale;
-        if (timeScale > upperTimeScale) timeScale = upperTimeScale;
-        Time.timeScale = timeScale;
-    }
-
     // Update is called once per frame
     void Update()
     {
         updateTimescaleByPlayerHeat();
-
         TriggerJump();
-
-        // Decrease Health by Falling
-        if (transform.position.y < lowerBound) 
-        {
-            GetComponent<PlayerHealth>().Damage(fallingDamage);
-
-            if (GetComponent<PlayerHealth>().curHealth > 0)
-            {
-                BackToPlane();
-            }
-        }
-
-        // Flip the renderer
-        if (rigBody.velocity.x >= 0.001f)
-        {
-            transform.localScale = new Vector3(0.4f, 0.4f, 1f);
-        }
-        else if (rigBody.velocity.x <= -0.001f)
-        {
-            transform.localScale = new Vector3(-0.4f, 0.4f, 1f);
-        }
+        changeOrientation();
+        fallOutOfWorld();
     }
 
+    float timeScaleHelperFunc(float x) {
+        return -(Mathf.Log(1 / x - 1, (float)System.Math.E)) / slopDecay + 0.5f;
+    }
+    void updateTimescaleByPlayerHeat() {
+
+        float x = 1 - HeatOp.HeatCoeff(plyHeat.curHeat, plyHeat.maxHeat, plyHeat.minHeat);
+        float y = timeScaleHelperFunc(x);
+
+        if (x < 0.5) y = HeatOp.mapBoundary(y, 0, 0.5f, lowerTimeScale, 1);
+        else y = HeatOp.mapBoundary(y, 0.5f, 1, 1, upperTimeScale);
+
+        Time.timeScale = y;
+        TimeScaletoView = y;
+    }
     void TriggerJump() {
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) {
             pressJump = true;
+        }
+    }
+    //adjust character avatar facing 
+    void changeOrientation() {
+        // Flip the renderer
+        if (rigBody.velocity.x >= 0.001f) {
+            transform.localScale = new Vector3(0.4f, 0.4f, 1f);
+        }
+        else if (rigBody.velocity.x <= -0.001f) {
+            transform.localScale = new Vector3(-0.4f, 0.4f, 1f);
+        }
+    }
+    //check if player fall out of mapid
+    void fallOutOfWorld() {
+        // Decrease Health by Falling
+        if (transform.position.y < lowerBound) {
+            GetComponent<PlayerHealth>().Damage(fallingDamage);
+
+            if (GetComponent<PlayerHealth>().curHealth > 0) {
+                BackToPlane();
+            }
         }
     }
 
@@ -124,9 +136,11 @@ public class PlayerController : MonoBehaviour
     // Method 2. Plane collision check
     void OnPlaneCheck()
     {
-        if(Physics2D.OverlapCircle(PlayerGnd.position, 0.1f, planeLayer.value)) {
+        if (Physics2D.OverlapCircle(PlayerGnd.position, 0.1f, planeLayer.value)) {
             jumpCount = 2;
+            isGrounded = true;
         }
+        else isGrounded = false;
     }
 
     // Method 3. Jump
@@ -142,6 +156,60 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    void HeatTransferHandler() {
+        foreach (GameObject collider in collideObjs) {
+            float otherHeat;
+
+            switch (collider.layer) {
+                case PLAYER:
+                    otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
+                    break;
+
+                case VILLAINS:
+                    otherHeat = collider.GetComponent<GraffitiController>().curHeat;
+                    break;
+
+                case BULLETS:
+                    otherHeat = collider.GetComponent<BulletController>().bulletHeat;
+                    break;
+
+                case PLATFORMS:
+                    if (collider.tag != "SafePlane") {
+                        otherHeat = collider.GetComponent<PlaneController>().curHeat;
+                    }
+                    else {
+                        otherHeat = GetComponent<PlayerHeat>().curHeat;
+                    }
+                    break;
+
+                default:
+                    otherHeat = GetComponent<PlayerHeat>().curHeat;
+                    break;
+
+            }
+            GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
+        }
+        // int numColliders = 10;
+        // Collider2D[] colliders = new Collider2D[numColliders];
+        // ContactFilter2D contactFilter = new ContactFilter2D();
+        // int num = GetComponent<Collider2D>().OverlapCollider(contactFilter, colliders);
+
+        // if (num > 0){
+        //     if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms and not safe plane
+        //     {
+        //         // Heat Change if collide platforms
+        //         float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
+        //         if (otherHeat != GetComponent<PlayerHeat>().curHeat)
+        //         {
+        //             GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
+        //         }
+
+        //     }  
+        // }
+    }
+
+    //private void onCollision
     // Method 4. Collision
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -192,12 +260,6 @@ public class PlayerController : MonoBehaviour
         rigBody.velocity = Vector2.zero;
     }
 
-    // Method 6. 
-    static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
-        Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>();
-        foreach (Transform t in ts) if (t.gameObject.name == withName) return t.gameObject;
-        return null;
-    }
 
     // Method 7. Recoil if collide villains
     public void CollideRecoil(GameObject obj, float damage)
@@ -227,55 +289,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void HeatTransferHandler(){
-        foreach (GameObject collider in collideObjs){
-            float otherHeat;
-            
-            switch(collider.layer){
-                case PLAYER:
-                    otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
-                    break;
 
-                case VILLAINS:
-                    otherHeat = collider.GetComponent<GraffitiController>().curHeat;
-                    break;
 
-                case BULLETS:
-                    otherHeat = collider.GetComponent<BulletController>().bulletHeat;
-                    break;
-
-                case PLATFORMS:
-                    if (collider.tag != "SafePlane"){
-                        otherHeat = collider.GetComponent<PlaneController>().curHeat;
-                    }else{
-                        otherHeat = GetComponent<PlayerHeat>().curHeat;
-                    }
-                    break;
-
-                default:
-                    otherHeat = GetComponent<PlayerHeat>().curHeat;
-                    break;
-                
-            }
-            GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
-        }
-        // int numColliders = 10;
-        // Collider2D[] colliders = new Collider2D[numColliders];
-        // ContactFilter2D contactFilter = new ContactFilter2D();
-        // int num = GetComponent<Collider2D>().OverlapCollider(contactFilter, colliders);
-
-        // if (num > 0){
-        //     if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms and not safe plane
-        //     {
-        //         // Heat Change if collide platforms
-        //         float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
-        //         if (otherHeat != GetComponent<PlayerHeat>().curHeat)
-        //         {
-        //             GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
-        //         }
-
-        //     }  
-        // }
+    ////////////////////// Helper Functions STARTING////////////////////////////
+    static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
+        Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>();
+        foreach (Transform t in ts) if (t.gameObject.name == withName) return t.gameObject;
+        return null;
     }
+
 }
 

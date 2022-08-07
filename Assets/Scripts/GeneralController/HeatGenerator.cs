@@ -55,8 +55,13 @@ public class HeatGenerator : MonoBehaviour {
 
 public static class HeatOp {
 
+    public static float mapBoundary(float value, float from1, float to1, float from2, float to2) {
+        return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+    }
+
+    // Returns value from 0 to 1, Clamp if curHeat exceed boundary
     public static float HeatCoeff(float curHeat, float maxHeat, float minHeat) {
-        return (curHeat - minHeat)/(maxHeat - minHeat);    
+        return Mathf.Clamp((curHeat - minHeat)/(maxHeat - minHeat), 0, 1);    
     }
 
     // Method 2. Heat Balance

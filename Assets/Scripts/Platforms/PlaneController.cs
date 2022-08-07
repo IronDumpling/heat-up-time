@@ -40,8 +40,8 @@ public class PlaneController : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        //HeatTransferHandler();
-        //SetPlaneColor();
+        HeatTransferHandler();
+        SetPlaneColor();
     }
 
     // Method 1. Get colliding object

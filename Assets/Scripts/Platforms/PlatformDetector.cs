@@ -19,7 +19,7 @@ public class PlatformDetector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isGrounded = (playercontroller.collideObjs.Count > 0);
+        isGrounded = playercontroller.isGrounded;
         
         if (!isGrounded){
             check = false;
