@@ -13,9 +13,6 @@ public class PlayerController : MonoBehaviour
     public Vector2 GetrigBodyVeloc() { return rigBody.velocity; }
     public void SetrigBodyVeloc(Vector2 veloc) { rigBody.velocity = veloc; }
 
-    private GameObject collideObj;
-    private List<GameObject> collideObjs;
-
     [Header("Collision Attribute")]
     public LayerMask planeLayer;
     public LayerMask villainLayer;
@@ -26,14 +23,6 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     public float bulletVelocity;
 
-    [Header("TimeScale Attribute")]
-    [SerializeField]
-    private float TimeScaletoView;
-    public float upperTimeScale = 2.5f;
-    public float lowerTimeScale = 0.5f;
-    public float slopDecay = 30f;
-
-    public bool isTimeScaleByHeat = true;
     // Flags
     private int jumpCount = 2;
     private bool pressJump = false;
@@ -45,15 +34,11 @@ public class PlayerController : MonoBehaviour
     private float fallingDamage;
     private Vector3 lastPlanePosition;
 
-    private HeatInfo plyHeat;
-
     // Start is called before the first frame update
     void Start()
     {
         // Get this Components
         rigBody = GetComponent<Rigidbody2D>();
-        plyHeat = GetComponent<HeatInfo>();
-        collideObjs = new List<GameObject>();
         
         // Falling Variables
         lowerBound = -20;
@@ -70,29 +55,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isTimeScaleByHeat)
-            updateTimescaleByPlayerHeat();
         TriggerJump();
         changeOrientation();
         fallOutOfWorld();
     }
 
-    float timeScaleHelperFunc(float x) {
-        return -(Mathf.Log(1 / x - 1, (float)System.Math.E)) / slopDecay + 0.5f;
-    }
-    void updateTimescaleByPlayerHeat() {
 
-        float x = 1 - HeatOp.HeatCoeff(plyHeat.curHeat, plyHeat.maxHeat, plyHeat.minHeat);
-        float y = timeScaleHelperFunc(x);
-
-        if (x < 0.5) y = HeatOp.mapBoundary(y, 0, 0.5f, lowerTimeScale, 1);
-        else y = HeatOp.mapBoundary(y, 0.5f, 1, 1, upperTimeScale);
-
-        y = Mathf.Clamp(y, lowerTimeScale, upperTimeScale);
-
-        Time.timeScale = y;
-        TimeScaletoView = y;
-    }
     void TriggerJump() {
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) {
             pressJump = true;
