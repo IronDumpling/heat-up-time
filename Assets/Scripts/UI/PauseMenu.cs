@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
-    protected GameObject player;
+    protected TimeScaleEditor timeScaleEditor;
     public GameObject pauseMenuUI;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        timeScaleEditor = GameObject.FindObjectOfType<TimeScaleEditor>();
     }
 
     // Update is called once per frame
@@ -32,18 +33,29 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
-        player.GetComponent<PlayerController>().isTimeScaleByHeat = true;
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
+        timeScaleEditor.ReleaseUnsetTimeScale();
         GameIsPaused = false;
     }
 
     public void Pause()
     {
-        // This timescale is caused by Pause, not Heat
-        player.GetComponent<PlayerController>().isTimeScaleByHeat = false;
         pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
+        timeScaleEditor.ForceSetTimeScale(0f);
         GameIsPaused = true;
+    }
+
+    public void ReloadLevel()
+    {
+        timeScaleEditor.ForceSetTimeScale(1f);
+        GameIsPaused = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void LoadHomeMenu()
+    {
+        timeScaleEditor.ReleaseUnsetTimeScale();
+        GameIsPaused = false;
+        SceneManager.LoadScene("HomeMenu");
     }
 }
