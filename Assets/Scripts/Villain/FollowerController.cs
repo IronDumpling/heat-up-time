@@ -26,7 +26,7 @@ public class FollowerController : GraffitiController
         // Redefine
         speed = 4.5f; // Fast
         damage = 1.5f; // Mid
-        maxHealth = 20;
+        maxHealth = 40;
         heatDamageBound = 0.9f;
         // Detection coroutine started
         radius = 7f;
@@ -127,7 +127,7 @@ public class FollowerController : GraffitiController
             float otherHeat = collideObj.GetComponent<PlayerHeat>().curHeat;
             if (otherHeat != curHeat)
             {
-                HeatTransfer(otherHeat);
+                HeatOp.HeatBalance(ref curHeat, ref otherHeat, 2f);
             }
             // Collide player and move back
             collideObj.GetComponent<PlayerController>().CollideRecoil(this.gameObject, damage * 7);

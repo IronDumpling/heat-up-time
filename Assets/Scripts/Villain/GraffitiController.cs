@@ -55,7 +55,7 @@ public class GraffitiController : MonoBehaviour
     protected virtual void Start()
     {
         // Health 
-        maxHealth = 10;
+        maxHealth = 20;
         curHealth = maxHealth;
         healthBar.value = curHealth;
         healthBar.maxValue = maxHealth;
@@ -105,24 +105,13 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 1. Collision
-    public virtual void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         collideObj = collision.gameObject;
         collideObjs.Add(collideObj);
         
-        // 1.1 Touch Bullet
-        if (collideObj.layer == BULLETS) // 8 is layer of bullets
-        {
-            float otherHeat = collideObj.GetComponent<BulletController>().bulletHeat;
-            float bulletDamage = collideObj.GetComponent<BulletController>().damage;
-            HeatGain(otherHeat);
-
-            // Direct Health Damage
-            Damage(bulletDamage);
-        }
-
-        // 1.2 Touhch Platforms
-        else if (collideObj.layer == PLATFORMS) // 9 is layer of platforms
+        // 1.1 Touhch Platforms
+        if (collideObj.layer == PLATFORMS) // 9 is layer of platforms
         {
             GetMoveRange(collideObj);
 
@@ -132,29 +121,32 @@ public class GraffitiController : MonoBehaviour
                 notJumped = true;
                 if (otherHeat != curHeat)
                 {
-                    HeatTransfer(otherHeat);
+                    HeatOp.HeatBalance(ref curHeat, ref otherHeat, 2f);
                 }
             }
         }
 
-        // 1.3 Touhch Villains
+        // 1.2 Touhch Villains
         else if (collideObj.layer == VILLAINS) // 7 is layer of villains
         {
             float otherHeat = collideObj.GetComponent<GraffitiController>().curHeat;
             if (otherHeat != curHeat)
             {
-                HeatTransfer(otherHeat);
+                HeatOp.HeatBalance(ref curHeat, ref otherHeat, 2f);
             }
         }
 
-        // 1.4 Touch Player
+        // 1.3 Touch Player
         else if (collideObj.layer == PLAYER) // 3 is layer of player
         {
             float otherHeat = collideObj.GetComponent<PlayerHeat>().curHeat;
             if (otherHeat != curHeat)
             {
-                HeatTransfer(otherHeat);
+                HeatOp.HeatBalance(ref curHeat, ref otherHeat, 2f);
             }
+
+            // Collide player and move back
+            collideObj.GetComponent<PlayerController>().CollideRecoil(this.gameObject, damage * 5);
         }
 
         // Change color of planes and villains
@@ -166,7 +158,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 2. Damage Health
-    public void Damage(float decreaseValue)
+    public virtual void Damage(float decreaseValue)
     {
         curHealth -= decreaseValue;
         healthBar.value = curHealth;
@@ -180,7 +172,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 3. Damage Health Continously
-    void ContinousDamage(float decreaseValue)
+    protected virtual void ContinousDamage(float decreaseValue)
     {
         curHealth -= decreaseValue * Time.deltaTime;
         healthBar.value = curHealth;
@@ -194,23 +186,9 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 4. Die
-    void Die()
+    protected void Die()
     {
         Destroy(this.gameObject);
-    }
-
-    // Method 5. Heat Transfer
-    public void HeatTransfer(float otherHeat)
-    {
-        float endHeat = (curHeat + otherHeat) / 2;
-        curHeat += (endHeat - curHeat) * Time.deltaTime;
-    
-    }
-
-    // Method 6. Heat Gain
-    protected void HeatGain(float otherHeat)
-    {
-        curHeat += otherHeat;
     }
 
     // Method 7. Color Change
@@ -275,7 +253,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 11. Move Range on the Platform
-    public void GetMoveRange(GameObject obj)
+    protected virtual void GetMoveRange(GameObject obj)
     {
         Vector3 position = obj.GetComponent<Transform>().position;
         float width = obj.GetComponent<SpriteRenderer>().bounds.size.x;
@@ -312,7 +290,7 @@ public class GraffitiController : MonoBehaviour
                     otherHeat = curHeat;
                     break;
             }
-            HeatTransfer(otherHeat);
+            HeatOp.HeatBalance(ref curHeat, ref otherHeat, 2f);
         }
     }
 }
