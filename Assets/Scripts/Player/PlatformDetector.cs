@@ -12,7 +12,7 @@ public class PlatformDetector : MonoBehaviour
     [SerializeField] Transform player;
     [SerializeField] GameObject detailedPlayer;
 
-    bool isConnected = false;
+    public bool isConnected = false;
 
     void Awake(){
         //playercontroller = detailedPlayer.GetComponent<PlayerController>();
@@ -25,6 +25,7 @@ public class PlatformDetector : MonoBehaviour
         //do nothing when the player is already binded
         //might be a problem when touching two platform at the same time
         if (!isConnected){
+            Debug.Log(target.tag);
             switch(target.tag){
                 case "MovingHotterPlane":
                     bindToObject(target);
