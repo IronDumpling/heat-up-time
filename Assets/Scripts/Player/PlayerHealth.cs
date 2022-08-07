@@ -114,7 +114,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     // Method 5. Recover Continously
-    void Recover(float decreaseValue)
+    public void Recover(float decreaseValue)
     {
         if (curHealth <= maxHealth)
         {
