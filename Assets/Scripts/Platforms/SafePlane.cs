@@ -7,7 +7,8 @@ public class SafePlane : MonoBehaviour
     //[SerializeField] GameObject MainCameraObj;
     Camera mainCamera;
     PlayerHealth health;
-    AudioSource music;
+    AudioManager audioManager;
+    public AudioClip bgm;
 
     //camera
     public float cameraEnlargeSpeed = 1f;
@@ -25,6 +26,7 @@ public class SafePlane : MonoBehaviour
     public float delayPaused = 0.5f;
     public float delayPlay = 0.5f;
     public float delayCount = 0f;
+    public float defaultVolume = 1f;
     
 
     bool trigger = false;
@@ -38,9 +40,13 @@ public class SafePlane : MonoBehaviour
         //assume there is only one camera
         GameObject player = GameObject.FindGameObjectsWithTag("Player")[0];
         GameObject MainCameraObj = GameObject.FindGameObjectsWithTag("MainCamera")[0];
+        GameObject audioManagerObj = GameObject.FindGameObjectWithTag("AudioManager");
+
         mainCamera = MainCameraObj.GetComponent<Camera>();
         health = player.GetComponent<PlayerHealth>();
-        music = GetComponent<AudioSource>();
+        audioManager = audioManagerObj.GetComponent<AudioManager>();
+
+        if (bgm == null) Debug.LogAssertion("The safe plane has no bgm");
     }
 
     // Start is called before the first frame update
@@ -57,12 +63,10 @@ public class SafePlane : MonoBehaviour
     //this function second times
     public void playerTrigger(){
         isOn = true; 
-        Debug.Log("Player on safe plane");
     }
 
     public void playerUnTrigger(){
         isOn = false;
-        Debug.Log("Player leave safe plane");
     }
 
     // Update is called once per frame
@@ -114,26 +118,33 @@ public class SafePlane : MonoBehaviour
     }
 
     void adjustMusic(){
+        float curVolume = audioManager.getVolume();
         if (isOn){
             if (!musicIsPlaying){
-                music.Play();
+                
+                //check if curBGM is our bgm
+                if (audioManager.getCurBGM() != bgm){
+                    audioManager.changeBGM(bgm);
+                }
+
+                audioManager.play();
                 musicIsPlaying = true;
                 delayCount = 0f;
-            }else if (music.volume < 1f){
-                music.volume += (1f/delayPlay) * Time.fixedDeltaTime;
-                if (music.volume > 1f)music.volume = 1f; 
+
+            }else if (curVolume < 1f){
+                audioManager.changeVolume(curVolume +(1f/delayPlay) * Time.fixedDeltaTime);
             }
      
         }else if (!isOn && musicIsPlaying){
             
             delayCount += Time.fixedDeltaTime;
 
+            float newVolume = curVolume - (1f/delayPaused) * Time.fixedDeltaTime;
             //gradually reduce the volumn
-            music.volume -= (1f/delayPaused) * Time.fixedDeltaTime;
-            if (music.volume < 0f) music.volume = 0f;
+            audioManager.changeVolume(newVolume);
 
-            if (delayCount >= delayPaused || music.volume <= 0f){
-                music.Pause();
+            if (delayCount >= delayPaused || newVolume <= 0f){
+                audioManager.pause();
                 musicIsPlaying = false;
                 musicIsFinished = true;
                 delayCount = 0f;

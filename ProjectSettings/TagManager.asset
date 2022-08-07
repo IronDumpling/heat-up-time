@@ -10,6 +10,7 @@ TagManager:
   - Villain
   - MovingHotterPlane
   - MovingColderPlane
+  - AudioManager
   layers:
   - Default
   - TransparentFX
