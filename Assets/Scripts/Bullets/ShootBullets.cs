@@ -11,6 +11,7 @@ public class ShootBullets : MonoBehaviour
     public GameObject bulletType;
     // Speed
     public float bulletVelocity;
+    private Vector3 offset;
 
     [Range(0, 1)]
     public float bulletHeatPercent = 0.1f;
@@ -20,14 +21,14 @@ public class ShootBullets : MonoBehaviour
     {
         mainCamera = Camera.main;
         bulletVelocity = 15f;
+        offset = new Vector3(0.1f,-0.2f,0);
     }
 
     // Update is called once per frame
     void Update()
     {
         // Shoot Bullet
-        if (Input.GetKeyDown(KeyCode.Mouse0) &&
-            GetComponent<PlayerHeat>().curHeat > 0)
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Shoot();
         }
@@ -39,11 +40,11 @@ public class ShootBullets : MonoBehaviour
         // Get direction
         mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
-        shootDirection = Vector3.Normalize(mousePosition - transform.position);
+        shootDirection = Vector3.Normalize(mousePosition - transform.position - offset);
 
         // Generate bullet
-        Vector3 bulletPosition = new Vector3(transform.position.x + shootDirection.x,
-            transform.position.y + shootDirection.y, 0);
+        Vector3 bulletPosition = new Vector3(transform.position.x + shootDirection.x + offset.x,
+            transform.position.y + shootDirection.y + offset.y, 0);
         GameObject bullet = Instantiate(bulletType, bulletPosition, Quaternion.Euler(Vector3.zero));
 
         // Shoot to the mouse direction
@@ -53,7 +54,7 @@ public class ShootBullets : MonoBehaviour
 
         PlayerHeat pH = this.GetComponent<PlayerHeat>();
         BulletController bH = bullet.GetComponent<BulletController>();
-        bH.bulletHeat = pH.curHeat * bulletHeatPercent;
+        bH.bulletHeat = pH.heatInfo.curHeat * bulletHeatPercent;
         pH.ShootHeat(bH.bulletHeat);
     }
 }

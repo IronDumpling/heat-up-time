@@ -5,53 +5,40 @@ using UnityEngine.UI;
 
 public class PlayerHeat : MonoBehaviour
 {
-    // Heat Bar
-    [SerializeField]
-    public float curHeat; /*{ get; set; }*/
-    public float minHeat; /*{ get; private set; }*/
-    public float maxHeat; /*{ get; private set; }*/
-    // Layers
-    public LayerMask villainLayer;
-    public LayerMask planeLayer;
-    // Player Color Change
-    [SerializeField] 
-    private SpriteRenderer render;
-    public Gradient renderGradient;
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-        render = GetComponent<SpriteRenderer>();
+    public Image img;
+    public HeatInfo heatInfo;
 
+    void Awake(){
+        heatInfo = GetComponent<HeatInfo>();
+    }
+    private void OnCollisionEnter2D(Collision2D collision) {
         SetPlayerColor();
     }
 
-    public void InitalizePlayerHeat(float upperBoundHeat, float lowerBoundHeat)
-    {
-        // Heat value
-        this.maxHeat = upperBoundHeat;
-        this.minHeat = lowerBoundHeat;
-        curHeat = (upperBoundHeat - lowerBoundHeat) / 2 + lowerBoundHeat;
+    private void OnCollisionStay2D(Collision2D collision) {
+        HeatInfo hI = collision.gameObject.GetComponent<HeatInfo>();
+        if (!hI)return;
+        bool isBalanced = HeatOp.HeatBalance(ref heatInfo.curHeat, ref hI.curHeat, heatInfo.heatTransferSpeed);
+        
+        if (!isBalanced){
+            heatInfo.DebugLogInfo("PlyBalance");
+            SetPlayerColor();
+        }
+        
+        //trigger the target function to change the color, maybe not :)
     }
 
-    // Method 2. Heat Change
-    public void HeatTransfer(float otherHeat)
-    {
-        float endHeat = (curHeat + otherHeat) / 2;
-        curHeat += (endHeat - curHeat) * Time.deltaTime;
-        SetPlayerColor();
-    }
-
-    // Method 3. Shoot Bullet
+    // Shoot Bullet
     public void ShootHeat(float bulletHeat)
     {
-        curHeat -= bulletHeat;
+        heatInfo.curHeat -= bulletHeat;
+        heatInfo.DebugLogInfo("shot");
         SetPlayerColor();
     }
 
-    // Method 1. Set Player Color
     public void SetPlayerColor() {
-        float heatCoeff = HeatOp.HeatCoeff(curHeat, maxHeat, minHeat);
-        HeatOp.ColorLerp(ref render, renderGradient, heatCoeff);
+        heatInfo.DebugLogInfo("setPly");
+        img.color = heatInfo.CalculateColor();
     }
 }

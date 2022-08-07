@@ -24,6 +24,8 @@ public class PlayerHealth : MonoBehaviour
     public int blinks;
     public float time;
 
+    private HeatInfo hI;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -33,7 +35,6 @@ public class PlayerHealth : MonoBehaviour
         // Heating
         heatingDamage = maxHealth / 20;
         damageBound = 0.9f;
-        recoverBound = 0.1f;
 
         // Pointer
         myRenderer = GetComponent<SpriteRenderer>();
@@ -42,22 +43,14 @@ public class PlayerHealth : MonoBehaviour
         // Blink
         blinks = 1;
         time = 0.1f;
+
+        hI = GetComponent<HeatInfo>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Decrease Health by heating
-        if (this.GetComponent<PlayerHeat>().curHeat >=
-            this.GetComponent<PlayerHeat>().maxHeat * damageBound)
-        {
-            ContinousDamage(heatingDamage);
-        }
-
-        // Increse Health by cooling
-        else if (this.GetComponent<PlayerHeat>().curHeat <=
-                 this.GetComponent<PlayerHeat>().maxHeat * recoverBound)
-        {
+        if (hI.curHeat < hI.minHeat * damageBound || hI.curHeat > hI.maxHeat * damageBound) {
             ContinousRecover(heatingDamage);
         }
 

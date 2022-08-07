@@ -59,11 +59,12 @@ GameObject:
   - component: {fileID: 8779999519826360638}
   - component: {fileID: 8779999519826360635}
   - component: {fileID: 8779999519826360633}
+  - component: {fileID: -8389255856825978930}
   - component: {fileID: 5915590320064762088}
   - component: {fileID: 4857289255432136187}
-  - component: {fileID: 1621163327663735509}
   - component: {fileID: 8773110569158239355}
-  - component: {fileID: -8389255856825978930}
+  - component: {fileID: 5798206709763297845}
+  - component: {fileID: 921431881114413159}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -128,7 +129,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 30
-  m_Sprite: {fileID: 21300000, guid: 3cb7469aa6dbea54f9b0e2655082fc16, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 91ba069ff50c64a48941a95df2933048, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -136,7 +137,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &8779999519826360633
@@ -160,6 +161,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!70 &-8389255856825978930
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8779999519826360639}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 9277baed3fa574e5180d3cefc1ccaa11, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.2384919, y: 0.08386925}
+  m_Size: {x: 1.7607877, y: 2.3018816}
+  m_Direction: 0
 --- !u!114 &5915590320064762088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +189,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ac6169ed738d4b959e4ec6cc9e227c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collideObjs: []
   planeLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -183,12 +199,10 @@ MonoBehaviour:
   xInput: 0
   jumpForce: 0
   bulletVelocity: 0
-  timeScale: 0
+  TimeScaletoView: 0
   upperTimeScale: 2
   lowerTimeScale: 0.5
-  jumpCount: 0
-  pressJump: 0
-  fallingDamage: 0
+  slopDecay: 20
 --- !u!114 &4857289255432136187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,7 +254,23 @@ MonoBehaviour:
   myRenderer: {fileID: 8779999519826360635}
   blinks: 0
   time: 0
---- !u!114 &1621163327663735509
+--- !u!114 &8773110569158239355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8779999519826360639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42f15b3dd5db649aca30fb7d55009ec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
+  bulletType: {fileID: 4311090050997226157, guid: a80a13707441d4e349dd7e0777e8ee67, type: 3}
+  bulletVelocity: 0
+  bulletHeatPercent: 0.1
+--- !u!114 &5798206709763297845
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -252,28 +282,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de3a4cadd60454151b4eddecbd1f1b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curHeat: 0
-  minHeat: 0
-  maxHeat: 0
-  villainLayer:
+  img: {fileID: 0}
+  heatInfo: {fileID: 921431881114413159}
+--- !u!114 &921431881114413159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8779999519826360639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2985e89233abe2540949f4f3d62dc73e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gradient:
     serializedVersion: 2
-    m_Bits: 128
-  planeLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  render: {fileID: 8779999519826360635}
-  renderGradient:
-    serializedVersion: 2
-    key0: {r: 0.12941177, g: 0.6156863, b: 0.82745105, a: 1}
+    key0: {r: 0.017515108, g: 0.25991616, b: 0.7735849, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
-    key2: {r: 0.78823537, g: 0.20000002, b: 0.15294118, a: 0}
+    key2: {r: 0.8679245, g: 0.06877886, b: 0.06877886, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 32768
+    ctime1: 31804
     ctime2: 65535
     ctime3: 0
     ctime4: 0
@@ -291,35 +325,7 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
---- !u!114 &8773110569158239355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8779999519826360639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42f15b3dd5db649aca30fb7d55009ec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
-  bulletType: {fileID: 4311090050997226157, guid: a80a13707441d4e349dd7e0777e8ee67, type: 3}
-  bulletVelocity: 0
-  bulletHeatPercent: 0.1
---- !u!70 &-8389255856825978930
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8779999519826360639}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 9277baed3fa574e5180d3cefc1ccaa11, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.2384919, y: 0.08386925}
-  m_Size: {x: 1.7607877, y: 2.3018816}
-  m_Direction: 0
+  curHeat: 0
+  minHeat: 0
+  maxHeat: 0
+  heatTransferSpeed: 1

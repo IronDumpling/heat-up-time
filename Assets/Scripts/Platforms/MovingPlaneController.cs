@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class MovingPlaneController : PlaneController
+public class MovingPlaneController : MonoBehaviour
 {
     
     //constant
@@ -24,15 +24,12 @@ public class MovingPlaneController : PlaneController
         transform.position = Vector3.MoveTowards(transform.position, waypoints[target].position, speed * Time.deltaTime);
     }
 
-    protected override void FixedUpdate()
+    public void FixedUpdate()
     {
         MovingHandler();
-        base.FixedUpdate();
     }
 
     void MovingHandler(){
-        int nextCheckpoint;
-        
         if (transform.position == waypoints[target].position){
             if (target == waypoints.Count - 1){
                 target = 0;
@@ -73,12 +70,4 @@ public class MovingPlaneController : PlaneController
         
 
     }
-    protected override void OnCollisionEnter2D(Collision2D collision)
-    {
-        //change the moving direction backword when hit another platform
-
-        //will other thing be knock out of the way when hit the platform
-        base.OnCollisionEnter2D(collision);
-    }
-
 }
