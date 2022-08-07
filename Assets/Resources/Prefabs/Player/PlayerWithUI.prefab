@@ -588,6 +588,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5798206709763297845, guid: 06e6c221dd6fe4ec78dc72bcd64559c9, type: 3}
+      propertyPath: img
+      value: 
+      objectReference: {fileID: 8484305485572460080}
     - target: {fileID: 7115257189396958654, guid: 06e6c221dd6fe4ec78dc72bcd64559c9, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -608,6 +612,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: dd7e04f87ae1e47be8f3650ec84b0d50, type: 3}
+    - target: {fileID: 8779999519826360635, guid: 06e6c221dd6fe4ec78dc72bcd64559c9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8779999519826360638, guid: 06e6c221dd6fe4ec78dc72bcd64559c9, type: 3}
       propertyPath: m_RootOrder
       value: 2

@@ -11,7 +11,7 @@ public class GraffitiController : MonoBehaviour
     public const int PLATFORMS = 9;
 
     //HeatInfo
-    HeatInfo hI;
+    protected HeatInfo hI;
     // Health System
     public float maxHealth { get; set; }
     public float curHealth { get; set; }

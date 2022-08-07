@@ -26,7 +26,7 @@ public class HodgehogController : GraffitiController
     protected override void Update()
     {
         // Heat/Cooling Health Damage
-        if (curHeat >= upperHeatBound * heatDamageBound) // 150 * 0.8 ~ 150
+        if (hI.curHeat >= hI.maxHeat) // 150 * 0.8 ~ 150
         {
             ContinousDamage(heatingDamage);
         }
@@ -49,21 +49,21 @@ public class HodgehogController : GraffitiController
     // Method 2. Attack player
     protected void Attack(Vector3 shootDirection)
     {
-        if (target)
-        {
-            // Generate bullet
-            Vector3 bulletPosition = new Vector3(transform.position.x + shootDirection.x + offset.x,
-                transform.position.y + shootDirection.y + offset.y, 0);
-            GameObject bullet = Instantiate(bulletType, bulletPosition, Quaternion.Euler(Vector3.zero));
+        // if (target)
+        // {
+        //     // Generate bullet
+        //     Vector3 bulletPosition = new Vector3(transform.position.x + shootDirection.x + offset.x,
+        //         transform.position.y + shootDirection.y + offset.y, 0);
+        //     GameObject bullet = Instantiate(bulletType, bulletPosition, Quaternion.Euler(Vector3.zero));
 
-            // Shoot to the mouse direction
-            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootDirection.x * bulletVelocity,
-                                                                      shootDirection.y * bulletVelocity);
+        //     // Shoot to the mouse direction
+        //     bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootDirection.x * bulletVelocity,
+        //                                                               shootDirection.y * bulletVelocity);
 
-            PlayerHeat pH = this.GetComponent<PlayerHeat>();
-            BulletController bH = bullet.GetComponent<BulletController>();
-            bH.bulletHeat = pH.curHeat /20;
-            pH.ShootHeat(bH.bulletHeat);
-        }
+        //     PlayerHeat pH = this.GetComponent<PlayerHeat>();
+        //     BulletController bH = bullet.GetComponent<BulletController>();
+        //     bH.bulletHeat = pH.curHeat /20;
+        //     pH.ShootHeat(bH.bulletHeat);
+        // }
     }
 }
