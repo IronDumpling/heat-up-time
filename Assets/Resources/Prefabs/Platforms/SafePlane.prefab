@@ -67,6 +67,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: render
+      value: 
+      objectReference: {fileID: 6638298433727368232}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key0.b
+      value: 0.10980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key0.g
+      value: 0.8000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key0.r
+      value: 0.6862745
+      objectReference: {fileID: 0}
     - target: {fileID: 5648929358706995915, guid: 8141d718158d24b1789d9508322a3586, type: 3}
       propertyPath: m_Name
       value: SafePlane
@@ -78,3 +98,28 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -5161810536295640323, guid: 8141d718158d24b1789d9508322a3586, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+--- !u!1 &1286189426894916381 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5648929358706995915, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+  m_PrefabInstance: {fileID: 6898513156925962710}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3167603488545470408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1286189426894916381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b19e0952c4cc7c44ba54c92a31c30ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainCameraObj: {fileID: 0}
+  cameraSizeSpeed: 0
+  cameraFinalSize: 8.8
+--- !u!212 &6638298433727368232 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 262203198670124542, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+  m_PrefabInstance: {fileID: 6898513156925962710}
+  m_PrefabAsset: {fileID: 0}

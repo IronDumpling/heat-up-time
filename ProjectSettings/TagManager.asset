@@ -9,6 +9,7 @@ TagManager:
   - SafePlane
   - Villain
   - MovingHotterPlane
+  - MovingColderPlane
   layers:
   - Default
   - TransparentFX

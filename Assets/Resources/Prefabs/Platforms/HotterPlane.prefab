@@ -67,6 +67,90 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.ctime0
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.ctime1
+      value: 16384
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.ctime2
+      value: 32768
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.ctime3
+      value: 49151
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.ctime4
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key0.b
+      value: 0.5254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key0.g
+      value: 0.20392159
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key0.r
+      value: 0.13333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key1.b
+      value: 0.81568635
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key1.g
+      value: 0.6039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key1.r
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key2.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key2.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key2.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key3.b
+      value: 0.1764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key3.g
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key3.r
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key4.b
+      value: 0.09411766
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key4.g
+      value: 0.18431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.key4.r
+      value: 0.37254903
+      objectReference: {fileID: 0}
+    - target: {fileID: 3479744552253806165, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: gradient.m_NumColorKeys
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5648929358706995915, guid: 8141d718158d24b1789d9508322a3586, type: 3}
       propertyPath: m_Name
       value: HotterPlane
