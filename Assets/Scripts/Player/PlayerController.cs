@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     public float lowerTimeScale = 0.5f;
     public float slopDecay = 30f;
 
-
+    public bool isTimeScaleByHeat = true;
     // Flags
     private int jumpCount = 2;
     private bool pressJump = false;
@@ -70,7 +70,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        updateTimescaleByPlayerHeat();
+        if(isTimeScaleByHeat)
+            updateTimescaleByPlayerHeat();
         TriggerJump();
         changeOrientation();
         fallOutOfWorld();
