@@ -73,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2541226239130057115}
   m_Layer: 9
-  m_Name: MovingColderPlanes (1)
+  m_Name: MovingColderPlanes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
