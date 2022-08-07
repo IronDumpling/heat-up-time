@@ -1888,7 +1888,7 @@ RectTransform:
   m_GameObject: {fileID: 882628365}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 3.5, z: 1}
+  m_LocalScale: {x: 2, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1952714750}
@@ -1942,7 +1942,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 882628368}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1300763338}
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_MethodName: Resume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &882628368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2856,9 +2868,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1300763333}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0212f2ae9a84a4db3a4fd5515dbb96ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 1755aeeaa839b4637b2402c3f4ec743c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseMenuUI: {fileID: 1952714749}
 --- !u!1001 &1301578605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4195,12 +4208,12 @@ GameObject:
   - component: {fileID: 1952714752}
   - component: {fileID: 1952714751}
   m_Layer: 5
-  m_Name: Pause Menu
+  m_Name: PauseMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1952714750
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4235,7 +4248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 0.50980395}
+  m_Color: {r: 0.31132078, g: 0.3098523, b: 0.3098523, a: 0.50980395}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
