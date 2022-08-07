@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    public LayerMask planeLayer;
-    public LayerMask villainLayer;
     public float bulletHeat;
     public float damage;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    public SpecialSkill SPS;
 
     // Method 1. Destroy out of bound
     private void OnBecameInvisible()
@@ -34,9 +28,7 @@ public class BulletController : MonoBehaviour
             HeatOp.HeatTransfer(ref hI.curHeat, bulletHeat);
         }
         if (gC != null) {
-            //Debug.Log(gC);
-
-
+            SPS.SPadd();
             gC.Damage(damage);
         }
         Destroy(gameObject);
