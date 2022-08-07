@@ -186,7 +186,7 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 4. Die
-    protected void Die()
+    public void Die()
     {
         Destroy(this.gameObject);
     }
