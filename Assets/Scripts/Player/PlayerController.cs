@@ -87,6 +87,16 @@ public class PlayerController : MonoBehaviour
                 BackToPlane();
             }
         }
+
+        // Flip the renderer
+        if (rigBody.velocity.x >= 0.001f)
+        {
+            transform.localScale = new Vector3(0.4f, 0.4f, 1f);
+        }
+        else if (rigBody.velocity.x <= -0.001f)
+        {
+            transform.localScale = new Vector3(-0.4f, 0.4f, 1f);
+        }
     }
 
     void TriggerJump() {

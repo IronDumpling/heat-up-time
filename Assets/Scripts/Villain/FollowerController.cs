@@ -9,11 +9,15 @@ public class FollowerController : GraffitiController
     private float jumpForce;
     public float detectionDelay;
 
+    // Path FInder with A*
     protected float nextWaypointDistance = 3f;
     Path path;
     int currentWaypoint = 0;
-
     Seeker seeker;
+
+    // Scale Flip and enlarge
+    private Vector3 normalScale = new Vector3(0.5f, 0.5f, 1f);
+    private Vector3 largeScale = new Vector3(1f, 1f, 1f);
 
     // Start is called before the first frame update
     protected override void Start()
@@ -47,16 +51,6 @@ public class FollowerController : GraffitiController
     protected override void Update()
     {
         base.Update();
-
-        // Flip the renderer
-        if(rigBody.velocity.x >= 0.01f)
-        {
-            transform.localScale = new Vector3(-1f, 1f, 1f);
-        }
-        else if (rigBody.velocity.x <= -0.01f)
-        {
-            transform.localScale = new Vector3(1f, 1f, 1f);
-        }
     }
 
     // Method 1. Detecting the player
@@ -95,6 +89,10 @@ public class FollowerController : GraffitiController
             {
                 currentWaypoint++;
             }
+
+            // Flip the renderer with larger scale
+            transform.localScale = largeScale;
+
         }
         // Move on the plane slower 
         else if (moveRanges != null)
@@ -113,6 +111,9 @@ public class FollowerController : GraffitiController
                     moveIndex++;
                 }
             }
+
+            // Flip the renderer with normal scale
+            transform.localScale = normalScale;
         }
     }
 

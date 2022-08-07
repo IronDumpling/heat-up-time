@@ -20,6 +20,7 @@ public class GraffitiController : MonoBehaviour
     public Slider healthBar;
     public Gradient healthBarGradient;
     public Image fill;
+    protected Canvas myHealthBar;
 
     // Heating System
     public float heatingDamage;
@@ -59,6 +60,7 @@ public class GraffitiController : MonoBehaviour
         healthBar.value = curHealth;
         healthBar.maxValue = maxHealth;
         fill.color = healthBarGradient.Evaluate(1f);
+        myHealthBar = transform.Find("WorldSpaceUI").gameObject.GetComponent<Canvas>();
         // Pointer
         render = GetComponent<SpriteRenderer>();
         collideObjs = new List<GameObject>();
@@ -169,6 +171,7 @@ public class GraffitiController : MonoBehaviour
         curHealth -= decreaseValue;
         healthBar.value = curHealth;
         fill.color = healthBarGradient.Evaluate(healthBar.normalizedValue);
+        myHealthBar.enabled = true;
 
         if (curHealth <= 0)
         {
@@ -182,6 +185,7 @@ public class GraffitiController : MonoBehaviour
         curHealth -= decreaseValue * Time.deltaTime;
         healthBar.value = curHealth;
         fill.color = healthBarGradient.Evaluate(healthBar.normalizedValue);
+        myHealthBar.enabled = true;
 
         if (curHealth <= 0)
         {
@@ -277,8 +281,8 @@ public class GraffitiController : MonoBehaviour
         float width = obj.GetComponent<SpriteRenderer>().bounds.size.x;
         float height = obj.GetComponent<SpriteRenderer>().bounds.size.y + GetComponent<SpriteRenderer>().bounds.size.y;
 
-        moveRanges[0] = new Vector3(position.x - width/2, position.y + height/2, 0);
-        moveRanges[1] = new Vector3(position.x + width/2, position.y + height/2, 0);
+        moveRanges[0] = new Vector3(position.x - width / 2, position.y + height / 2, 0);
+        moveRanges[1] = new Vector3(position.x + width / 2, position.y + height / 2, 0);
         moveIndex = 0;
     }
 
