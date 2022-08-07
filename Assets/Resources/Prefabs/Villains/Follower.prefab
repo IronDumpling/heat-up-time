@@ -14,30 +14,38 @@ PrefabInstance:
     - target: {fileID: 1171166128998232563, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -5177388603050735206, guid: cc35afd292fc349128b36a291fb3a165, type: 3}
+      objectReference: {fileID: 21300000, guid: 13523fd24e5fd444da3efffa1ee41559, type: 3}
+    - target: {fileID: 3319367866082402650, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
+      propertyPath: m_Size.x
+      value: 0.7560108
+      objectReference: {fileID: 0}
+    - target: {fileID: 3319367866082402650, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.07510896
+      objectReference: {fileID: 0}
     - target: {fileID: 3319367866082402650, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
       propertyPath: m_SpriteTilingProperty.border.w
-      value: 0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3319367866082402650, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
       propertyPath: m_SpriteTilingProperty.border.x
-      value: 0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3319367866082402650, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
       propertyPath: m_SpriteTilingProperty.border.y
-      value: 0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3319367866082402650, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
       propertyPath: m_SpriteTilingProperty.border.z
-      value: 0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3319367866082402650, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.984375
+      value: 2.56
       objectReference: {fileID: 0}
     - target: {fileID: 3319367866082402650, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.984375
+      value: 2.56
       objectReference: {fileID: 0}
     - target: {fileID: 4883746652603832775, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
       propertyPath: m_Name
@@ -109,6 +117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5141811494065870130, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
+    - {fileID: 3319367866082402650, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}
 --- !u!212 &1813135938987784869 stripped
 SpriteRenderer:
@@ -192,8 +201,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   fill: {fileID: 6817556993631852786}
   heatingDamage: 0
-  upperDamageHeatBound: 0
-  lowerDamageHeatBound: 0
+  heatDamageBound: 0
   curHeat: 0
   render: {fileID: 1813135938987784869}
   gradient:
@@ -233,6 +241,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   detectionDelay: 0
+--- !u!70 &1454498400671684504
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5381750223510999697}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.052042477, y: -0.17948423}
+  m_Size: {x: 0.6610725, y: 0.96249616}
+  m_Direction: 0
 --- !u!114 &6817556993631852786 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6338129362065085348, guid: 7bfab82820a1741f781446d59f7dcb52, type: 3}

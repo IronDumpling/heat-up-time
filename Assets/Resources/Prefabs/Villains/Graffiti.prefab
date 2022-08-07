@@ -243,7 +243,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4f36f00f229aa4b78bef26e75b449476, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -288,18 +288,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.005159378, y: 0.013468742}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2.56, y: 2.56}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.3955498, y: 1.0987759}
   m_EdgeRadius: 0
 --- !u!114 &5141811494065870130
 MonoBehaviour:
@@ -345,8 +345,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   fill: {fileID: 6338129362065085348}
   heatingDamage: 0
-  upperDamageHeatBound: 0
-  lowerDamageHeatBound: 0
+  heatDamageBound: 0
   curHeat: 0
   render: {fileID: 1171166128998232563}
   gradient:
