@@ -12,13 +12,13 @@ public class DialogSystem : MonoBehaviour
     public TextAsset textFile;
     public int index;
     public float textSpeed;
+    public GameObject obj;
 
-
-
+   
     bool textFinished; //是否完成打字
     bool cancelTyping; //跳过打字
 
-    List<string> textList = new List<string>();
+    public List<string> textList = new List<string>();
 
     // Start is called before the first frame update
     void Awake()
@@ -26,22 +26,27 @@ public class DialogSystem : MonoBehaviour
         GetTextFormFile(textFile);
         index = 0;
     }
+   
     private void OnEnable()
     {
         textFinished = true;
         StartCoroutine(SetTextUI());
     }
 
-    // Update is called once per frame
+ 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && index == textList.Count)
+       
+
+        // Close text box
+        if ((Input.GetKeyDown(KeyCode.R) && index == textList.Count))
         {
             gameObject.SetActive(false);
             index = 0;
             return;
         }
 
+       
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -57,8 +62,7 @@ public class DialogSystem : MonoBehaviour
         }
     }
 
-
-    void GetTextFormFile(TextAsset file)
+    public void GetTextFormFile(TextAsset file)
     {
         textList.Clear();
         index = 0;
@@ -103,8 +107,6 @@ public class DialogSystem : MonoBehaviour
         cancelTyping = false;
         textFinished = true;
         index++;
-
-
     }
 
 }
