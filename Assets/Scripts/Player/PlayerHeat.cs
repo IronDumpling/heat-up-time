@@ -3,42 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHeat : HeatInfo
+public class PlayerHeat : MonoBehaviour
 {
-    public void InitalizePlayerHeat (float upperBoundHeat, float lowerBoundHeat)
+
+    public Image img;
+    public HeatInfo heatInfo;
+
+    void Awake(){
+        heatInfo = GetComponent<HeatInfo>();
+    }
+    
+    public void InitalizePlayerHeat (float upperBoundHeat, float lowerBoundHeat, float transferSpeed)
     {
         // Heat value
-        this.maxHeat = upperBoundHeat;
-        this.minHeat = lowerBoundHeat;
-        curHeat = (upperBoundHeat - lowerBoundHeat) / 2 + lowerBoundHeat;
-    }
-
-    
-    private void OnCollisionEnter2D(Collision2D collision){
-        isHeatBalance = false;
+        heatInfo.maxHeat = upperBoundHeat;
+        heatInfo.minHeat = lowerBoundHeat;
+        heatInfo.curHeat = (upperBoundHeat - lowerBoundHeat) / 2 + lowerBoundHeat;
+        heatInfo.heatTransferSpeed = transferSpeed;
     }
 
     private void OnCollisionStay2D(Collision2D collision) {
-        if (!isHeatBalance) {
-            GameObject target = collision.gameObject;
-            // HeatOp.HeatBalance(curHeat, )
+        HeatInfo hI = collision.gameObject.GetComponent<HeatInfo>();
+        if (!hI)return;
+        bool isBalanced = HeatOp.HeatBalance(ref heatInfo.curHeat, ref hI.curHeat, heatInfo.heatTransferSpeed);
+        
+        if (!isBalanced){
+            heatInfo.DebugLogInfo("PlyBalance");
+            SetPlayerColor();
         }
+        
+        //trigger the target function to change the color, maybe not :)
     }
-
-
-    //// Method 2. Heat Change
-    //public void HeatTransfer(float otherHeat)
-    //{
-    //    float endHeat = (curHeat + otherHeat) / 2;
-    //    curHeat += (endHeat - curHeat) * Time.deltaTime;
-    //    SetPlayerColor();
-    //}
 
     // Shoot Bullet
     public void ShootHeat(float bulletHeat)
     {
-        curHeat -= bulletHeat;
+        heatInfo.curHeat -= bulletHeat;
+        heatInfo.DebugLogInfo("shot");
         SetPlayerColor();
     }
 
+    public void SetPlayerColor() {
+        heatInfo.DebugLogInfo("setPly");
+        img.color = heatInfo.CalculateColor();
+    }
 }

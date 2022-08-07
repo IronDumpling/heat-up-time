@@ -87,6 +87,8 @@ public class PlayerController : MonoBehaviour
         if (x < 0.5) y = HeatOp.mapBoundary(y, 0, 0.5f, lowerTimeScale, 1);
         else y = HeatOp.mapBoundary(y, 0.5f, 1, 1, upperTimeScale);
 
+        y = Mathf.Clamp(y, lowerTimeScale, upperTimeScale);
+
         Time.timeScale = y;
         TimeScaletoView = y;
     }

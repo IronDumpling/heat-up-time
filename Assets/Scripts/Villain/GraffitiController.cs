@@ -77,14 +77,11 @@ public class GraffitiController : MonoBehaviour
         // Detect Player
         radius = 3f;
         StartCoroutine(DetectionCoroutine());
-        // First Lerp
-        ColorLerp(curHeat);
     }
 
     // Update per frame
     protected virtual void Update()
     {
-        HeatTransferHandler();
         // Heat/Cooling Health Damage
         if (curHeat >= upperHeatBound * heatDamageBound // 150 * 0.8 ~ 150
             && curHeat <= lowerHeatBound * heatDamageBound) // -150 ~ -150 * 0.8
@@ -102,63 +99,6 @@ public class GraffitiController : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         Move();
-    }
-
-    // Method 1. Collision
-    public virtual void OnCollisionEnter2D(Collision2D collision)
-    {
-        collideObj = collision.gameObject;
-        collideObjs.Add(collideObj);
-        
-        // 1.1 Touch Bullet
-        if (collideObj.layer == BULLETS) // 8 is layer of bullets
-        {
-            float otherHeat = collideObj.GetComponent<BulletController>().bulletHeat;
-            float bulletDamage = collideObj.GetComponent<BulletController>().damage;
-            HeatGain(otherHeat);
-
-            // Direct Health Damage
-            Damage(bulletDamage);
-        }
-
-        // 1.2 Touhch Platforms
-        else if (collideObj.layer == PLATFORMS) // 9 is layer of platforms
-        {
-            GetMoveRange(collideObj);
-
-            if (collideObj.tag != "SafePlane")
-            {
-                float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
-                notJumped = true;
-                if (otherHeat != curHeat)
-                {
-                    HeatTransfer(otherHeat);
-                }
-            }
-        }
-
-        // 1.3 Touhch Villains
-        else if (collideObj.layer == VILLAINS) // 7 is layer of villains
-        {
-            float otherHeat = collideObj.GetComponent<GraffitiController>().curHeat;
-            if (otherHeat != curHeat)
-            {
-                HeatTransfer(otherHeat);
-            }
-        }
-
-        // 1.4 Touch Player
-        else if (collideObj.layer == PLAYER) // 3 is layer of player
-        {
-            float otherHeat = collideObj.GetComponent<HeatInfo>().curHeat;
-            if (otherHeat != curHeat)
-            {
-                HeatTransfer(otherHeat);
-            }
-        }
-
-        // Change color of planes and villains
-        ColorLerp(curHeat);
     }
 
     public void OnCollisionExit2D(Collision2D collision){
@@ -199,25 +139,6 @@ public class GraffitiController : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    // Method 5. Heat Transfer
-    public void HeatTransfer(float otherHeat)
-    {
-        float endHeat = (curHeat + otherHeat) / 2;
-        curHeat += (endHeat - curHeat) * Time.deltaTime;
-    
-    }
-
-    // Method 6. Heat Gain
-    protected void HeatGain(float otherHeat)
-    {
-        curHeat += otherHeat;
-    }
-
-    // Method 7. Color Change
-    public void ColorLerp(float curHeat)
-    {
-        render.color = gradient.Evaluate((curHeat-lowerHeatBound) / (upperHeatBound - lowerHeatBound));
-    }
 
     // Method 8.
     IEnumerator DetectionCoroutine()
@@ -284,35 +205,5 @@ public class GraffitiController : MonoBehaviour
         moveRanges[0] = new Vector3(position.x - width / 2, position.y + height / 2, 0);
         moveRanges[1] = new Vector3(position.x + width / 2, position.y + height / 2, 0);
         moveIndex = 0;
-    }
-
-    // Method 12. Heat Transfer with Multiple players
-    void HeatTransferHandler(){
-        foreach (GameObject collider in collideObjs){
-            float otherHeat = 0.0f;
-            
-            switch(collider.layer){
-                case VILLAINS:
-                    otherHeat = collider.GetComponent<GraffitiController>().curHeat;
-                    break;
-
-                case BULLETS:
-                    HeatOp.HeatTransfer(ref this.curHeat, collider.GetComponent<BulletController>().bulletHeat);
-                    break;
-
-                case PLATFORMS:
-                    if (collider.tag != "SafePlane"){
-                        otherHeat = collider.GetComponent<PlaneController>().curHeat;
-                    }else{
-                        otherHeat = curHeat;
-                    }
-                    break;
-
-                default:
-                    otherHeat = curHeat;
-                    break;
-            }
-            HeatTransfer(otherHeat);
-        }
     }
 }

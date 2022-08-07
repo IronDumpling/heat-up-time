@@ -22,19 +22,22 @@ public class BulletController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-
+    private void OnCollisionEnter2D(Collision2D collision) {
         //Platform: Heat Transfer, no dmg
         //Enemy: Heat Transfer, dmg applied
 
-        PlaneController pC = collision.gameObject.GetComponent<PlaneController>();
+        HeatInfo hI = collision.gameObject.GetComponent<HeatInfo>();
         GraffitiController gC = collision.gameObject.GetComponent<GraffitiController>();
 
-        if (pC != null) {
-            HeatOp.HeatTransfer(ref pC.curHeat, bulletHeat);
+        if (hI != null) {
+            Debug.Log(hI);
+
+            HeatOp.HeatTransfer(ref hI.curHeat, bulletHeat);
         }
         if (gC != null) {
-            HeatOp.HeatTransfer(ref gC.curHeat, bulletHeat);
+            Debug.Log(gC);
+
+
             gC.Damage(damage);
         }
         Destroy(gameObject);

@@ -117,23 +117,23 @@ public class FollowerController : GraffitiController
         }
     }
 
-    // Method 3. Avoid kicking the player
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        collideObj = collision.gameObject;
+    // // Method 3. Avoid kicking the player
+    // private void OnCollisionStay2D(Collision2D collision)
+    // {
+    //     collideObj = collision.gameObject;
 
-        if (collideObj.layer == 3) // 3 is layer of player
-        {
-            float otherHeat = collideObj.GetComponent<HeatInfo>().curHeat;
-            if (otherHeat != curHeat)
-            {
-                HeatTransfer(otherHeat);
-            }
-            // Collide player and move back
-            collideObj.GetComponent<PlayerController>().CollideRecoil(this.gameObject, damage * 7);
+    //     if (collideObj.layer == 3) // 3 is layer of player
+    //     {
+    //         float otherHeat = collideObj.GetComponent<HeatInfo>().curHeat;
+    //         if (otherHeat != curHeat)
+    //         {
+    //             HeatTransfer(otherHeat);
+    //         }
+    //         // Collide player and move back
+    //         collideObj.GetComponent<PlayerController>().CollideRecoil(this.gameObject, damage * 7);
 
-        }
-    }
+    //     }
+    // }
 
     // Method 4. If path completed
     void OnPathComplete(Path p)

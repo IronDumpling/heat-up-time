@@ -17,6 +17,8 @@ public class HeatGenerator : MonoBehaviour {
     public float maxEnemyHeat = 80f;
     public float minEnemyHeat = -80f;
 
+    public float heatTransferSpeed = 15f;
+
     // Start is called before the first frame update
     void Awake() {
         // Get Plane Lists
@@ -27,27 +29,24 @@ public class HeatGenerator : MonoBehaviour {
 
         // Hotter Plane Heat Initialise
         foreach (GameObject plane in hotterPlanes) {
-            plane.GetComponent<PlaneController>().maxHeat = maxPlaneHeat;
-            plane.GetComponent<PlaneController>().minHeat = minPlaneHeat;
-            plane.GetComponent<PlaneController>().curHeat = Random.Range(0, maxPlaneHeat);
+            HeatInfo hI = plane.GetComponent<HeatInfo>();
+            hI.setVal(Random.Range(0, maxPlaneHeat), maxPlaneHeat, minPlaneHeat, heatTransferSpeed);
         }
 
         // Hotter Plane Heat Initialise
         foreach (GameObject plane in colderPlanes) {
-            plane.GetComponent<PlaneController>().maxHeat = maxPlaneHeat;
-            plane.GetComponent<PlaneController>().minHeat = minPlaneHeat;
-            plane.GetComponent<PlaneController>().curHeat = Random.Range(minPlaneHeat, 0f);
+            HeatInfo hI = plane.GetComponent<HeatInfo>();
+            hI.setVal(Random.Range(minPlaneHeat, 0f), maxPlaneHeat, minPlaneHeat, heatTransferSpeed);
         }
 
         // Villains Heat Initialise
         foreach (GameObject villain in villains) {
-            villain.GetComponent<GraffitiController>().upperHeatBound = maxEnemyHeat;
-            villain.GetComponent<GraffitiController>().lowerHeatBound = minEnemyHeat;
-            villain.GetComponent<GraffitiController>().curHeat = Random.Range(minEnemyHeat, maxEnemyHeat);
-
-            // Player Initialise
-            player.GetComponent<PlayerHeat>().InitalizePlayerHeat(maxPlayerHeat, minPlayerHeat);
+            HeatInfo hI = villain.GetComponent<HeatInfo>();
+            hI.setVal(Random.Range(minEnemyHeat, maxEnemyHeat), maxEnemyHeat, minEnemyHeat, heatTransferSpeed);
         }
+
+        HeatInfo plyH = player.GetComponent<HeatInfo>();
+        plyH.setVal((maxPlayerHeat - minPlayerHeat)/2+minPlayerHeat, maxPlaneHeat, minPlaneHeat, heatTransferSpeed);
     }
 }
 
@@ -64,11 +63,13 @@ public static class HeatOp {
         return Mathf.Clamp((curHeat - minHeat)/(maxHeat - minHeat), 0, 1);    
     }
 
-    // Method 2. Heat Balance
-    public static void HeatBalance(ref float srcHeat, ref float targetHeat, float speed) {
+    // Method 2. Heat Balance, return if is balanced
+    public static bool HeatBalance(ref float srcHeat, ref float targetHeat, float speed) {
+        if(Mathf.Abs(srcHeat - targetHeat) < 0.1f) return true;
         float tempSrc = Mathf.Lerp(srcHeat, targetHeat, 0.5f * speed * Time.deltaTime);
         targetHeat = targetHeat - (tempSrc - srcHeat);
         srcHeat = tempSrc;
+        return false;
     }
 
     // Method 3. Heat Transfer

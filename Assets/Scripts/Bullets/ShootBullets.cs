@@ -53,9 +53,9 @@ public class ShootBullets : MonoBehaviour
                                                                   shootDirection.y * bulletVelocity);
 
 
-        HeatInfo pH = this.GetComponent<HeatInfo>();
+        PlayerHeat pH = this.GetComponent<PlayerHeat>();
         BulletController bH = bullet.GetComponent<BulletController>();
-        bH.bulletHeat = pH.curHeat * bulletHeatPercent;
+        bH.bulletHeat = pH.heatInfo.curHeat * bulletHeatPercent;
         pH.ShootHeat(bH.bulletHeat);
     }
 }
