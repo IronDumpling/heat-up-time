@@ -6,6 +6,9 @@ public class HeatGenerator : MonoBehaviour {
     private GameObject[] hotterPlanes;
     private GameObject[] colderPlanes;
     private GameObject[] villains;
+    private GameObject[] MovingHotterPlanes;
+    private GameObject[] MovingColderPlanes;
+
     private GameObject player;
 
     public float maxPlaneHeat = 150f;
@@ -24,6 +27,8 @@ public class HeatGenerator : MonoBehaviour {
         // Get Plane Lists
         hotterPlanes = GameObject.FindGameObjectsWithTag("HotterPlane");
         colderPlanes = GameObject.FindGameObjectsWithTag("ColderPlane");
+        MovingHotterPlanes = GameObject.FindGameObjectsWithTag("MovingHotterPlane");
+        MovingColderPlanes = GameObject.FindGameObjectsWithTag("MovingColderPlane");
         villains = GameObject.FindGameObjectsWithTag("Villain");
         player = GameObject.FindGameObjectWithTag("Player");
 
@@ -33,12 +38,22 @@ public class HeatGenerator : MonoBehaviour {
             hI.setVal(Random.Range(0, maxPlaneHeat), minPlaneHeat, maxPlaneHeat, heatTransferSpeed);
         }
 
-        // Hotter Plane Heat Initialise
+        foreach (GameObject plane in MovingHotterPlanes) {
+            HeatInfo hI = plane.GetComponent<HeatInfo>();
+            hI.setVal(Random.Range(0, maxPlaneHeat), minPlaneHeat, maxPlaneHeat, heatTransferSpeed);
+        }
+
+        // colder Plane Heat Initialise
         foreach (GameObject plane in colderPlanes) {
             HeatInfo hI = plane.GetComponent<HeatInfo>();
             hI.setVal(Random.Range(minPlaneHeat, 0f), minPlaneHeat, maxPlaneHeat, heatTransferSpeed);
         }
 
+        foreach (GameObject plane in MovingColderPlanes) {
+            HeatInfo hI = plane.GetComponent<HeatInfo>();
+            hI.setVal(Random.Range(minPlaneHeat, 0f), minPlaneHeat, maxPlaneHeat, heatTransferSpeed);
+        }
+        
         // Villains Heat Initialise
         foreach (GameObject villain in villains) {
             HeatInfo hI = villain.GetComponent<HeatInfo>();
