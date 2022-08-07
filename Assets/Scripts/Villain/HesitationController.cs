@@ -11,7 +11,7 @@ public class HesitationController : GraffitiController
         // Redefine
         speed = 0.5f; // Slow
         damage = 0.5f; // Low
-        maxHealth = 500;
+        SetMaxHealth(70);
         heatDamageBound = 0.5f;
         heatingDamage = maxHealth / 5;
         GetMoveRange(gameObject);

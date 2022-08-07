@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hodegehog : MonoBehaviour
+public class HodegehogShell : MonoBehaviour
 {
-    public float rotateSpeed;
+    public float rotateSpeed = 120;
     private Transform center;
 
     // Start is called before the first frame update

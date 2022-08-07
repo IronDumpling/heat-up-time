@@ -55,12 +55,7 @@ public class GraffitiController : MonoBehaviour
     protected virtual void Start()
     {
         // Health 
-        maxHealth = 20;
-        curHealth = maxHealth;
-        healthBar.value = curHealth;
-        healthBar.maxValue = maxHealth;
-        fill.color = healthBarGradient.Evaluate(1f);
-        myHealthBar = transform.Find("WorldSpaceUI").gameObject.GetComponent<Canvas>();
+        SetMaxHealth(20);
         // Pointer
         render = GetComponent<SpriteRenderer>();
         collideObjs = new List<GameObject>();
@@ -155,6 +150,17 @@ public class GraffitiController : MonoBehaviour
 
     public void OnCollisionExit2D(Collision2D collision){
         collideObjs.Remove(collision.gameObject);
+    }
+
+    // Method 2.
+    protected void SetMaxHealth(float health)
+    {
+        maxHealth = health;
+        curHealth = maxHealth;
+        healthBar.value = curHealth;
+        healthBar.maxValue = maxHealth;
+        fill.color = healthBarGradient.Evaluate(1f);
+        myHealthBar = transform.Find("WorldSpaceUI").gameObject.GetComponent<Canvas>();
     }
 
     // Method 2. Damage Health
