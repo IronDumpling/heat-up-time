@@ -81,7 +81,7 @@ public class PlaneController : MonoBehaviour
         // 1.4 Touch Player
         else if (collideObj.layer == 3) // 3 is layer of player
         {
-            float otherHeat = collideObj.GetComponent<PlayerHeat>().curHeat;
+            float otherHeat = collideObj.GetComponent<HeatInfo>().curHeat;
             if (otherHeat != curHeat)
             {
                 HeatTransfer(otherHeat);
@@ -116,7 +116,7 @@ public class PlaneController : MonoBehaviour
 
             switch (collider.layer) {
                 case PLAYER:
-                    otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
+                    otherHeat = collider.GetComponent<HeatInfo>().curHeat;
                     break;
 
                 case VILLAINS:

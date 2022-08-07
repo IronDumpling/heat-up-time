@@ -29,7 +29,7 @@ public class ShootBullets : MonoBehaviour
     {
         // Shoot Bullet
         if (Input.GetKeyDown(KeyCode.Mouse0) &&
-            GetComponent<PlayerHeat>().curHeat > 0)
+            GetComponent<HeatInfo>().curHeat > 0)
         {
             Shoot();
         }
@@ -53,7 +53,7 @@ public class ShootBullets : MonoBehaviour
                                                                   shootDirection.y * bulletVelocity);
 
 
-        PlayerHeat pH = this.GetComponent<PlayerHeat>();
+        HeatInfo pH = this.GetComponent<HeatInfo>();
         BulletController bH = bullet.GetComponent<BulletController>();
         bH.bulletHeat = pH.curHeat * bulletHeatPercent;
         pH.ShootHeat(bH.bulletHeat);

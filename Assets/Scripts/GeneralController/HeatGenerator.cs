@@ -77,7 +77,7 @@ public static class HeatOp {
     }
 
     // Method 4. Color Change
-    public static void ColorLerp(ref SpriteRenderer rend, Gradient grad, float HeatCoeff) {
-        rend.color = grad.Evaluate(HeatCoeff);
+    public static Color ColorLerp(Gradient grad, float HeatCoeff) {
+        return grad.Evaluate(HeatCoeff);
     }
 }

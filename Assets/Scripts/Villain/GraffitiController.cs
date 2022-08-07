@@ -150,7 +150,7 @@ public class GraffitiController : MonoBehaviour
         // 1.4 Touch Player
         else if (collideObj.layer == PLAYER) // 3 is layer of player
         {
-            float otherHeat = collideObj.GetComponent<PlayerHeat>().curHeat;
+            float otherHeat = collideObj.GetComponent<HeatInfo>().curHeat;
             if (otherHeat != curHeat)
             {
                 HeatTransfer(otherHeat);

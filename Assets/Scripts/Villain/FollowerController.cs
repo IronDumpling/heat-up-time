@@ -124,7 +124,7 @@ public class FollowerController : GraffitiController
 
         if (collideObj.layer == 3) // 3 is layer of player
         {
-            float otherHeat = collideObj.GetComponent<PlayerHeat>().curHeat;
+            float otherHeat = collideObj.GetComponent<HeatInfo>().curHeat;
             if (otherHeat != curHeat)
             {
                 HeatTransfer(otherHeat);

@@ -45,14 +45,14 @@ public class PlayerController : MonoBehaviour
     private float fallingDamage;
     private Vector3 lastPlanePosition;
 
-    private PlayerHeat plyHeat;
+    private HeatInfo plyHeat;
 
     // Start is called before the first frame update
     void Start()
     {
         // Get this Components
         rigBody = GetComponent<Rigidbody2D>();
-        plyHeat = GetComponent<PlayerHeat>();
+        plyHeat = GetComponent<HeatInfo>();
         collideObjs = new List<GameObject>();
         
         // Falling Variables
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
     {
         HorizontalMove();
         OnPlaneCheck();
-        HeatTransferHandler();
+        //HeatTransferHandler();
         JumpHandler();
     }
 
@@ -157,101 +157,103 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void HeatTransferHandler() {
-        foreach (GameObject collider in collideObjs) {
-            float otherHeat;
+    //void HeatTransferHandler() {
+    //    foreach (GameObject collider in collideObjs) {
+    //        float otherHeat;
 
-            switch (collider.layer) {
-                case PLAYER:
-                    otherHeat = collider.GetComponent<PlayerHeat>().curHeat;
-                    break;
+    //        switch (collider.layer) {
+    //            case PLAYER:
+    //                otherHeat = collider.GetComponent<HeatInfo>().curHeat;
+    //                break;
 
-                case VILLAINS:
-                    otherHeat = collider.GetComponent<GraffitiController>().curHeat;
-                    break;
+    //            case VILLAINS:
+    //                otherHeat = collider.GetComponent<GraffitiController>().curHeat;
+    //                break;
 
-                case BULLETS:
-                    otherHeat = collider.GetComponent<BulletController>().bulletHeat;
-                    break;
+    //            case BULLETS:
+    //                otherHeat = collider.GetComponent<BulletController>().bulletHeat;
+    //                break;
 
-                case PLATFORMS:
-                    if (collider.tag != "SafePlane") {
-                        otherHeat = collider.GetComponent<PlaneController>().curHeat;
-                    }
-                    else {
-                        otherHeat = GetComponent<PlayerHeat>().curHeat;
-                    }
-                    break;
+    //            case PLATFORMS:
+    //                if (collider.tag != "SafePlane") {
+    //                    otherHeat = collider.GetComponent<PlaneController>().curHeat;
+    //                }
+    //                else {
+    //                    otherHeat = GetComponent<HeatInfo>().curHeat;
+    //                }
+    //                break;
 
-                default:
-                    otherHeat = GetComponent<PlayerHeat>().curHeat;
-                    break;
+    //            default:
+    //                otherHeat = GetComponent<HeatInfo>().curHeat;
+    //                break;
 
-            }
-            GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
-        }
-        // int numColliders = 10;
-        // Collider2D[] colliders = new Collider2D[numColliders];
-        // ContactFilter2D contactFilter = new ContactFilter2D();
-        // int num = GetComponent<Collider2D>().OverlapCollider(contactFilter, colliders);
+    //        }
+    //        GetComponent<HeatInfo>().HeatTransfer(otherHeat);
+    //    }
+    //    // int numColliders = 10;
+    //    // Collider2D[] colliders = new Collider2D[numColliders];
+    //    // ContactFilter2D contactFilter = new ContactFilter2D();
+    //    // int num = GetComponent<Collider2D>().OverlapCollider(contactFilter, colliders);
 
-        // if (num > 0){
-        //     if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms and not safe plane
-        //     {
-        //         // Heat Change if collide platforms
-        //         float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
-        //         if (otherHeat != GetComponent<PlayerHeat>().curHeat)
-        //         {
-        //             GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
-        //         }
+    //    // if (num > 0){
+    //    //     if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms and not safe plane
+    //    //     {
+    //    //         // Heat Change if collide platforms
+    //    //         float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
+    //    //         if (otherHeat != GetComponent<HeatInfo>().curHeat)
+    //    //         {
+    //    //             GetComponent<HeatInfo>().HeatTransfer(otherHeat);
+    //    //         }
 
-        //     }  
-        // }
-    }
+    //    //     }  
+    //    // }
+    //}
 
-    //private void onCollision
+    
+
+
     // Method 4. Collision
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        collideObj = collision.gameObject;
-        collideObjs.Add(collideObj);
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    collideObj = collision.gameObject;
+    //    collideObjs.Add(collideObj);
 
-        if (collideObj.layer == 7) // 7 is layer of villains
-        {
-            // Heat Change if collide villains
-            float otherHeat = collideObj.GetComponent<GraffitiController>().curHeat; 
-            if (otherHeat != GetComponent<PlayerHeat>().curHeat)
-            {
-                GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
-            }
+    //    if (collideObj.layer == 7) // 7 is layer of villains
+    //    {
+    //        // Heat Change if collide villains
+    //        float otherHeat = collideObj.GetComponent<GraffitiController>().curHeat; 
+    //        if (otherHeat != GetComponent<HeatInfo>().curHeat)
+    //        {
+    //            GetComponent<HeatInfo>().HeatTransfer(otherHeat);
+    //        }
 
-            jumpCount++;
+    //        jumpCount++;
 
-            // Health Change if collide villains
-            float damage = collideObj.GetComponent<GraffitiController>().damage; 
-            GetComponent<PlayerHealth>().Damage(damage);
-            CollideRecoil(collideObj, damage * 5);
-        }
+    //        // Health Change if collide villains
+    //        float damage = collideObj.GetComponent<GraffitiController>().damage; 
+    //        GetComponent<PlayerHealth>().Damage(damage);
+    //        CollideRecoil(collideObj, damage * 5);
+    //    }
 
-        
-        else if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms and not safe plane
-        {
-            // Heat Change if collide platforms
-            float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
-            if (otherHeat != GetComponent<PlayerHeat>().curHeat)
-            {
-                GetComponent<PlayerHeat>().HeatTransfer(otherHeat);
-            }
 
-            // Record the last landing place if collide platform
-            lastPlanePosition = collideObj.transform.position;
-            lastPlanePosition.y += 0.5f;
-        }    
-    }
+    //    else if (collideObj.layer == 9 && collideObj.tag != "SafePlane") // 9 is layer of platforms and not safe plane
+    //    {
+    //        // Heat Change if collide platforms
+    //        float otherHeat = collideObj.GetComponent<PlaneController>().curHeat;
+    //        if (otherHeat != GetComponent<HeatInfo>().curHeat)
+    //        {
+    //            GetComponent<HeatInfo>().HeatTransfer(otherHeat);
+    //        }
 
-    private void OnCollisionExit2D(Collision2D collision){
-        collideObjs.Remove(collision.gameObject);
-    }
+    //        // Record the last landing place if collide platform
+    //        lastPlanePosition = collideObj.transform.position;
+    //        lastPlanePosition.y += 0.5f;
+    //    }    
+    //}
+
+    //private void OnCollisionExit2D(Collision2D collision){
+    //    collideObjs.Remove(collision.gameObject);
+    //}
 
     // Method 5. Back to the last collision plane
     void BackToPlane()
@@ -290,6 +292,9 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    public void Hurt() {
+        jumpCount = 1;
+    }
 
     ////////////////////// Helper Functions STARTING////////////////////////////
     static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
@@ -298,5 +303,7 @@ public class PlayerController : MonoBehaviour
         return null;
     }
 
+
+    
 }
 
