@@ -13,6 +13,10 @@ public class ShootBullets : MonoBehaviour
     public float bulletVelocity;
     private Vector3 offset;
 
+
+
+    public int specialBulletCount = 0;
+
     [Range(0, 1)]
     public float bulletHeatPercent = 0.1f;
 
@@ -50,11 +54,23 @@ public class ShootBullets : MonoBehaviour
         // Shoot to the mouse direction
         bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootDirection.x * bulletVelocity,
                                                                   shootDirection.y * bulletVelocity);
+        if (specialBulletCount == 0) {
+            normalBullet(bullet);
+        }
+        else {
+            specialBullet(bullet);
+        }
+    }
 
-
+    void normalBullet(GameObject bullet) {
         PlayerHeat pH = this.GetComponent<PlayerHeat>();
         BulletController bH = bullet.GetComponent<BulletController>();
         bH.bulletHeat = pH.heatInfo.curHeat * bulletHeatPercent;
         pH.ShootHeat(bH.bulletHeat);
+    }
+
+    void specialBullet(GameObject bullet) {
+        BulletController bH = bullet.GetComponent<BulletController>();
+        bH.bulletHeat = 50f;
     }
 }

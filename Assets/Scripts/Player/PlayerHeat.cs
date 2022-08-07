@@ -8,9 +8,11 @@ public class PlayerHeat : MonoBehaviour
 
     public Image img;
     public HeatInfo heatInfo;
+    private TimeScaleEditor TSE;
 
     void Awake(){
         heatInfo = GetComponent<HeatInfo>();
+        TSE = GameObject.FindObjectOfType<TimeScaleEditor>();
     }
     private void OnCollisionEnter2D(Collision2D collision) {
         SetPlayerColor();
@@ -38,6 +40,7 @@ public class PlayerHeat : MonoBehaviour
     }
 
     public void SetPlayerColor() {
+        TSE.UpdateTimescaleByPlayerHeat(heatInfo);
         heatInfo.DebugLogInfo("setPly");
         img.color = heatInfo.CalculateColor();
     }
