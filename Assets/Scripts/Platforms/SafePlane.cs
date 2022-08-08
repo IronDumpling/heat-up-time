@@ -29,11 +29,11 @@ public class SafePlane : MonoBehaviour
     public float defaultVolume = 1f;
     
 
-    bool trigger = false;
-    bool isOn = false;
-    bool cameraIsFinished = true;
-    bool maxHealthIsFinished = false;
-    bool musicIsFinished = false;
+    public bool trigger = false;
+    public bool isOn = false;
+    public bool cameraIsFinished = true;
+    public bool maxHealthIsFinished = false;
+    public bool musicIsFinished = false;
 
     void Awake(){
 
@@ -120,6 +120,7 @@ public class SafePlane : MonoBehaviour
     void adjustMusic(){
         if (bgm == null)
         {
+            musicIsFinished = true;
             return;
         }
         float curVolume = audioManager.getVolume();

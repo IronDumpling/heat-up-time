@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class passiveTalkButton : MonoBehaviour
 {
-    public GameObject Button;
     public GameObject talkUI;
     private GameObject obj;
     public TextAsset specifiedtextFile;

@@ -44,10 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3c5c7a027dde3146896923109da9676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrounded: 0
-  check: 0
   player: {fileID: 0}
   detailedPlayer: {fileID: 8779999519826360639}
+  isGrounded: 0
 --- !u!1 &8779999519826360639
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,7 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planeLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 576
   villainLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -199,10 +198,8 @@ MonoBehaviour:
   xInput: 0
   jumpForce: 0
   bulletVelocity: 0
-  TimeScaletoView: 0
-  upperTimeScale: 2
-  lowerTimeScale: 0.5
-  slopDecay: 20
+  recoilCoef: 5
+  EnemyColliDmg: 1
 --- !u!114 &4857289255432136187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,8 +264,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
-  bulletType: {fileID: 4311090050997226157, guid: a80a13707441d4e349dd7e0777e8ee67, type: 3}
+  normalBulletType: {fileID: 0}
+  specialBulletType: {fileID: 0}
   bulletVelocity: 0
+  specialBulletCount: 0
   bulletHeatPercent: 0.1
 --- !u!114 &5798206709763297845
 MonoBehaviour:
@@ -284,6 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   img: {fileID: 0}
   heatInfo: {fileID: 921431881114413159}
+  disableBalance: 0
 --- !u!114 &921431881114413159
 MonoBehaviour:
   m_ObjectHideFlags: 0

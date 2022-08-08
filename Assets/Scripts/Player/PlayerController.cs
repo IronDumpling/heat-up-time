@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         lastPlanePosition = new Vector3(0, -2.5f, 0);
 
         // Movement Variables
-        velocity = 2f;
+        velocity = 3f;
         jumpForce = 8f;
         jumpCount = 2;
         PlayerGnd = getChildGameObject(this.gameObject, "PlayerGnd").transform;

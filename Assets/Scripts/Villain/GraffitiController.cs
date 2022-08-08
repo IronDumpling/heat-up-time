@@ -7,8 +7,8 @@ public class GraffitiController : MonoBehaviour
 {
     public const int PLAYER = 3;
     public const int VILLAINS = 7;
-    public const int BULLETS = 8;
-    public const int PLATFORMS = 9;
+    //public const int BULLETS = 8;
+    public const int PLATFORMS = 6;
 
     //HeatInfo
     protected HeatInfo hI;
@@ -178,6 +178,13 @@ public class GraffitiController : MonoBehaviour
                     moveIndex++;
                 }
             }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Platforms"))
+        {
+            GetMoveRange(collision.gameObject);
         }
     }
 
