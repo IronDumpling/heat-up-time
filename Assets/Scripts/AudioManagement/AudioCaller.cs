@@ -1,85 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class AudioCaller : MonoBehaviour
 {
-    public AudioClip MainTitle_slow;
-    public AudioClip MainTitle_fast;
-    public AudioClip Intro;
-    public AudioClip Breakdown;
-    public AudioClip Outro;
-    public AudioClip SafePlane;
-    public AudioClip EntireSong;
     public AudioManager audioManager;
-    protected GameObject[] villains;
+
+    public AudioClip[] ClipList;
+
+    public enum AUDSTAT{
+        SAFEPLANE,
+        BATSLOW,
+        BATFAST,
+        INTRO,
+        BRKDWN,
+        OUTRO,
+        ENTSONG,
+        INVALID
+    }
+    public AUDSTAT curAudStat;
+    public AUDSTAT defAudStat;
 
     private void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-        villains = GameObject.FindGameObjectsWithTag("Villain");
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        if(SceneManager.GetActiveScene().name == "HomeMenu")
-            audioManager.changeBGM(EntireSong);
-        else if (SceneManager.GetActiveScene().name == "Level 1")
-            audioManager.changeBGM(Intro);
-        else if (SceneManager.GetActiveScene().name == "Level 2")
-            audioManager.changeBGM(Breakdown);
-        else if (SceneManager.GetActiveScene().name == "Level 3")
-            audioManager.changeBGM(Intro);
+        if(SceneManager.GetActiveScene().name == "HomeMenu"){
+            audioManager.changeBGM(ClipList[(int)AUDSTAT.ENTSONG]);
+            defAudStat = AUDSTAT.ENTSONG;
+        }
+        else if (SceneManager.GetActiveScene().name == "Level 1"){
+            audioManager.changeBGM(ClipList[(int)AUDSTAT.INTRO]);
+            defAudStat = AUDSTAT.INTRO;
+        }
+
+        else if (SceneManager.GetActiveScene().name == "Level 2"){
+            audioManager.changeBGM(ClipList[(int)AUDSTAT.BRKDWN]);
+            defAudStat = AUDSTAT.BRKDWN;
+        }
+            
+        else if (SceneManager.GetActiveScene().name == "Level 3"){
+            audioManager.changeBGM(ClipList[(int)AUDSTAT.INTRO]);
+            defAudStat = AUDSTAT.INTRO;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Safe Platform has the highest priority
-        if(GetComponent<AudioManager>().isPlaying() &&
-           GetComponent<AudioManager>().curBGM == SafePlane)
-        {
-            return;
-        } 
+        if(curAudStat == AUDSTAT.SAFEPLANE) return;
 
-        // Change BGM according to time scale during battle
-        else if (InBattle())
-        {
-            BattleBGM();
-        }
-        // Not in Battle
-        else
-        {
-
-        }
-    }
-
-    protected bool InBattle()
-    {
-        foreach (GameObject villain in villains)
-        {
-            //if (villain.)
-        }
-
-        return true;
-    }
-
-    protected void BattleBGM()
-    {
-        if (Time.timeScale < 0.5)
-        {
-            audioManager.changeBGM(MainTitle_slow);
-        }
-        else
-        {
-            audioManager.changeBGM(MainTitle_fast);
-        }
-    }
-
-    protected void NormalBGM()
-    {
-
+        Debug.Log("leave safeplane");
     }
 }
