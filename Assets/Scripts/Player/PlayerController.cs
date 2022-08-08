@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
     private float fallingDamage;
     private Vector3 lastPlanePosition;
 
+    // detect if Player in Battle
+    [SerializeField] public int inBattle{get; set;}
+
     // Start is called before the first frame update
     void Start()
     {

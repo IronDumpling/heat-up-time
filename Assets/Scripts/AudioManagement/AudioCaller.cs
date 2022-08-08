@@ -51,8 +51,6 @@ public class AudioCaller : MonoBehaviour
             defAudStat = AUDSTAT.INTRO;
         }
     }
-
-    int next = 0;
     // Update is called once per frame
     void Update()
     {
