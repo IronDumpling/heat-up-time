@@ -23,7 +23,6 @@ public class PlatformDetector : MonoBehaviour
         //do nothing when the player is already binded
         //might be a problem when touching two platform at the same time
         if (!isGrounded){
-            Debug.Log(target.tag);
             switch(target.tag){
                 case "MovingHotterPlane":
                     bindToObject(target);
