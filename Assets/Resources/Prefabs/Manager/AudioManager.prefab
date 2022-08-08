@@ -243,7 +243,7 @@ MonoBehaviour:
   sideTrack: {fileID: 1031406549691407314}
   timeToFade: 1.25
   curBGM: {fileID: 0}
-  defaultVolume: 0
+  defaultVolume: 0.5
 --- !u!114 &527265811196235171
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -70,17 +70,6 @@ public class SafePlane : MonoBehaviour
         isOn = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {   
-        // do nothing is player is not on the plane
-        
-        // if (Input.GetKeyDown(KeyCode.R)){
-        //     trigger = (!trigger);
-        //     Debug.Log(trigger);
-        // }
-    }
-
     void FixedUpdate(){
         if (isOn){
             trigger = true;

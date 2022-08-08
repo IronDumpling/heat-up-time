@@ -306,6 +306,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7708368910727597885, guid: 89c05be6caabf4b67a10e256d4139bdb, type: 3}
+      propertyPath: defaultVolume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7708368910727597887, guid: 89c05be6caabf4b67a10e256d4139bdb, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -5179,6 +5183,10 @@ PrefabInstance:
       propertyPath: specialBulletType
       value: 
       objectReference: {fileID: 3866075841388270434, guid: 3e171617c7f044d77a3f60bfe7874c48, type: 3}
+    - target: {fileID: 2857016018493900568, guid: ae75afb83918f408fa84fa1f2375893b, type: 3}
+      propertyPath: planeLayer.m_Bits
+      value: 576
+      objectReference: {fileID: 0}
     - target: {fileID: 3951557055093387787, guid: ae75afb83918f408fa84fa1f2375893b, type: 3}
       propertyPath: fill
       value: 

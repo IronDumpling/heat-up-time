@@ -28,7 +28,6 @@ public class AudioCaller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("ClipList"+ClipList.Length);
         if(SceneManager.GetActiveScene().name == "HomeMenu"){
             audioManager.changeBGM(ClipList[(int)AUDSTAT.ENTSONG]);
             defAudStat = AUDSTAT.ENTSONG;
@@ -53,11 +52,16 @@ public class AudioCaller : MonoBehaviour
         }
     }
 
+    int next = 0;
     // Update is called once per frame
     void Update()
     {
         if(curAudStat == AUDSTAT.SAFEPLANE) return;
+        
+        if(curAudStat != defAudStat){
+            audioManager.SwapTrack(ClipList[(int)defAudStat]);
+            curAudStat = defAudStat;
+        }
 
-        Debug.Log("leave safeplane");
     }
 }
