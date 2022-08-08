@@ -273,6 +273,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SafePlane
       objectReference: {fileID: 0}
+    - target: {fileID: 1286189426894916381, guid: 1114799e3783048dda8dc43ad63bcd0a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6638298433727368232, guid: 1114799e3783048dda8dc43ad63bcd0a, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -367,7 +371,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &426253293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1249,6 +1253,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 900182779587457931, guid: ae75afb83918f408fa84fa1f2375893b, type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 519420031}
+    - target: {fileID: 900182779587457931, guid: ae75afb83918f408fa84fa1f2375893b, type: 3}
+      propertyPath: normalBulletType
+      value: 
+      objectReference: {fileID: 8775518297810966265, guid: 66b2e3442d5214bf4b762033d2d2e866, type: 3}
+    - target: {fileID: 900182779587457931, guid: ae75afb83918f408fa84fa1f2375893b, type: 3}
+      propertyPath: specialBulletType
+      value: 
+      objectReference: {fileID: 3866075841388270434, guid: 3e171617c7f044d77a3f60bfe7874c48, type: 3}
     - target: {fileID: 3951557055093387787, guid: ae75afb83918f408fa84fa1f2375893b, type: 3}
       propertyPath: fill
       value: 
@@ -1659,11 +1675,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 856577033703524668, guid: 6c129932eac164ef39e19e988f5aafe4, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 856577033703524668, guid: 6c129932eac164ef39e19e988f5aafe4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 856577033817901588, guid: 6c129932eac164ef39e19e988f5aafe4, type: 3}
       propertyPath: m_Pivot.x

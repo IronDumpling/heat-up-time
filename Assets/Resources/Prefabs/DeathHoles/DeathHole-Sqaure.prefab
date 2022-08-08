@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6192238157333434954}
   - component: {fileID: 6192238157333434949}
   - component: {fileID: 4054089006858007512}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DeathHole-Sqaure
   m_TagString: Untagged
   m_Icon: {fileID: 0}

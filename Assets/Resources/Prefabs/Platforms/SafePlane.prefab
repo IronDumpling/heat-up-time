@@ -92,6 +92,10 @@ PrefabInstance:
       value: SafePlane
       objectReference: {fileID: 0}
     - target: {fileID: 5648929358706995915, guid: 8141d718158d24b1789d9508322a3586, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5648929358706995915, guid: 8141d718158d24b1789d9508322a3586, type: 3}
       propertyPath: m_TagString
       value: SafePlane
       objectReference: {fileID: 0}

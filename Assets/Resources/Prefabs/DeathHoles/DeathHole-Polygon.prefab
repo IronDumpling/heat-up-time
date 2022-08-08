@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4335497451781561668}
   - component: {fileID: 4335497451781561669}
   - component: {fileID: 4335497451781561690}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DeathHole-Polygon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
