@@ -107,10 +107,9 @@ public class AudioManager : MonoBehaviour
         curTrack.Stop();
         curTrack.Play();
     }
+
     public bool isPlaying()
     {
         return curTrack.isPlaying;
     }
-
-
 }

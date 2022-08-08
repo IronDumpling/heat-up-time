@@ -11,11 +11,11 @@ public class TimeScaleEditor : MonoBehaviour
 
     private bool forceTimeScale;
     private float forceTSKeeper;
-    public AudioClip bgm;
 
     private float timeScaleHelperFunc(float x) {
         return -(Mathf.Log(1 / x - 1, (float)System.Math.E)) / slopDecay + 0.5f;
     }
+
     public void UpdateTimescaleByPlayerHeat(HeatInfo plyHeat) {
         TimeScaletoView = Time.timeScale;
 
