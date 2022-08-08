@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6192238157333434952}
   - component: {fileID: 6192238157333434954}
   - component: {fileID: 6192238157333434949}
-  - component: {fileID: 6192238157333434948}
+  - component: {fileID: 4054089006858007512}
   m_Layer: 0
   m_Name: DeathHole-Sqaure
   m_TagString: Untagged
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.6197796, y: 0.61030674}
   m_EdgeRadius: 0
---- !u!114 &6192238157333434948
+--- !u!114 &4054089006858007512
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,6 +121,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6192238157333434953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9efafc0184d0a41a6924ba347dafcf1e, type: 3}
+  m_Script: {fileID: 11500000, guid: 86a0bf7aed1b84762931c8c84442afe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

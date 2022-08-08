@@ -118,6 +118,10 @@ public class SafePlane : MonoBehaviour
     }
 
     void adjustMusic(){
+        if (bgm == null)
+        {
+            return;
+        }
         float curVolume = audioManager.getVolume();
         if (isOn){
             if (!musicIsPlaying){

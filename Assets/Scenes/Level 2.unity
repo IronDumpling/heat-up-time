@@ -1019,6 +1019,93 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1370128362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1370128363}
+  - component: {fileID: 1370128364}
+  m_Layer: 0
+  m_Name: A*
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1370128363
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370128362}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1370128364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370128362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  data:
+    dataString: UEsDBBQAAAgIAACYn+s5ffKUXAIAABYFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1z2jAQ/SuMziVjA2lIb61DSA9JmJBOLr4IaY01yJJHHwGS4b93JdvYodMTmvfe7r79MJ9EKFsDc9osjeCPmgP5MSLhTb6NevIBDnSr1Vp8QKd5E9yVQUSj5oU6oRFPQ5jVFTgj2E+1lUGcIOiVKLSpFnwLmbbOIlxQaQEpo12IVgh9jsgBf8a3IeSIr8lNeH3g6zYZnfDJQDkwvbQTdrJG5RWTtKqBB8u9OJ108mmjU9hNKwnOmZZS2NYKccc6tprR2npsBAVcUGwt1k+vpgiUILalC0aH4c9FYcG1rgw93gmDM2rykl+6GVxF7a6x9k6lD5Vms3l01SR9/Icfp5EujK4eurppEmq4UrDdCz0yat1gskP4bmA9TmhP5Y5uJLyVoJ700mivOJLO+BDqLUzuBqnOvWUlsF2va7xegL7+/4JCE6fY/iGTotoE6mrWAGup48jj+sHgcn6j43gctk2BaHDxx8Ir3Q6vqCXuhbEOqbZNFexttDdBShZxaKEb7zJtFES4NV2DotIdV5jGXe7wghuUvWDuafhe2uIt130GFyER7vVJckGt9P68LVvq/SPY8tk7KRT0pgPxhHPKtFLNiQ1n0oWtvSkoG4RtveBfb4uk8w0tpgm/TpObhM/mY2DzCSvo7febzfUUkg2JxycU9knlqjHajge3pvrkCg+t+xsZLQ2t47lzQ/dL8VHpoUGhCr1mBkA9f0lhwWAR/DD5ggsc0BqcEyrum3zmRGq2A56f9XnsdHFwhuZ99pzU4l27gOQki/8bOQnw+ZZXBt4F7EPtLtmJnP4CUEsDBBQAAAgIAACYn+th1dYFbQAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM011FQSi9KLMgoBooYgjilmSkgdrSSoUVSYpqxQYqpoYG5QYqJhW5qsoVRclqipZl5kqlxqkGSUixQfUllQapfYm4qRE9AYklGWmZeSmZeup57UWaKO8hopdhaAFBLAQItABQAAAgIAACYn+s5ffKUXAIAABYFAAALACQAAAAAAAAAAAAAAAAAAABncmFwaDAuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLAQItABQAAAgIAACYn+th1dYFbQAAAHgAAAAJACQAAAAAAAAAAAAAAKkCAABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwUGAAAAAAIAAgC4AAAAYQMAAAAA
+    upgradeData: 
+    file_cachedStartup: {fileID: 0}
+    data_cachedStartup: 
+    cacheStartup: 0
+  showNavGraphs: 1
+  showUnwalkableNodes: 1
+  debugMode: 0
+  debugFloor: 0
+  debugRoof: 1
+  manualDebugFloorRoof: 0
+  showSearchTree: 0
+  unwalkableNodeDebugSize: 0.3
+  logPathResults: 1
+  maxNearestNodeDistance: 100
+  scanOnStartup: 1
+  fullGetNearestSearch: 0
+  prioritizeGraphs: 0
+  prioritizeGraphsLimit: 1
+  colorSettings:
+    _SolidColor: {r: 0.11764706, g: 0.4, b: 0.7882353, a: 0.9}
+    _UnwalkableNode: {r: 1, g: 0, b: 0, a: 0.5}
+    _BoundsHandles: {r: 0.29, g: 0.454, b: 0.741, a: 0.9}
+    _ConnectionLowLerp: {r: 0, g: 1, b: 0, a: 0.5}
+    _ConnectionHighLerp: {r: 1, g: 0, b: 0, a: 0.5}
+    _MeshEdgeColor: {r: 0, g: 0, b: 0, a: 0.5}
+    _AreaColors:
+    - {r: 0, g: 0, b: 0, a: 0}
+  tagNames: []
+  heuristic: 2
+  heuristicScale: 1
+  threadCount: 1
+  maxFrameTime: 1
+  batchGraphUpdates: 0
+  graphUpdateBatchingInterval: 0.2
+  euclideanEmbedding:
+    mode: 0
+    seed: 0
+    pivotPointRoot: {fileID: 0}
+    spreadOutCount: 1
+  showGraphs: 1
 --- !u!224 &1370368286 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4955622514200457661, guid: e5bd2e99906664128a4f7802739521e9, type: 3}
