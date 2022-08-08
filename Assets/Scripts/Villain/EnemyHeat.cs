@@ -6,13 +6,21 @@ public class EnemyHeat : MonoBehaviour
 {
     public SpriteRenderer render;
     public HeatInfo heatInfo;
+    private PlayerController plyCtrl;
 
     void Awake() {
         render = GetComponent<SpriteRenderer>();
         heatInfo = GetComponent<HeatInfo>();
+
+        plyCtrl = FindObjectOfType<PlayerController>();
     }
     private void OnCollisionEnter2D(Collision2D collision) {
         SetEnemyColor();
+
+        //Player
+        if(collision.gameObject.layer == 3){
+            plyCtrl.Hurt(this.gameObject);
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision) {
@@ -24,6 +32,10 @@ public class EnemyHeat : MonoBehaviour
             SetEnemyColor();
         }
 
+        //Player
+        if(collision.gameObject.layer == 3){
+            plyCtrl.Hurt(this.gameObject);
+        }
         //trigger the target function to change the color, maybe not :)
     }
 

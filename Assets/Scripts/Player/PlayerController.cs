@@ -136,35 +136,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    [Header("Enemy Collide with Player")]
+    public float recoilCoef = 5f;
+    public float EnemyColliDmg = 1f;
 
     // Method 7. Recoil if collide villains
-    public void CollideRecoil(GameObject obj, float damage)
+    public void Hurt(GameObject obj)
     {
+        this.GetComponent<PlayerHealth>().Damage(EnemyColliDmg);
+
         if (obj.transform.position.x <= transform.position.x && obj.transform.position.y < transform.position.y)
         {
-            rigBody.velocity = new Vector2(damage, damage);
+            rigBody.velocity = new Vector2(recoilCoef, rigBody.velocity.y);
         }
         else if (obj.transform.position.x > transform.position.x && obj.transform.position.y < transform.position.y)
         {
-            rigBody.velocity = new Vector2(-damage, damage);
-        }
-        else
-        {
-            if (this.GetComponent<Collider2D>().IsTouchingLayers(3))
-            {
-                rigBody.velocity = new Vector2(-damage * 2, 0);
-            }
-            else if (obj.transform.position.x <= transform.position.x)
-            {
-                rigBody.velocity = new Vector2(damage, -damage);
-            }
-            else
-            {
-                rigBody.velocity = new Vector2(-damage, -damage);
-            }
+            rigBody.velocity = new Vector2(-recoilCoef, rigBody.velocity.y);
         }
     }
-
 
     ////////////////////// Helper Functions STARTING////////////////////////////
     static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {

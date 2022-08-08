@@ -36,7 +36,7 @@ public class SpecialSkill : MonoBehaviour {
             countTime = false;
             curtime = 0;
         }
-        if (SPcounter < SPMax) return;
+        //if (SPcounter < SPMax) return;
 
         //吸收情绪技能效果：使情绪条充满至100，进入子弹时间。前三发子弹不与外界交换情绪。
         if (Input.GetKeyDown(KeyCode.Q)){
