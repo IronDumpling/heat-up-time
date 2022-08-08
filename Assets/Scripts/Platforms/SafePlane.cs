@@ -46,7 +46,7 @@ public class SafePlane : MonoBehaviour
         health = player.GetComponent<PlayerHealth>();
         audioManager = audioManagerObj.GetComponent<AudioManager>();
 
-        if (bgm == null) Debug.LogAssertion("The safe plane has no bgm");
+        //if (bgm == null) Debug.LogAssertion("The safe plane has no bgm");
     }
 
     // Start is called before the first frame update
@@ -136,7 +136,7 @@ public class SafePlane : MonoBehaviour
                 delayCount = 0f;
 
             }else if (curVolume < 1f){
-                audioManager.changeVolume(curVolume +(1f/delayPlay) * Time.fixedDeltaTime);
+                audioManager.changeVolume(curVolume + (1f/delayPlay) * Time.fixedDeltaTime);
             }
      
         }else if (!isOn && musicIsPlaying){
