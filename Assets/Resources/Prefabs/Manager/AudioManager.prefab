@@ -239,6 +239,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b12c54b65176245b967a675c571d9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainTrack: {fileID: 7708368910727597884}
+  sideTrack: {fileID: 1031406549691407314}
+  timeToFade: 1.25
   curBGM: {fileID: 0}
   defaultVolume: 0
 --- !u!114 &527265811196235171
@@ -253,7 +256,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b7e138cd8c4e467bbd220e5574ec17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 0}
-  ClipList: []
-  curAudStat: 0
+  audioManager: {fileID: 7708368910727597885}
+  ClipList:
+  - {fileID: 8300000, guid: f4127923a99adea4690165c56fcba34c, type: 3}
+  - {fileID: 8300000, guid: 03027554226ad4589be6f69611badc08, type: 3}
+  - {fileID: 8300000, guid: b438e687f93a04088abe358f3e311a63, type: 3}
+  - {fileID: 8300000, guid: 5435d71b38e044c86a9ec67507284afb, type: 3}
+  - {fileID: 8300000, guid: 485d2fd95d838497cabfd22041f60ad9, type: 3}
+  - {fileID: 8300000, guid: 41f25082424424bfd92833157c2f6637, type: 3}
+  - {fileID: 8300000, guid: bb93aebceb7234182bd4dbfc66ff8c00, type: 3}
+  curAudStat: 7
   defAudStat: 0

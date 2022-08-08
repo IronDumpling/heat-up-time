@@ -20,7 +20,6 @@ public class AudioManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         first = true;
-        mainTrack.clip = curBGM;
         curTrack = mainTrack;
     }
 

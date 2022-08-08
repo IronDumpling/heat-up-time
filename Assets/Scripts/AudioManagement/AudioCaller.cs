@@ -28,6 +28,7 @@ public class AudioCaller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("ClipList"+ClipList.Length);
         if(SceneManager.GetActiveScene().name == "HomeMenu"){
             audioManager.changeBGM(ClipList[(int)AUDSTAT.ENTSONG]);
             defAudStat = AUDSTAT.ENTSONG;
@@ -44,6 +45,10 @@ public class AudioCaller : MonoBehaviour
             
         else if (SceneManager.GetActiveScene().name == "Level 3"){
             audioManager.changeBGM(ClipList[(int)AUDSTAT.INTRO]);
+            defAudStat = AUDSTAT.INTRO;
+        }
+        else {
+            audioManager.changeBGM(ClipList[(int)AUDSTAT.ENTSONG]);
             defAudStat = AUDSTAT.INTRO;
         }
     }
