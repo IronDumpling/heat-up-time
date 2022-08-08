@@ -54,4 +54,9 @@ public class AudioManager : MonoBehaviour
         manager.Stop();
         manager.Play();
     }
+
+    public bool isPlaying()
+    {
+        return manager.isPlaying;
+    }
 }
