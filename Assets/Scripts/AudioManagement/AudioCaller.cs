@@ -37,9 +37,16 @@ public class AudioCaller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T)) {
+            audioManager.SwapTrack(MainTitle_fast);
+        }
+        if (Input.GetKeyDown(KeyCode.K)) {
+            audioManager.SwapTrack(Outro);
+        }
+
         // Safe Platform has the highest priority
-        if(GetComponent<AudioManager>().isPlaying() &&
-           GetComponent<AudioManager>().curBGM == SafePlane)
+        if (audioManager.isPlaying() &&
+           audioManager.curBGM == SafePlane)
         {
             return;
         } 
@@ -58,28 +65,20 @@ public class AudioCaller : MonoBehaviour
 
     protected bool InBattle()
     {
-        foreach (GameObject villain in villains)
-        {
-            //if (villain.)
-        }
-
-        return true;
+        PlayerController pC = FindObjectOfType<PlayerController>();
+        if(pC == null) return false;
+        return pC.inBattle > 0;
     }
 
     protected void BattleBGM()
     {
         if (Time.timeScale < 0.5)
         {
-            audioManager.changeBGM(MainTitle_slow);
+            audioManager.SwapTrack(MainTitle_slow);
         }
         else
         {
-            audioManager.changeBGM(MainTitle_fast);
+            audioManager.SwapTrack(MainTitle_fast);
         }
-    }
-
-    protected void NormalBGM()
-    {
-
     }
 }

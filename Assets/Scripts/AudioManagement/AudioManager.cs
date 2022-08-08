@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    AudioSource manager;
+    public AudioSource mainTrack, sideTrack;
+    private AudioSource curTrack;
+
+    public float timeToFade = 1.25f;
+
     public AudioClip curBGM;
     public float defaultVolume;
-    bool trigger = false;
     float delay = 0f;
     public static AudioManager instance;
     bool first = false;
@@ -17,29 +20,54 @@ public class AudioManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         first = true;
-        manager = GetComponent<AudioSource>();
-        manager.clip = curBGM;
-        
+        mainTrack.clip = curBGM;
+        curTrack = mainTrack;
     }
+
+    public void SwapTrack(AudioClip newClip) {
+        StopAllCoroutines();
+        StartCoroutine(FadeTrack(newClip));
+    }
+
+    private IEnumerator FadeTrack(AudioClip newClip) {
+        float timeElapsed = 0f;
+        AudioSource nextTrack;
+        if (curTrack == mainTrack) nextTrack = sideTrack; 
+        else nextTrack = mainTrack;
+
+        nextTrack.clip = newClip;
+        nextTrack.Play();
+
+        while (timeElapsed < timeToFade) {
+            curTrack.volume = Mathf.Lerp(defaultVolume, 0, timeElapsed / timeToFade);
+            nextTrack.volume = Mathf.Lerp(0, defaultVolume, timeElapsed / timeToFade);
+            timeElapsed+=Time.deltaTime;
+            yield return null;
+        }
+
+        curTrack.Stop();
+        curTrack = nextTrack;
+    }
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
         if (curBGM != null){
-            manager.Play();
+            curTrack.Play();
         }
     }
 
     //Stop the current BGM and swap to another BGM
     //note that it won't play it, use play() to play
     public void changeBGM(AudioClip newBGM){
-        if (manager.isPlaying){
-            manager.Stop();
+        if (curTrack.isPlaying){
+            curTrack.Stop();
         }
-        manager.clip = newBGM;
+        curTrack.clip = newBGM;
         curBGM = newBGM;
-        manager.volume = defaultVolume;
+        curTrack.volume = defaultVolume;
     }
 
     public AudioClip getCurBGM(){
@@ -50,19 +78,19 @@ public class AudioManager : MonoBehaviour
         return defaultVolume;
     }
     public void changeVolume(float newVolume){
-        manager.volume = Mathf.Clamp(newVolume, 0f, 1f);
+        curTrack.volume = Mathf.Clamp(newVolume, 0f, 1f);
     }
 
     public void changeDefaultVolume(float newVolume){
         defaultVolume = Mathf.Clamp(newVolume, 0f, 1f);
-        manager.volume = defaultVolume;
+        curTrack.volume = defaultVolume;
     }
     public float getVolume(){
-        return manager.volume;
+        return curTrack.volume;
     }
 
     public void play(){
-        manager.Play();
+        curTrack.Play();
     }
 
     public void playWithDelay(float newDelay){
@@ -72,16 +100,16 @@ public class AudioManager : MonoBehaviour
     }
 
     public void pause(){
-        manager.Pause();
+        curTrack.Pause();
     }
     
     public void restart(){
-        manager.Stop();
-        manager.Play();
+        curTrack.Stop();
+        curTrack.Play();
     }
 
     public bool isPlaying()
     {
-        return manager.isPlaying;
+        return curTrack.isPlaying;
     }
 }
