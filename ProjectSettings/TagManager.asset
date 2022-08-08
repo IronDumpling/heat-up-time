@@ -11,6 +11,7 @@ TagManager:
   - MovingHotterPlane
   - MovingColderPlane
   - AudioManager
+  - VolumeSlider
   layers:
   - Default
   - TransparentFX

@@ -142,3 +142,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curBGM: {fileID: 0}
+  defaultVolume: 1

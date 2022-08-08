@@ -131,7 +131,7 @@ public class SafePlane : MonoBehaviour
                 musicIsPlaying = true;
                 delayCount = 0f;
 
-            }else if (curVolume < 1f){
+            }else if (curVolume < audioManager.getDefaultVolume()){
                 audioManager.changeVolume(curVolume +(1f/delayPlay) * Time.fixedDeltaTime);
             }
      
