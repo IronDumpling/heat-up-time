@@ -8,6 +8,7 @@ public class SafePlane : MonoBehaviour
     Camera mainCamera;
     PlayerHealth health;
     AudioManager audioManager;
+    AudioCaller audCaller;
     public AudioClip bgm;
 
     //camera
@@ -45,7 +46,7 @@ public class SafePlane : MonoBehaviour
         mainCamera = MainCameraObj.GetComponent<Camera>();
         health = player.GetComponent<PlayerHealth>();
         audioManager = audioManagerObj.GetComponent<AudioManager>();
-
+        audCaller = FindObjectOfType<AudioCaller>();
         //if (bgm == null) Debug.LogAssertion("The safe plane has no bgm");
     }
 
@@ -67,17 +68,6 @@ public class SafePlane : MonoBehaviour
 
     public void playerUnTrigger(){
         isOn = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {   
-        // do nothing is player is not on the plane
-        
-        // if (Input.GetKeyDown(KeyCode.R)){
-        //     trigger = (!trigger);
-        //     Debug.Log(trigger);
-        // }
     }
 
     void FixedUpdate(){
@@ -131,6 +121,7 @@ public class SafePlane : MonoBehaviour
 
                 audioManager.play();
                 musicIsPlaying = true;
+                audCaller.curAudStat = AudioCaller.AUDSTAT.SAFEPLANE;
                 delayCount = 0f;
 
             }else if (curVolume < audioManager.getDefaultVolume()){
@@ -148,6 +139,7 @@ public class SafePlane : MonoBehaviour
             if (delayCount >= delayPaused || newVolume <= 0f){
                 audioManager.pause();
                 musicIsPlaying = false;
+                audCaller.curAudStat = AudioCaller.AUDSTAT.ENTSONG;
                 musicIsFinished = true;
                 delayCount = 0f;
             }   

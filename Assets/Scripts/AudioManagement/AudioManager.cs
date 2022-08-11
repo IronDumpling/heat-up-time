@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviour
     public float timeToFade = 1.25f;
 
     public AudioClip curBGM;
-    public float defaultVolume;
+    public float defaultVolume = 0.5f;
     float delay = 0f;
     public static AudioManager instance;
     bool first = false;
@@ -20,7 +20,6 @@ public class AudioManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         first = true;
-        mainTrack.clip = curBGM;
         curTrack = mainTrack;
     }
 

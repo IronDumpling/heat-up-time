@@ -182,14 +182,22 @@ public class GraffitiController : MonoBehaviour
     }
 
     // Method 11. Move Range on the Platform
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Platforms"))
+        {
+            GetMoveRange(collision.gameObject);
+        }
+    }
+
     protected virtual void GetMoveRange(GameObject obj)
     {
         Vector3 position = obj.GetComponent<Transform>().position;
         float width = obj.GetComponent<SpriteRenderer>().bounds.size.x;
         float height = obj.GetComponent<SpriteRenderer>().bounds.size.y + GetComponent<SpriteRenderer>().bounds.size.y;
 
-        moveRanges[0] = new Vector3(position.x - width / 2, position.y + height / 2, 0);
-        moveRanges[1] = new Vector3(position.x + width / 2, position.y + height / 2, 0);
+        moveRanges[0] = new Vector3(position.x - width / 2 + 0.5f, position.y + height / 2, 0);
+        moveRanges[1] = new Vector3(position.x + width / 2 - 0.5f, position.y + height / 2, 0);
         moveIndex = 0;
     }
 }

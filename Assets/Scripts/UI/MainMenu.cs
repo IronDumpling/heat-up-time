@@ -7,18 +7,15 @@ public class MainMenu : MonoBehaviour
 {
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return)){
-            SceneManager.LoadScene("Demo");
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-        //{
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        //
-        //}
+   
     }
 
     public void PlayGame()
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        SceneManager.LoadScene("Demo");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

@@ -57,7 +57,8 @@ public class HeatGenerator : MonoBehaviour {
         // Villains Heat Initialise
         foreach (GameObject villain in villains) {
             HeatInfo hI = villain.GetComponent<HeatInfo>();
-            hI.setVal(Random.Range(minEnemyHeat, maxEnemyHeat), minEnemyHeat, maxEnemyHeat, heatTransferSpeed);
+            //hI.setVal(Random.Range(minEnemyHeat, maxEnemyHeat), minEnemyHeat, maxEnemyHeat, heatTransferSpeed);
+            hI.setVal(30, minEnemyHeat, maxEnemyHeat, heatTransferSpeed);
         }
 
         HeatInfo plyH = player.GetComponent<HeatInfo>();

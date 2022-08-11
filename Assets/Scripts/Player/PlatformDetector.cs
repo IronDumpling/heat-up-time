@@ -58,6 +58,7 @@ public class PlatformDetector : MonoBehaviour
                     break;
             }
         }
+        PlatformPosition(target);
     }
 
     void bindToObject(GameObject target){
@@ -91,5 +92,9 @@ public class PlatformDetector : MonoBehaviour
         }   
     }
 
+    void PlatformPosition(GameObject target)
+    {
+        GetComponent<PlayerController>().lastLandingPlatform = target;
+    }
 
 }

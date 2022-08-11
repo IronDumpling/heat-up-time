@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     // Falling Variables
     private int lowerBound;
     private float fallingDamage;
+    public GameObject lastLandingPlatform;
     private Vector3 lastPlanePosition;
 
     // detect if Player in Battle
@@ -49,7 +50,7 @@ public class PlayerController : MonoBehaviour
         lastPlanePosition = new Vector3(0, -2.5f, 0);
 
         // Movement Variables
-        velocity = 2f;
+        velocity = 3f;
         jumpForce = 8f;
         jumpCount = 2;
         PlayerGnd = getChildGameObject(this.gameObject, "PlayerGnd").transform;
@@ -82,6 +83,8 @@ public class PlayerController : MonoBehaviour
     // Back to the last collision plane
     void BackToPlane()
     {
+        lastPlanePosition = lastLandingPlatform.transform.position;
+        lastPlanePosition.y += gameObject.transform.localScale.y;
         transform.position = lastPlanePosition;
         rigBody.velocity = Vector2.zero;
     }
@@ -163,9 +166,6 @@ public class PlayerController : MonoBehaviour
         Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>();
         foreach (Transform t in ts) if (t.gameObject.name == withName) return t.gameObject;
         return null;
-    }
-
-
-    
+    }  
 }
 
